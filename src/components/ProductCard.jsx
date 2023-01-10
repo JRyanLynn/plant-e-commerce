@@ -5,25 +5,28 @@ import { mobile, tablet, laptop, desktop} from '../media';
 
 const CardContainer = styled.div`
   display: flex;
-  height: 115px; 
-  width: 93%;
-  padding: 5px;
-  margin: 3px;
+  height: 120px; 
+  width: 95%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-left: 10px;
+  margin-bottom: 10px;
   border: 0.5px solid lightgray;
+  background-color: white;
 `
 
 const PictureContainer = styled.div`
   display: flex;
   flex: 1; 
-  height: auto; 
-  width: 20%; 
-  background-color: white;
+  height: 100%; 
+  width: 100%;
+  margin-left: 10px;
   justify-content: center;
   align-items: center; 
-  padding: 5px;
 `
 
 const Image = styled.img`
+  display: flex;
   width: 100%;
   height: 100%;
 `
@@ -32,10 +35,10 @@ const CardContents = styled.div`
   display: flex;
   flex: 2;
   flex-direction: column;
-  height: 110px; 
+  height: 92%; 
   width: 500px;
-  background-color: white; 
-  padding: 5px;
+  background-color: white;
+  margin-left: 15px; 
 `
 
 const Top = styled.div`
@@ -46,17 +49,18 @@ const Top = styled.div`
   justify-content: space-between; 
   align-items: center; 
   background-color: white; 
-  padding: 2px; 
   margin-right: 5px;
 `
 
-const Price = styled.p`
-  font-size: 24px; 
+const Price = styled.h1`
+  font-size: 20px; 
   font-weight: bold;
 `
 
 const Close = styled.p`
-  font-size: 16px;
+  font-size: 18px;
+  margin-right: 5px;
+  margin-top: 10px;
 `
 
 const Middle = styled.div`
@@ -64,54 +68,60 @@ const Middle = styled.div`
   flex-direction: row; 
   font-size: 16px; 
   justify-content: flex-start; 
-  height: 30px; 
-  width: auto; 
   align-items: center; 
+  height: auto; 
+  width: 100%; 
   background-color: white; 
-  marginTop: 5px;
+  marginTop: 10px;
 `
 
-const ProductName = styled.p``
+const ProductName = styled.p`
+  font-size: 16px;
+`
 
 const Bottom = styled.div`
   display: flex; 
   flex-direction: row; 
   height: 40px; 
   width: 100%; 
-  font-size: 16px; 
+  font-size: 16px;
   background-color: white; 
-  align-items: center; 
-  justify-content: space-between; 
-  margin-top: 10px;
+  align-items: flex-end; 
+  justify-content: space-between;
 `
 
-const SaveButton = styled.button``
+const SaveButton = styled.button`
+  font-size: 16px;
+  font-weight: 500;
+  padding: 3px;
+`
 
 const QuantityContainer = styled.div`
   display: flex; 
   flex-direction: row; 
   align-items: center; 
-  justify-content: space-between; 
+  justify-content: center; 
   width: 50%; 
-  height: 20px; 
+  height: 50%; 
   margin-top: 0px; 
-  margin-right: 5px;
+  margin-right: 20px;
 `
 
 const BottomButton = styled.button`
-  display: flex; 
-  height: 25px; 
-  width: 25px; 
-  border-radius: 20px; 
+  display: flex;
+  height: 25px;
+  width: 20px;
   align-items: center; 
   justify-content: center; 
-  background-color: none; 
-  border: none;
   background-color: white;
+  border: none; 
+  font-weight: bold;
 `
 
 const Quantity = styled.p`
-  
+  padding: 15px;
+  font-size: 20px;
+  font-weight: 500;
 `
 
 

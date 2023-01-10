@@ -5,12 +5,12 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import { mobile, tablet, laptop, desktop} from '../media';
 import Cart from './Cart';
-import { red } from '@mui/material/colors';
 
 const Container = styled.div`
     height: 120px;
     margin-bottom: 20px;
     z-index: 500;
+    background-color: white;
 `;
 
 const Wrapper = styled.div `
