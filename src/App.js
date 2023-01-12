@@ -4,12 +4,14 @@ import Navbar from './components/Navbar';
 import Test from './components/Test';
 import FullCart from './pages/FullCart';
 import Home from './pages/Home';
+import ProductPage from './pages/ProductPage';
+import Card from './components/ProductCard';
 
 
 function App() {
   return (
     <div>
-      <FullCart />
+      <ProductPage />
     </div>
   );
 }

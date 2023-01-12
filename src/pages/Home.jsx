@@ -213,14 +213,15 @@ const PopularImage = styled.img`
 
 const Home = () => {    
         const imageArray = 
-            {
+            {   
+                id: '1',
                 name: 'Aloe',
                 image: 'https://www.ikea.com/us/en/images/products/aloe-vera-potted-plant-aloe__67410_pe181254_s4.jpg',
                 price: '$4.99',
                 dimensions: '12 inches x 4 inches',
                 category: 'succulent',
                 care: 'easy',
-                sun: 'Aloe loves direct sunlight',
+                light: 'Full sun',
                 water: 'Every 2-4 weeks',
                 environment: 'Warm Climate',
                 quantity: '100'
