@@ -224,8 +224,7 @@ const Navbar = () => {
             <MenuItem>Flowers</MenuItem>
             <MenuItem>Leafy Plants</MenuItem>
             <MenuItem>Editable</MenuItem>
-            <MenuItem>By Room</MenuItem>
-            <MenuItem>Care Type</MenuItem>
+            <MenuItem>Herbs</MenuItem>
             <MenuItem>Easy Plants</MenuItem>
         </Bottom>
 
@@ -246,7 +245,7 @@ const Navbar = () => {
             <MenuItem>Flowers</MenuItem>
             <MenuItem>Eat</MenuItem>
             <MenuItem>Leafy</MenuItem>
-            <MenuItem>Rooms</MenuItem>
+            <MenuItem>Herbs</MenuItem>
             <MenuItem>Easy Plants</MenuItem>
             </BurgerToggle>
             : null}
