@@ -2,9 +2,11 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { Link, useParams } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import { mobile, tablet, laptop, desktop} from '../media';
 import Cart from './Cart';
+import { productArray } from '../data';
 
 const Container = styled.div`
     height: 120px;
@@ -218,10 +220,10 @@ const Navbar = () => {
                 </MenuItem>
             </Right>
             </Wrapper>
-    
         <Bottom>
-            <MenuItem>Home</MenuItem>
+            <MenuItem><Link style = {{textDecoration: 'none'}} to = '/'>Home</Link></MenuItem>
             <MenuItem>Flowers</MenuItem>
+
             <MenuItem>Leafy Plants</MenuItem>
             <MenuItem>Editable</MenuItem>
             <MenuItem>Herbs</MenuItem>

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { productArray } from '../data';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../redux/cartReducer';
 
 const Page = styled.div`
     width: 100%;
@@ -100,7 +101,6 @@ const List = styled.ul`
     flex-direction: column;
     background: white;
     justify-content: center;
-
 `
 
 const ListItem = styled.li`
@@ -188,6 +188,9 @@ const ProductPrice = styled.p`
 
 const ProductPage = () => {
 
+   const navigate = useNavigate();
+
+
     //for sort dropdown
     const [sort, setSort] = useState(false);
     const [careTypes, setCareTypes] = useState([]);
@@ -206,7 +209,7 @@ const ProductPage = () => {
             } else {setLightTypes(lightTypes.filter(filter => filter !== event.target.value))}
         } else if (event.target.name === 'category' || event.target.name === 'type') {
             if (event.target.checked) {
-                setCategoryTypes([...categoryTypes, event.target.value]) 
+                setCategoryTypes([...categoryTypes, event.target.value])
             } else {setCategoryTypes(categoryTypes.filter(filter => filter !== event.target.value))}
         }
     };
@@ -241,7 +244,6 @@ const ProductPage = () => {
 
   return (
     <Page>
-        <Navbar />
         <PageContainer>
             <PageWrapper>
             <SortWrapper>
@@ -287,7 +289,8 @@ const ProductPage = () => {
             </CategoryColumn>
 
             <ProductGridWrapper>
-               {array.length > 0 ? array.map((item) => (<ProductCard key = {item.id}>
+               {array.length > 0 ? array.map((item) => (
+                <ProductCard key = {item.id} onClick={() => navigate(`/products/${item.id}`)}>
                     <ProductImg key = {item.image} src = {item.image} alt = 'Product Image' />
                     
                     <ProductInfo key = {item.id}>
@@ -303,9 +306,9 @@ const ProductPage = () => {
             </PageContentWrapper>
             </PageWrapper>
         </PageContainer>
-        <Footer />
     </Page>
   )
 }
 
 export default ProductPage
+

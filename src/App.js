@@ -6,12 +6,58 @@ import FullCart from './pages/FullCart';
 import Home from './pages/Home';
 import ProductPage from './pages/ProductPage';
 import Card from './components/ProductCard';
+import ProductView from './pages/ProductView';
+import Footer from './components/Footer';
 
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  Outlet,
+} from 'react-router-dom'
+
+const Layout = () => {
+  return (
+    <>
+    <Navbar />
+    <Outlet />
+    <Footer />
+    </>
+  )
+}
+
+const router = createBrowserRouter([
+  {
+  path: '/',
+  element: <Layout />,
+  children: [
+    {
+      path: '/',
+      element: <Home />
+    },
+
+    {
+      path: '/product/:id',
+      element: <ProductPage />
+    },
+
+    {
+      path: '/products/:id',
+      element: <ProductView />
+    },
+
+    {
+      path: '/cart',
+      element: <FullCart />
+    }
+  ]
+  }
+])
 
 function App() {
   return (
     <div>
-      <ProductPage />
+      <RouterProvider router = {router} />
     </div>
   );
 }

@@ -209,8 +209,6 @@ ${tablet({
 const FullCart = () => {
   return (
     <PageContainer>
-    <Navbar />
-
     <CartContainer>
     <PageWrapper>
 
@@ -220,7 +218,6 @@ const FullCart = () => {
       </LeftTitleContainer>
 
       <ProductCardContainer>
-        <Card />
         <Card />
       </ProductCardContainer>
     </LeftColumn>
@@ -256,7 +253,6 @@ const FullCart = () => {
     </RightColumn>
     </PageWrapper>
     </CartContainer>
-    <Footer />
     </PageContainer>
   )
 }

@@ -1,7 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { productArray } from '../data';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { mobile, tablet, laptop, desktop} from '../media';
+import { useSelector } from 'react-redux';
+
 
 const CardContainer = styled.div`
   display: flex;
@@ -126,23 +129,23 @@ const Quantity = styled.p`
 
 
 const Card = () => {
-
+  const cart = useSelector((state) => state.cart);
+  
   return (
-     <CardContainer>
-
-      <PictureContainer>
-        <Image src = 'http://t3.gstatic.com/licensed-image?q=tbn:ANd9GcR9fc2RYwcLUt6bzRX7-wczkMM9nRxAZA57RxZoB9HKKUxF99vWbm_fkuYbV3iWqv8VVxNLA-sbGgRfr0M' alt = 'Product Image' />
+    <>
+    {cart.products.map ((item) =>(<CardContainer>
+     <PictureContainer>
+        <Image src = {item.img} alt = 'Product Image' />
       </PictureContainer>
-
+      
       <CardContents>
-
         <Top>
-          <Price>$10.99</Price>
+          <Price>${item.price.toFixed(2) * item.count}</Price>
           <Close>x</Close>
         </Top>
 
         <Middle>
-          <ProductName>Aloe Plant in Pot</ProductName>
+          <ProductName>{item.title}</ProductName>
         </Middle>
 
         <Bottom>
@@ -150,7 +153,7 @@ const Card = () => {
 
           <QuantityContainer>
             <BottomButton>-</BottomButton>
-            <Quantity>3</Quantity>
+            <Quantity>{item.count}</Quantity>
             <BottomButton>+</BottomButton>
           </QuantityContainer>
 
@@ -158,7 +161,8 @@ const Card = () => {
 
 
       </CardContents>
-     </CardContainer>
+     </CardContainer>))}
+     </>
   )
 }
 

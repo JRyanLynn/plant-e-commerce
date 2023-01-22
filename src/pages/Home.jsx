@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { mobile, tablet, laptop, desktop} from '../media';
+import { Link } from "react-router-dom";
 
 const PageContainer = styled.div`
     width: 100%;
@@ -229,14 +230,12 @@ const Home = () => {
         
     return (
         <PageContainer>
-
-        <Navbar />
         <HeroContainer >
             <HeroWrapper>
                 <HeroAdContainer>
                     <HeroTitle>Winter Blues Got You Down?</HeroTitle>
                     <HeroButtonContainer>
-                        <HeroButton>Shop Now!</HeroButton>
+                        <HeroButton> <Link style = {{textDecoration: 'none'}} to = '/product/1'>Shop Now!</Link></HeroButton>
                     </HeroButtonContainer>
                 </HeroAdContainer>
                 <HeroImage src = 'https://media-cldnry.s-nbcnews.com/image/upload/newscms/2018_13/2378671/180327-design-interior-ac-632p.jpg'/>
@@ -252,7 +251,7 @@ const Home = () => {
             
             <ImageContainer>
                 <CategoryImage src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHBJlRUCIZbZd7soSmT2S5acnLt3LNBikXBA&usqp=CAU' />
-                <Name>By Room</Name>
+                <Name>Herbs</Name>
             </ImageContainer>
 
             <ImageContainer>
@@ -324,8 +323,6 @@ const Home = () => {
                 </ImageContainer>
                 </Wrapper>
         </Container>
-
-        <Footer />
         </PageContainer>
     )
 }

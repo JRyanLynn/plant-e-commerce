@@ -1,8 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Card from './ProductCard';
 import { mobile, tablet, laptop, desktop} from '../media';
-import Test from './Test';
 
 const CartContainer = styled.div`
   width: 300px;
@@ -193,6 +192,7 @@ ${mobile({
 `
 
 const Cart = () => {
+
   return (
      <CartContainer>  
 
@@ -207,11 +207,9 @@ const Cart = () => {
       <CartItems>Items (3)</CartItems>
 
       <CartCardContainer>
-        <CartCardWrapper>
+      <CartCardWrapper>
           <Card />
-          <Card />
-          <Card />
-      </CartCardWrapper>
+      </CartCardWrapper> 
       </CartCardContainer>
 
       <CheckOutContainer>
