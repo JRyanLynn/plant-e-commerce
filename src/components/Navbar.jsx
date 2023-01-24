@@ -189,6 +189,11 @@ const CartToggle = styled.div`
     position: 'absolute';
 `
 
+const RouterLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+`
+
 const Navbar = () => {
     const [show, setShow] = useState(false);
     const [logIn, setLogIn] = useState(false);
@@ -221,7 +226,7 @@ const Navbar = () => {
             </Right>
             </Wrapper>
         <Bottom>
-            <MenuItem><Link style = {{textDecoration: 'none'}} to = '/'>Home</Link></MenuItem>
+            <MenuItem><RouterLink to = '/'>Home</RouterLink></MenuItem>
             <MenuItem>Flowers</MenuItem>
 
             <MenuItem>Leafy Plants</MenuItem>
@@ -243,7 +248,7 @@ const Navbar = () => {
 
         {show ? 
             <BurgerToggle>
-            <MenuItem>Home</MenuItem>
+            <MenuItem><RouterLink to = '/'>Home</RouterLink></MenuItem>
             <MenuItem>Flowers</MenuItem>
             <MenuItem>Eat</MenuItem>
             <MenuItem>Leafy</MenuItem>

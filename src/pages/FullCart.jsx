@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar'
 import Card from '../components/ProductCard';
 import { mobile, tablet, laptop, desktop} from '../media';
+import { useSelector } from 'react-redux';
 
 const PageContainer = styled.div`
   height: 100%;
@@ -89,7 +90,7 @@ const LeftTitleContainer = styled.div`
 `
 
 const TitleText = styled.h1`
-  margin-left: 15px;
+  margin-left: 10px;
   font-size: 26px;
   font-weight: 800;
   ${mobile({ 
@@ -137,6 +138,12 @@ ${tablet ({
   width: '100%'
 })};
 `
+
+const CartEmpty = styled.h2`
+  font-size: 20px;
+  font-weight: 500;
+`
+
 const TotalCard = styled.div`
   display: flex;
   flex-direction: column;
@@ -161,7 +168,7 @@ const TotalItemContainer = styled.div`
   width: 90%;
   height: 35px;
   align-items: center;
-  margin-left: 15px;
+  margin-left: 10px;
   justify-content: space-between;
 `
 const TotalLine = styled.hr`
@@ -183,13 +190,16 @@ const Total = styled.h2`
 
 const TotalButton = styled.button`
   display: flex;
-  width: 80%;
+  width: 85%;
   height: 100%;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 600;
+  color: white;
+  background-color: green;
   align-items: center;
   justify-content: center;
-  margin-left: 40px;
+  margin-left: 20px;
+  border: 1px solid lightgray;
   margin-top: 20px;
   margin-bottom: 20px;
   padding: 10px;
@@ -207,6 +217,14 @@ ${tablet({
 `
 
 const FullCart = () => {
+  const cardQuantity = useSelector((state) => state.cart.products.length);
+
+  const subTotal = useSelector((state) => 
+  state.cart.products.reduce((acc, product) => 
+    acc + product.price * product.count, 0));
+  
+    const shipping = subTotal >= 30.00 || cardQuantity === 0 ? 0 : 5.00;
+
   return (
     <PageContainer>
     <CartContainer>
@@ -218,7 +236,7 @@ const FullCart = () => {
       </LeftTitleContainer>
 
       <ProductCardContainer>
-        <Card />
+        {cardQuantity === 0 ? <CartEmpty>No Items Found</CartEmpty> : <Card />}
       </ProductCardContainer>
     </LeftColumn>
 
@@ -229,26 +247,26 @@ const FullCart = () => {
         <TitleText>Total</TitleText>
         <TotalLine />
         <TotalItemContainer>
-          <TotalHeader>Sub Total</TotalHeader>
-          <Total>$10.99</Total>
+          <TotalHeader>Subtotal</TotalHeader>
+          <Total>${(subTotal).toFixed(2)}</Total>
         </TotalItemContainer>
 
         <TotalItemContainer>
           <TotalHeader>Tax</TotalHeader>
-          <Total>$3.00</Total>
+          <Total>${(subTotal * .03).toFixed(2)}</Total>
         </TotalItemContainer>
 
         <TotalItemContainer>
           <TotalHeader>Shipping</TotalHeader>
-          <Total>$5.50</Total>
+          <Total>${(shipping).toFixed(2)}</Total>
         </TotalItemContainer>
 
         <TotalItemContainer>
           <TotalHeader>Total</TotalHeader>
-          <Total>$18.49</Total>
+          <Total>${(subTotal + (subTotal * .03) + (shipping)).toFixed(2)}</Total>
         </TotalItemContainer>
         
-        <TotalButton>CheckOut</TotalButton>
+        <TotalButton>Checkout</TotalButton>
       </TotalCard>
     </RightColumn>
     </PageWrapper>

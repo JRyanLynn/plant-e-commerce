@@ -1,9 +1,9 @@
-import React from 'react';
+import {React, useState} from 'react';
 import styled from 'styled-components';
-import { productArray } from '../data';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { mobile, tablet, laptop, desktop} from '../media';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateCount, removeItem} from '../redux/cartReducer';
 
 
 const CardContainer = styled.div`
@@ -13,6 +13,8 @@ const CardContainer = styled.div`
   padding-top: 10px;
   padding-bottom: 10px;
   margin-left: 10px;
+  margin-right: 5px;
+  margin-top: 5px;
   margin-bottom: 10px;
   border: 0.5px solid lightgray;
   background-color: white;
@@ -25,7 +27,11 @@ const PictureContainer = styled.div`
   width: 100%;
   margin-left: 10px;
   justify-content: center;
-  align-items: center; 
+  align-items: center;
+  ${mobile({ 
+    height: '100%',
+    width: '100%'
+  })}; 
 `
 
 const Image = styled.img`
@@ -38,10 +44,8 @@ const CardContents = styled.div`
   display: flex;
   flex: 2;
   flex-direction: column;
-  height: 92%; 
-  width: 500px;
   background-color: white;
-  margin-left: 15px; 
+  margin-left: 15px;
 `
 
 const Top = styled.div`
@@ -52,27 +56,30 @@ const Top = styled.div`
   justify-content: space-between; 
   align-items: center; 
   background-color: white; 
-  margin-right: 5px;
+  margin-right: 10px;
+  ${mobile({ 
+    marginRight: '5px',
+  })}; 
 `
 
 const Price = styled.h1`
   font-size: 20px; 
-  font-weight: bold;
+  font-weight: 600;
 `
 
-const Close = styled.p`
-  font-size: 18px;
-  margin-right: 5px;
-  margin-top: 10px;
+const Close = styled(DeleteOutlineIcon)`
+  font-size: 16px;
+  color: gray;
+  margin-top: 2px;
 `
 
 const Middle = styled.div`
   display: flex; 
   flex-direction: row; 
-  font-size: 16px; 
+  font-size: 18px; 
   justify-content: flex-start; 
   align-items: center; 
-  height: auto; 
+  height: 30px; 
   width: 100%; 
   background-color: white; 
   marginTop: 10px;
@@ -85,18 +92,27 @@ const ProductName = styled.p`
 const Bottom = styled.div`
   display: flex; 
   flex-direction: row; 
-  height: 40px; 
+  height: auto; 
   width: 100%; 
   font-size: 16px;
   background-color: white; 
-  align-items: flex-end; 
+  align-items: center; 
   justify-content: space-between;
+  margin-top: 30px;
 `
 
 const SaveButton = styled.button`
-  font-size: 16px;
-  font-weight: 500;
-  padding: 3px;
+  font-size: 12px;
+  font-weight: 600;
+  height: auto;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border: 0.5px solid lightgray;
+  padding: 5px;
+  ${mobile({ 
+    width: '40px',
+  })}; 
 `
 
 const QuantityContainer = styled.div`
@@ -104,57 +120,74 @@ const QuantityContainer = styled.div`
   flex-direction: row; 
   align-items: center; 
   justify-content: center; 
-  width: 50%; 
-  height: 50%; 
-  margin-top: 0px; 
-  margin-right: 20px;
+  margin-right: 10px;
+  ${mobile({ 
+    marginLeft: '10px',
+    marginRight: '5px'
+  })}; 
 `
 
 const BottomButton = styled.button`
   display: flex;
-  height: 25px;
-  width: 20px;
+  font-size: 16px;
+  font-weight: 500;
   align-items: center; 
   justify-content: center; 
   background-color: white;
-  border: none; 
-  font-weight: bold;
+  border: none;
+  ${mobile({ 
+    fontSize: '16px',
+  })}; 
 `
 
-const Quantity = styled.p`
-  padding: 15px;
-  font-size: 20px;
+const Quantity = styled.input`
+  font-size: 16px;
   font-weight: 500;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+  width: 20px;
+  text-align: center;
+  ${mobile({ 
+    fontSize: '16px',
+    padding: '0px',
+    marginLeft: '5px',
+    marginRight: '5px'
+  })};  
 `
 
 
 const Card = () => {
   const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
   
   return (
     <>
-    {cart.products.map ((item) =>(<CardContainer>
+    {cart.products.map ((item) =>(
+    
+    <CardContainer key = {item.id}>
      <PictureContainer>
-        <Image src = {item.img} alt = 'Product Image' />
+        <Image key = {item.image} src = {item.img} alt = 'Product Image' />
       </PictureContainer>
       
       <CardContents>
         <Top>
-          <Price>${item.price.toFixed(2) * item.count}</Price>
-          <Close>x</Close>
+          <Price key = {item.price}>${(item.price * item.count).toFixed(2)}</Price>
+          <Close onClick = {() => dispatch(removeItem(item.id))} />
         </Top>
 
         <Middle>
-          <ProductName>{item.title}</ProductName>
+          <ProductName key={item.title}>{item.title}</ProductName>
         </Middle>
 
         <Bottom>
           <SaveButton>Save</SaveButton>
 
           <QuantityContainer>
-            <BottomButton>-</BottomButton>
-            <Quantity>{item.count}</Quantity>
-            <BottomButton>+</BottomButton>
+            <BottomButton  onClick = {() => item.count === 1 ? 1 : dispatch(updateCount({ id: item.id, count: item.count - 1}))}>-</BottomButton>
+            <Quantity type = 'text' name = 'quantity' value = {item.count} onChange={(e) => dispatch(updateCount(item.id, e.target.value))} />
+            <BottomButton onClick = {() => dispatch(updateCount({ id: item.id, count: item.count + 1 })) }>+</BottomButton>
           </QuantityContainer>
 
         </Bottom>

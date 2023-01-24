@@ -212,6 +212,11 @@ const PopularImage = styled.img`
     })};
 `
 
+const RouterLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+`
+
 const Home = () => {    
         const imageArray = 
             {   
@@ -235,7 +240,7 @@ const Home = () => {
                 <HeroAdContainer>
                     <HeroTitle>Winter Blues Got You Down?</HeroTitle>
                     <HeroButtonContainer>
-                        <HeroButton> <Link style = {{textDecoration: 'none'}} to = '/product/1'>Shop Now!</Link></HeroButton>
+                        <HeroButton><RouterLink to = 'product/1'>Shop Now</RouterLink></HeroButton>
                     </HeroButtonContainer>
                 </HeroAdContainer>
                 <HeroImage src = 'https://media-cldnry.s-nbcnews.com/image/upload/newscms/2018_13/2378671/180327-design-interior-ac-632p.jpg'/>
