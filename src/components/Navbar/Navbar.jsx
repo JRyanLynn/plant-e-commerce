@@ -1,18 +1,22 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
+
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import { Link, useParams } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
-import { mobile, tablet, laptop, desktop} from '../media';
-import Cart from './Cart';
-import { productArray } from '../data';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
+import {mobile, tablet, laptop, desktop} from '../../media';
+import {Link, useNavigate} from 'react-router-dom';
+import Cart from '../Cart';
+import { productArray } from '../../data';
 
 const Container = styled.div`
     height: 120px;
     margin-bottom: 20px;
     z-index: 500;
-    background-color: white;
+    background-color: #FEFDFD;
 `;
 
 const Wrapper = styled.div `
@@ -22,6 +26,9 @@ const Wrapper = styled.div `
     align-items: center;
     margin-left: 50px;
     margin-right: 50px;
+    font-family: Arial;
+    background-color: #FEFDFD;
+    color: #1B1212;
     ${mobile({ 
         padding: '10px 10px',
         margin: '0px',
@@ -46,6 +53,7 @@ const Left = styled.div `
     align-items: center;
     justify-content: flex-start;
     margin-left: 20px;
+    font-family: Arial Black;
     ${mobile({ 
         flex: '2',
         fontSize: '10px',
@@ -57,26 +65,29 @@ const Left = styled.div `
 
 const SearchContainer = styled.div`
     width: 100%;
-    height: 28px;
+    height: 44px;
     display: flex;
     align-items: center;
-    margin-left: 25px;
-    margin-right: 10px;
+    justify-content: center;
+    position: absolute;
+    margin-left: 30px;
+    display: block;
 `;
 
+const InputRow = styled.div`
+    display: flex;
+    flex-direction: row;
+`
+
 const Input = styled.input`
-    margin-left: -5px;
-    width: 100%;
     display: flex;
     padding: 5px;
-    width: auto;
 `;
 
 const Center = styled.div `
     flex: 1;
     text-align: center;
     justify-content: center;
-    width: 100%;
     ${mobile({ 
         display: 'none',
     })};
@@ -87,17 +98,17 @@ const Center = styled.div `
 `;
 
 const QueryIcon = styled(SearchIcon)`
-    border: 0.5px solid lightgray;
-    padding: 2px;
+    height: 44px;
+    padding: 3px;
+    margin-left: -30px;
 `
 
 const Logo = styled.h1`
-    font-weight: bold;
-
+    font-size: 30px;
     ${mobile({ 
         marginLeft: '60px',
         marginRight: '30px',
-        fontSize: '20px'
+        fontSize: '16px'
     })};
     `;
 
@@ -133,6 +144,13 @@ const SignIn = styled.div`
     })};
 `
 
+const SignInIcon = styled(AccountCircleIcon)`
+`
+
+const HeartIcon = styled(FavoriteBorderIcon)`
+    margin-right: 20px;
+`
+
 const MenuItem = styled.div`
     font-size: 14px;
     cursor: pointer;
@@ -157,6 +175,9 @@ const Bottom = styled.div`
     padding: 0px 40px;
     margin-left: 40px;
     margin-right: 50px;
+    background-color: #FEFDFD;
+    font-family: Arial;
+    color: #1B1212;
     ${mobile({
         display: 'none',
     })};
@@ -194,10 +215,55 @@ const RouterLink = styled(Link)`
   color: black;
 `
 
+const SearchResultContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    align-items: flex-start;
+    justify-content: center;
+    width: 30.10%;
+    height: auto;
+    border: 0.5px solid #CCD3C2;
+    z-index: 999;
+    background-color: #FEFDFD;
+    box-shadow:
+    0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+    0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12),
+`
+
+const SearchUnorderedList = styled.ul`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    align-items: flex-start;
+    justify-content: center;
+`
+
+const SearchResultItem = styled.li`
+    display: flex;
+    height: 10px;
+    list-style-type: none;
+`
+
 const Navbar = () => {
     const [show, setShow] = useState(false);
     const [logIn, setLogIn] = useState(false);
     const [cart, setCart] = useState(false);
+    const [searchResultBox, setSearchResultBox] = useState(false);
+    const [searchResults, setSearchResults] = useState('');
+    const [selectedCheckbox, setSelectedCheckbox] = useState('');
+    
+    const navigate = useNavigate();
+
+    const handleLinkClick = () => {
+        navigate(`/product/${selectedCheckbox}`);
+    }
+    
 
   return (
     <Container>
@@ -208,27 +274,43 @@ const Navbar = () => {
             <MenuIcon onClick = {() => setShow(!show)} />
             </Burger>
 
-                <Logo>PLANT DECOR</Logo>
+                <Logo><RouterLink to = '/'>PLANT DECOR</RouterLink></Logo>
             </Left>
 
             <Center>
                <SearchContainer>
-               <Input style = {{width: "450px"}} placeholder="Search"/>
+                <InputRow>
+               <Input style = {{width: "450px"}} placeholder="Search For Plants You Love" onChange={e => {setSearchResults(e.target.value); setSearchResultBox(true)}} />
                <QueryIcon />
+               </InputRow>
+               
+            {searchResultBox ?
+            <SearchResultContainer>
+                
+                {searchResults === '' ? '' : productArray.filter((item) => item.name.toLowerCase().includes(searchResults)).slice(0, 5).map((item) => (
+                        <SearchUnorderedList>
+                        <SearchResultItem key = {item.id}><RouterLink to={`/products/${productArray.indexOf(item) + 1}`} onClick={() => setSearchResultBox(false)}>{item.name}</RouterLink></SearchResultItem>
+                        </SearchUnorderedList>
+                ))}
+
+            </SearchResultContainer> : null}
+
                 </SearchContainer>
             </Center>
 
             <Right>
-                <MenuItem onClick = {() => setLogIn(!logIn)} onMouseOver = {() => setLogIn(!logIn)} onMouseOut = {() => setLogIn(logIn)}>SIGN IN</MenuItem>
+                <HeartIcon />
+                
+                <SignInIcon style = {{fontWeight: '600'}} onClick = {() => setLogIn(!logIn)} onMouseOver = {() => setLogIn(!logIn)} onMouseOut = {() => setLogIn(logIn)}></SignInIcon>
                 <MenuItem>
+
                 <ShoppingCartOutlinedIcon onClick = {() => setCart(!cart)} onMouseEnter = {() => setCart(cart)} onMouseLeave = {() => setCart(!cart)}/>
                 </MenuItem>
             </Right>
             </Wrapper>
         <Bottom>
             <MenuItem><RouterLink to = '/'>Home</RouterLink></MenuItem>
-            <MenuItem>Flowers</MenuItem>
-
+            <MenuItem><RouterLink to='product/1'>Flowers</RouterLink></MenuItem>
             <MenuItem>Leafy Plants</MenuItem>
             <MenuItem>Editable</MenuItem>
             <MenuItem>Herbs</MenuItem>

@@ -190,6 +190,8 @@ const ProductPage = () => {
 
    const navigate = useNavigate();
 
+   const {checkboxValue} = useParams();
+
 
     //for sort dropdown
     const [sort, setSort] = useState(false);
@@ -213,7 +215,7 @@ const ProductPage = () => {
             } else {setCategoryTypes(categoryTypes.filter(filter => filter !== event.target.value))}
         }
     };
-
+    
     useEffect (() => {
         const filtered = productArray.filter(product => {
             return (careTypes.length  === 0 || careTypes.includes(product.care)) &&
@@ -263,27 +265,27 @@ const ProductPage = () => {
             <CategoryColumn>
 
             <List>
+                <ListItem><ListTitle>Type</ListTitle></ListItem>
+                <ListItem><ListInput type = 'checkbox' name = 'category' value = 'flower' onChange={(e) => handleCheckboxChange(e)} />Flower</ListItem>
+                <ListItem><ListInput type = 'checkbox' name = 'category' value = 'leafy' onChange={(e) => handleCheckboxChange(e)}/>Leafy</ListItem>
+                <ListItem><ListInput type = 'checkbox' name = 'category' value = 'edible' onChange={(e) => handleCheckboxChange(e)}/>Edible</ListItem>
+                <ListItem><ListInput type = 'checkbox' name = 'type' value = 'herb' onChange={(e) => handleCheckboxChange(e)} />Herb</ListItem>
+            </List>
+            <BreakLine />
+
+            <List>
                 <ListItem><ListTitle>Care Type</ListTitle></ListItem>
-                <ListItem><ListInput type= 'checkbox' name = 'care' value = 'easy' onChange = {handleCheckboxChange}/>Easy</ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'care' value = 'medium' onChange = {handleCheckboxChange} />Medium</ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'care' value = 'difficult' onChange = {handleCheckboxChange}/>Special Care</ListItem>
+                <ListItem><ListInput type= 'checkbox' name = 'care' value = 'easy' onChange={(e) => handleCheckboxChange(e)}/>Easy</ListItem>
+                <ListItem><ListInput type = 'checkbox' name = 'care' value = 'medium'  onChange={(e) => handleCheckboxChange(e)} />Medium</ListItem>
+                <ListItem><ListInput type = 'checkbox' name = 'care' value = 'difficult'  onChange={(e) => handleCheckboxChange(e)}/>Special Care</ListItem>
             </List>
 
             <BreakLine />
             <List>
                 <ListItem><ListTitle>Light</ListTitle></ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'light' value = 'bright' onChange = {handleCheckboxChange}/>Bright</ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'light' value = 'medium' onChange = {handleCheckboxChange}/>Medium</ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'light' value = 'low' onChange = {handleCheckboxChange} />Dark</ListItem>
-            </List>
-            <BreakLine />
-
-            <List>
-                <ListItem><ListTitle>Type</ListTitle></ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'category' value = 'flower' onChange = {handleCheckboxChange} />Flower</ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'category' value = 'leafy' onChange = {handleCheckboxChange}/>Leafy</ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'category' value = 'edible' onChange = {handleCheckboxChange}/>Edible</ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'type' value = 'herb' onChange = {handleCheckboxChange} />Herb</ListItem>
+                <ListItem><ListInput type = 'checkbox' name = 'light' value = 'bright' onChange={(e) => handleCheckboxChange(e)}/>Bright</ListItem>
+                <ListItem><ListInput type = 'checkbox' name = 'light' value = 'medium' onChange={(e) => handleCheckboxChange(e)}/>Medium</ListItem>
+                <ListItem><ListInput type = 'checkbox' name = 'light' value = 'low' onChange={(e) => handleCheckboxChange(e)} />Dark</ListItem>
             </List>
 
             </CategoryColumn>

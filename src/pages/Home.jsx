@@ -3,7 +3,7 @@ import { fontSize } from "@mui/system";
 import React from "react";
 import styled from "styled-components";
 import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar/Navbar";
 import { mobile, tablet, laptop, desktop} from '../media';
 import { Link } from "react-router-dom";
 
