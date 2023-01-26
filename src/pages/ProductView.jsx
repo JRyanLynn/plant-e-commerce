@@ -131,10 +131,6 @@ const ReviewAverage = styled.h3`
     margin-left: 10px;
 `
 
-const ReviewStar = styled(GradeOutlinedIcon)`
-    font-size: 10px;
-`
-
 const OptionButtonContainer = styled.div`
     display: flex;
     height: 50px;
@@ -521,7 +517,6 @@ const ProductView = () => {
                     <ProductName>{item.name}</ProductName>
                     <ReviewContainer>
                         <Rating name="read-only" readOnly />
-
                         <ReviewAverage>3.1 |</ReviewAverage>
                         <ReviewText>(200) Reviews</ReviewText>
                     </ReviewContainer>

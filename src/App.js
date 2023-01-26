@@ -8,6 +8,7 @@ import ProductPage from './pages/ProductPage';
 import Card from './components/ProductCard';
 import ProductView from './pages/ProductView';
 import Footer from './components/Footer';
+import Flower from './pages/ProductPages/Flower';
 
 import {
   createBrowserRouter,
@@ -15,6 +16,7 @@ import {
   Route,
   Outlet,
 } from 'react-router-dom'
+
 
 const Layout = () => {
   return (
@@ -39,6 +41,11 @@ const router = createBrowserRouter([
     {
       path: '/product/:id',
       element: <ProductPage />
+    },
+
+    {
+      path: '/flowers',
+      element: <Flower />
     },
 
     {

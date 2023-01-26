@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 
-import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -10,7 +9,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import {mobile, tablet, laptop, desktop} from '../../media';
 import {Link, useNavigate} from 'react-router-dom';
 import Cart from '../Cart';
-import { productArray } from '../../data';
+import SearchBar from './SearchBar';
 
 const Container = styled.div`
     height: 120px;
@@ -63,22 +62,6 @@ const Left = styled.div `
     })};
 `;
 
-const SearchContainer = styled.div`
-    width: 100%;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    margin-left: 30px;
-    display: block;
-`;
-
-const InputRow = styled.div`
-    display: flex;
-    flex-direction: row;
-`
-
 const Input = styled.input`
     display: flex;
     padding: 5px;
@@ -86,22 +69,17 @@ const Input = styled.input`
 
 const Center = styled.div `
     flex: 1;
+    height: auto;
+    width: 100%;
     text-align: center;
     justify-content: center;
     ${mobile({ 
         display: 'none',
     })};
-
     ${tablet({ 
         display: 'none'
     })};
 `;
-
-const QueryIcon = styled(SearchIcon)`
-    height: 44px;
-    padding: 3px;
-    margin-left: -30px;
-`
 
 const Logo = styled.h1`
     font-size: 30px;
@@ -214,56 +192,10 @@ const RouterLink = styled(Link)`
   text-decoration: none;
   color: black;
 `
-
-const SearchResultContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    align-items: flex-start;
-    justify-content: center;
-    width: 30.10%;
-    height: auto;
-    border: 0.5px solid #CCD3C2;
-    z-index: 999;
-    background-color: #FEFDFD;
-    box-shadow:
-    0 2.8px 2.2px rgba(0, 0, 0, 0.034),
-    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
-    0 12.5px 10px rgba(0, 0, 0, 0.06),
-    0 22.3px 17.9px rgba(0, 0, 0, 0.072),
-    0 41.8px 33.4px rgba(0, 0, 0, 0.086),
-    0 100px 80px rgba(0, 0, 0, 0.12),
-`
-
-const SearchUnorderedList = styled.ul`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    align-items: flex-start;
-    justify-content: center;
-`
-
-const SearchResultItem = styled.li`
-    display: flex;
-    height: 10px;
-    list-style-type: none;
-`
-
 const Navbar = () => {
     const [show, setShow] = useState(false);
     const [logIn, setLogIn] = useState(false);
     const [cart, setCart] = useState(false);
-    const [searchResultBox, setSearchResultBox] = useState(false);
-    const [searchResults, setSearchResults] = useState('');
-    const [selectedCheckbox, setSelectedCheckbox] = useState('');
-    
-    const navigate = useNavigate();
-
-    const handleLinkClick = () => {
-        navigate(`/product/${selectedCheckbox}`);
-    }
-    
 
   return (
     <Container>
@@ -278,24 +210,7 @@ const Navbar = () => {
             </Left>
 
             <Center>
-               <SearchContainer>
-                <InputRow>
-               <Input style = {{width: "450px"}} placeholder="Search For Plants You Love" onChange={e => {setSearchResults(e.target.value); setSearchResultBox(true)}} />
-               <QueryIcon />
-               </InputRow>
-               
-            {searchResultBox ?
-            <SearchResultContainer>
-                
-                {searchResults === '' ? '' : productArray.filter((item) => item.name.toLowerCase().includes(searchResults)).slice(0, 5).map((item) => (
-                        <SearchUnorderedList>
-                        <SearchResultItem key = {item.id}><RouterLink to={`/products/${productArray.indexOf(item) + 1}`} onClick={() => setSearchResultBox(false)}>{item.name}</RouterLink></SearchResultItem>
-                        </SearchUnorderedList>
-                ))}
-
-            </SearchResultContainer> : null}
-
-                </SearchContainer>
+                <SearchBar />
             </Center>
 
             <Right>
@@ -310,7 +225,7 @@ const Navbar = () => {
             </Wrapper>
         <Bottom>
             <MenuItem><RouterLink to = '/'>Home</RouterLink></MenuItem>
-            <MenuItem><RouterLink to='product/1'>Flowers</RouterLink></MenuItem>
+            <MenuItem><RouterLink to='/flowers/'>Flowers</RouterLink></MenuItem>
             <MenuItem>Leafy Plants</MenuItem>
             <MenuItem>Editable</MenuItem>
             <MenuItem>Herbs</MenuItem>

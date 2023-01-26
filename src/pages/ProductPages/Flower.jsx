@@ -1,16 +1,17 @@
-import React, { useEffect, useState, useRef, useContext} from 'react';
+import React, { useEffect, useState} from 'react';
 import styled from 'styled-components';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { useNavigate, useParams} from 'react-router-dom';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { productArray } from '../data';
+import { productArray } from '../../data';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
-import { useDispatch } from 'react-redux';
-import { addToCart } from '../redux/cartReducer';
+import { Rating } from '@mui/material';
 
 const Page = styled.div`
     width: 100%;
     height: 100%;
-    background-color: white;
+    background-color: #FEFDFD;
+    font-family: Arial;
+    color: #1B1212;
 `
 
 const PageContainer = styled.div`
@@ -19,7 +20,6 @@ const PageContainer = styled.div`
     height: 100%;
     justify-content: center;
     align-items: center;
-    background-color: white;
 `
 
 const PageWrapper = styled.div`
@@ -27,7 +27,7 @@ const PageWrapper = styled.div`
     width: 90%;
     height: 100%;
     flex-direction: column;
-    background-color: white;
+    background-color: #FEFDFD;
 `
 
 const SortWrapper  = styled.div`
@@ -37,38 +37,61 @@ const SortWrapper  = styled.div`
     height: 100%;
     padding-right: 10px;
     padding-left: 10px;
-    background: white;
     justify-content: center;
     align-items: flex-end;
+    margin-top: 10px;
+`
+
+const SortButtonRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    width: 77.25%;
+    height: 30px;
+    justify-content: space-between;
+    align-items: center;
 `
 
 const SortButton = styled.button`
     display: flex;
-    width: 10%;
+    width: 100%;
     height: 5%;
     align-items: center;
     justify-content: space-between;
-    margin-left: 5px;
-    margin-right: 10px;
     padding-left: 15px;
     font-weight: 500;
     font-size: 16px;
     cursor: pointer;
+    background-color: #CCD3C2;
+`
+
+const SortComponentContainer = styled.div`
+    width: 15%;
+    height: auto;
+    margin-right: 10px;
 `
 
 const SortContentContainer = styled.div`
     display: flex;
+    float: right;
     flex-direction: column;
     position: absolute;
     z-index: 800;
-    width: 8.25%;
-    background: white;
-    border: 0.5px solid lightgray;
-    margin-top: 127px;
+    width: 9.75%;
+    background: #FEFDFD;
+    border: 0.5px solid #CCD3C2;
     margin-right: 10px;
     padding-top: 10px;
+    padding-left: 3px;
     height: auto;
+    font-size: 16px;
     cursor: pointer;
+    box-shadow:
+    0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+    0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12)
 `
 
 const DropListItem = styled.h2`
@@ -85,28 +108,33 @@ const SortDownArrow = styled(KeyboardArrowDownIcon)`
 
 const CategoryColumn = styled.div`
     display: flex;
-    width: 30%;
+    width: 25%;
+    margin-left: 20px;
     height: 100%;
     flex-direction: column;
-    margin-top: 10px;
+    margin-top: 18px;
 `
 
 const ListTitle = styled.h1`
-    font-size: 24px;
+    font-size: 20px;
 `
 
 const List = styled.ul`
     display: flex;
     width: 80%;
+    height: 100%;
+    margin-top: -5px;
     flex-direction: column;
-    background: white;
+    background: #FEFDFD;
     justify-content: center;
+    align-items: flex-start;
+
 `
 
 const ListItem = styled.li`
     list-style-type: none;
     background: white;
-    font-size: 20px;
+    font-size: 18px;
     padding: 2px;
 `
 
@@ -154,7 +182,7 @@ const ProductCard = styled.div`
     height: 60%;
     background: white;
     margin: 5px;
-    border: 0.5px solid lightgray;
+    border: 1px solid #CCD3C2;
 `
 const ProductImg = styled.img`
     width: 100%;
@@ -175,23 +203,32 @@ const ProductName =  styled.h1`
     font-weight: 600;
 `
 
-const Reviews = styled.p`
+const Reviews = styled.div`
     font-size: 16px;
+    margin-bottom: 5px;
     margin-top: -2px;
+`
+const ReviewContainer = styled.div`
+    Display: flex;
+    align-items: center;
+    height: 15px;
+    margin-bottom: 10px;
+`
+
+const ReviewText = styled.a`
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 10px;
 `
 
 const ProductPrice = styled.p`
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 600;
     margin-top: -10px;
 `
 
-const ProductPage = () => {
-
-   const navigate = useNavigate();
-
-   const {id} = useParams();
-
+const Flower = () => {
+    const navigate = useNavigate();
 
     //for sort dropdown
     const [sort, setSort] = useState(false);
@@ -210,11 +247,7 @@ const ProductPage = () => {
             if (event.target.checked) {
                 setLightTypes([...lightTypes, event.target.value])
             } else {setLightTypes(lightTypes.filter(filter => filter !== event.target.value))}
-        } else if (event.target.name === 'category' || event.target.name === 'type') {
-            if (event.target.checked) {
-                setCategoryTypes([...categoryTypes, event.target.value])
-            } else {setCategoryTypes(categoryTypes.filter(filter => filter !== event.target.value))}
-        }
+        } 
     };
     
     useEffect (() => {
@@ -223,7 +256,7 @@ const ProductPage = () => {
                     (lightTypes.length  === 0 || lightTypes.includes(product.light)) &&
                     (categoryTypes.length  === 0 || categoryTypes.includes(product.category) || categoryTypes.includes(product.type)) 
         });
-        setArray(filtered)
+        setArray(filtered.filter(product => product.category === 'flower' || product.type === 'flower'))
     }, [careTypes, lightTypes, categoryTypes]);
     
     //filters for sort values
@@ -248,74 +281,72 @@ const ProductPage = () => {
 
     //states for router
 
-
   return (
     <Page>
-        <PageContainer>
-            <PageWrapper>
-            <SortWrapper>
-                <SortButton onClick = {() => setSort(!sort)}>Sort <SortDownArrow /></SortButton>
+    <PageContainer>
+        <PageWrapper>
+        <SortWrapper>
+        <SortButtonRow>
+            <ListTitle style = {{fontSize: '28px'}}>Flowers</ListTitle>
+            <SortComponentContainer>
+            <SortButton onClick = {() => setSort(!sort)}>Sort <SortDownArrow /></SortButton>
+            {sort?
+            < ClickAwayListener onClickAway={handleClickAway}>
+            <SortContentContainer>
+                    <DropListItem onClick = {lowHi}>Price: Low-High</DropListItem>
+                    <DropListItem onClick = {hiLow}>Price: High-Low</DropListItem>
+                    <DropListItem>Customer Rating</DropListItem>
+            </SortContentContainer>
+            </ ClickAwayListener>
+            : null}
+            </SortComponentContainer>
+            </SortButtonRow>
+            </SortWrapper>
+        <PageContentWrapper>
+        <CategoryColumn>
+
+        <List>
+            <ListItem><ListTitle>Care Type</ListTitle></ListItem>
+            <ListItem><ListInput type= 'checkbox' name = 'care' value = 'easy' onChange={(e) => handleCheckboxChange(e)}/>Easy</ListItem>
+            <ListItem><ListInput type = 'checkbox' name = 'care' value = 'medium'  onChange={(e) => handleCheckboxChange(e)} />Medium</ListItem>
+            <ListItem><ListInput type = 'checkbox' name = 'care' value = 'difficult'  onChange={(e) => handleCheckboxChange(e)}/>Special Care</ListItem>
+        </List>
+
+        <BreakLine />
+        <List>
+            <ListItem><ListTitle>Light</ListTitle></ListItem>
+            <ListItem><ListInput type = 'checkbox' name = 'light' value = 'bright' onChange={(e) => handleCheckboxChange(e)}/>Bright</ListItem>
+            <ListItem><ListInput type = 'checkbox' name = 'light' value = 'medium' onChange={(e) => handleCheckboxChange(e)}/>Medium</ListItem>
+            <ListItem><ListInput type = 'checkbox' name = 'light' value = 'low' onChange={(e) => handleCheckboxChange(e)} />Dark</ListItem>
+        </List>
+
+        </CategoryColumn>
+
+        <ProductGridWrapper>
+           {array.length > 0 ? array.map((item) => (
+            <ProductCard key = {item.id} onClick={() => navigate(`/products/${item.id}`)}>
+                <ProductImg key = {item.image} src = {item.image} alt = 'Product Image' />
                 
-                {sort?
-                < ClickAwayListener onClickAway={handleClickAway}>
-                <SortContentContainer>
-                        <DropListItem onClick = {lowHi}>Price: Low-High</DropListItem>
-                        <DropListItem onClick = {hiLow}>Price: High-Low</DropListItem>
-                        <DropListItem>Customer Rating</DropListItem>
-                </SortContentContainer>
-                </ ClickAwayListener>
-                : null}
-                </SortWrapper>
-            <PageContentWrapper>
-            <CategoryColumn>
+                <ProductInfo key = {item.id}>
+                    <ProductName key = {item.name}>{item.name}</ProductName>
+                   
+                    <Reviews key = {item.reviews}>
+                        <ReviewContainer>
+                        <Rating style = {{}} name="read-only" readOnly  size="small"/>
+                        <ReviewText>(100)</ReviewText>
+                    </ReviewContainer>
+                    </Reviews>
+                    <ProductPrice key = {item.price}>{`$${price(item.price)}`}</ProductPrice>
+                </ProductInfo>
+                </ProductCard>
+                )): <NoResult>Sorry, no products fit your search</NoResult>}
 
-            <List>
-                <ListItem><ListTitle>Type</ListTitle></ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'category' value = 'flower' onChange={(e) => handleCheckboxChange(e)} />Flower</ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'category' value = 'leafy' onChange={(e) => handleCheckboxChange(e)}/>Leafy</ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'category' value = 'edible' onChange={(e) => handleCheckboxChange(e)}/>Edible</ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'type' value = 'herb' onChange={(e) => handleCheckboxChange(e)} />Herb</ListItem>
-            </List>
-            <BreakLine />
-
-            <List>
-                <ListItem><ListTitle>Care Type</ListTitle></ListItem>
-                <ListItem><ListInput type= 'checkbox' name = 'care' value = 'easy' onChange={(e) => handleCheckboxChange(e)}/>Easy</ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'care' value = 'medium'  onChange={(e) => handleCheckboxChange(e)} />Medium</ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'care' value = 'difficult'  onChange={(e) => handleCheckboxChange(e)}/>Special Care</ListItem>
-            </List>
-
-            <BreakLine />
-            <List>
-                <ListItem><ListTitle>Light</ListTitle></ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'light' value = 'bright' onChange={(e) => handleCheckboxChange(e)}/>Bright</ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'light' value = 'medium' onChange={(e) => handleCheckboxChange(e)}/>Medium</ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'light' value = 'low' onChange={(e) => handleCheckboxChange(e)} />Dark</ListItem>
-            </List>
-
-            </CategoryColumn>
-
-            <ProductGridWrapper>
-               {array.length > 0 ? array.map((item) => (
-                <ProductCard key = {item.id} onClick={() => navigate(`/products/${item.id}`)}>
-                    <ProductImg key = {item.image} src = {item.image} alt = 'Product Image' />
-                    
-                    <ProductInfo key = {item.id}>
-                        <ProductName key = {item.name}>{item.name}</ProductName>
-                        <Reviews key = {item.index} >Overall Reviews</Reviews> 
-                        <Reviews key = {item.reviews}>***** (300)</Reviews>
-                        <ProductPrice key = {item.price}>{`$${price(item.price)}`}</ProductPrice>
-                    </ProductInfo>
-                    </ProductCard>
-                    )): <NoResult>Sorry, no products fit your search</NoResult>}
-
-            </ProductGridWrapper>
-            </PageContentWrapper>
-            </PageWrapper>
-        </PageContainer>
-    </Page>
+        </ProductGridWrapper>
+        </PageContentWrapper>
+        </PageWrapper>
+    </PageContainer>
+</Page>
   )
 }
 
-export default ProductPage
-
+export default Flower

@@ -65,7 +65,6 @@ const CartTitle = styled.div`
 `
 const Line = styled.hr`
   width: 95%;
-
   color: lightgray;
 `
 const CartItems = styled.div`
@@ -79,7 +78,7 @@ const CartItems = styled.div`
 `
 
 const CartCardContainer = styled.div`
-  height: 150px;
+  height: 200px;
   width: 100%;
   overflow: scroll;
   align-items: center;
@@ -92,7 +91,7 @@ const CartCardWrapper = styled.div`
   align-items: center;
   flex-direction: column;
   background-color: white;
-  height: 100%;
+  height: auto;
   width: 97%;
 `
 
