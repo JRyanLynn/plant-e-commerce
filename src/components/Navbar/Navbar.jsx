@@ -4,16 +4,16 @@ import styled from 'styled-components';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 
-import {mobile, tablet, laptop, desktop} from '../../media';
+import { mobile, tablet, laptop, desktop } from '../../media';
 import {Link, useNavigate} from 'react-router-dom';
 import Cart from '../Cart';
-import SearchBar from './SearchBar';
+import SearchBar from './NavComponents/SearchBar';
+import NavBurgerMenu from './NavComponents/NavBurgerMenu';
 
 const Container = styled.div`
-    height: 120px;
-    margin-bottom: 20px;
+    height: 150px;
     z-index: 500;
     background-color: #FEFDFD;
 `;
@@ -21,6 +21,8 @@ const Container = styled.div`
 const Wrapper = styled.div `
     padding: 10px 50px;
     display: flex;
+    height: 50px;
+    width: auto;
     justify-content: space-between;
     align-items: center;
     margin-left: 50px;
@@ -123,18 +125,38 @@ const SignIn = styled.div`
 `
 
 const SignInIcon = styled(AccountCircleIcon)`
+    
 `
 
-const HeartIcon = styled(FavoriteBorderIcon)`
-    margin-right: 20px;
+const MobileCartIconContainer = styled.div`
+${desktop({ 
+  display: 'none'  
+})};
+
+${tablet({ 
+    display: 'none'  
+  })};
+
+  ${laptop({ 
+    display: 'none'  
+  })},
 `
 
+const FullScreenIconContainer = styled.div`
+${mobile({ 
+    display: 'none',
+})},
+`
+
+const MobileCartLink = styled(ShoppingCartOutlinedIcon)`
+`
+const FullScreenCartLink = styled(ShoppingCartOutlinedIcon)`
+   
+`
 const MenuItem = styled.div`
-    font-size: 14px;
+    font-size: 16px;
     cursor: pointer;
     margin-left: 25px;
-    padding-right: 20px;
-    font-size: 18px;
     &:hover{
         text-decoration: underline;
     }
@@ -148,6 +170,7 @@ const MenuItem = styled.div`
 
 const Bottom = styled.div`
     display: flex;
+    height: 20px;
     justify-content: space-between;
     align-items: center;
     padding: 0px 40px;
@@ -161,21 +184,12 @@ const Bottom = styled.div`
     })};
 `
 
-const BurgerToggle = styled.div`
-${mobile({
-    border: '0.5px solid lightgray',
-    padding: '10px',
-    zIndex: '999',
-    justifyContent: 'center',
-    alignItems: 'stretch',
-    display: 'flex',
-    flexDirection: 'column',
-    position: 'absolute',
-    backgroundColor: 'white',
-    top: '78px',
-    left: '17px',
-    zIndex: '1000'
-})}
+const DividerLine = styled.hr`
+    width: 100%;
+    color: #CCD3C2;
+    ${mobile({
+        display: 'none'
+    })};
 `
 
 const CartToggle = styled.div`
@@ -193,10 +207,17 @@ const RouterLink = styled(Link)`
   color: black;
 `
 const Navbar = () => {
-    const [show, setShow] = useState(false);
     const [logIn, setLogIn] = useState(false);
     const [cart, setCart] = useState(false);
+    const [show, setShow] = useState(false);
+    
+    const navigate = useNavigate();
 
+    //closes element when outside of sort element is clicked
+    const handleClickAway = () => {
+        setCart(false);
+      };
+    
   return (
     <Container>
         <Wrapper>
@@ -214,23 +235,33 @@ const Navbar = () => {
             </Center>
 
             <Right>
-                <HeartIcon />
                 
-                <SignInIcon style = {{fontWeight: '600'}} onClick = {() => setLogIn(!logIn)} onMouseOver = {() => setLogIn(!logIn)} onMouseOut = {() => setLogIn(logIn)}></SignInIcon>
+                <SignInIcon onClick = {() => setLogIn(!logIn)} onMouseOver = {() => setLogIn(!logIn)} onMouseOut = {() => setLogIn(logIn)}></SignInIcon>
                 <MenuItem>
 
-                <ShoppingCartOutlinedIcon onClick = {() => setCart(!cart)} onMouseEnter = {() => setCart(cart)} onMouseLeave = {() => setCart(!cart)}/>
+                <FullScreenIconContainer>
+                <FullScreenCartLink onClick = {() => setCart(!cart)}/>
+                </FullScreenIconContainer>
+                
+                <MobileCartIconContainer>
+                <RouterLink to = '/cart'>
+                <MobileCartLink />
+                </RouterLink>
+                </MobileCartIconContainer>
                 </MenuItem>
             </Right>
             </Wrapper>
+
+         <DividerLine />   
         <Bottom>
             <MenuItem><RouterLink to = '/'>Home</RouterLink></MenuItem>
-            <MenuItem><RouterLink to='/flowers/'>Flowers</RouterLink></MenuItem>
-            <MenuItem>Leafy Plants</MenuItem>
-            <MenuItem>Editable</MenuItem>
-            <MenuItem>Herbs</MenuItem>
-            <MenuItem>Easy Plants</MenuItem>
+            <MenuItem  onClick={() => navigate(`/type/${'flower'}`)}>Flowers</MenuItem>
+            <MenuItem onClick={() => navigate(`/type/${'leafy'}`)}>Leafy Plants</MenuItem>
+            <MenuItem onClick={() => navigate(`/type/${'edible'}`)}>Edible</MenuItem>
+            <MenuItem onClick={() => navigate(`/type/herb`)}>Herbs</MenuItem>
+            <MenuItem><RouterLink to = '/easy'>Easy Plants</RouterLink></MenuItem>
         </Bottom>
+        <DividerLine />
 
         {logIn ?
                 <SignIn onMouseEnter = {() => setLogIn(logIn)} onMouseLeave = {() => setLogIn(!logIn)}>
@@ -243,21 +274,16 @@ const Navbar = () => {
                 </SignIn>
         : null}
 
-        {show ? 
-            <BurgerToggle>
-            <MenuItem><RouterLink to = '/'>Home</RouterLink></MenuItem>
-            <MenuItem>Flowers</MenuItem>
-            <MenuItem>Eat</MenuItem>
-            <MenuItem>Leafy</MenuItem>
-            <MenuItem>Herbs</MenuItem>
-            <MenuItem>Easy Plants</MenuItem>
-            </BurgerToggle>
-            : null}
+       {show ? 
+       <NavBurgerMenu /> 
+       : null}
 
         {cart ?
-            <CartToggle onMouseEnter = {() => setCart(cart)} onMouseLeave = {() => setCart(!cart)} >
+            <ClickAwayListener onClickAway={handleClickAway}>
+            <CartToggle >
             <Cart /> 
             </CartToggle>
+            </ClickAwayListener>
         : null} 
 
     </Container>

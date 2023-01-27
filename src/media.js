@@ -6,7 +6,7 @@ export const mobile = (props) => {
        ${props}
     }
     `
-}
+};
 
 export const tablet = (props) => {
     return css `
@@ -14,23 +14,23 @@ export const tablet = (props) => {
         ${props}
      }
     `
-}
+};
 
 export const laptop = (props) => {
     return css `
-    @media only screen and (max-width: 1440px) {
+    @media (min-width: 850px) and (max-width: 1440px) {
         ${props}
      }
     `
-}
+};
 
 export const desktop = (props) => {
     return css `
-    @media only screen and (max-width: 2560px) {
+    @media (min-width: 1450px) and (max-width: 2560px) {
         ${props}
      }
     `
-}
+};
 
 
    

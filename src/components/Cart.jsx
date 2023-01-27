@@ -1,80 +1,57 @@
 import React from 'react';
 import styled from 'styled-components';
 import Card from './ProductCard';
-import { mobile, tablet, laptop, desktop} from '../media';
+import { mobile, tablet} from '../media';
 import { Link } from "react-router-dom";
 import { useSelector } from 'react-redux';
-
-
 
 const CartContainer = styled.div`
   width: 300px;
   height: 100%;
   z-index: 1000;
   position: absolute;
-  right: 100px;
-  top: 148px;
+  right: 10px;
+  top: 125px;
+  font-family: Arial;
+  color: #1B1212;
   display: flex;
   height: auto;
+  background-color: #F5F5F5;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   float: right;
-  border: 0.5px solid lightgray;
-  background-color: white;
-  ${mobile({ 
-    width: '60%',
-    position: 'absolute',
-    top: '75px',
-    left: '140px',
-    height: 'auto'
-})}
-`
-const CartTitleBanner = styled.div`
-  display: flex;
-  height: 100%;
-  width: 100%;
-  font-size: 24px;
-  ${mobile({ 
-    fontSize: '14px'
-})};
+  border: 0.5px solid #CCD3C2;
+  box-shadow:
+  0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+  0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+  0 12.5px 10px rgba(0, 0, 0, 0.06),
+  0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+  0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+  0 100px 80px rgba(0, 0, 0, 0.12);
 `
 
 const BannerContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  padding-top: 20px;
   width: 100%;
   height: 100%;
-  background-color: white;
-  ${mobile({ 
-    fontSize: '16px'
-  })};
-`
-const CartTitle = styled.div`
-  display: flex;
-  flex: 1;
-  padding-left: 10px;
+  justify-content: flex-start;
   align-items: center;
-  justify-contents: center;
+  margin-left: 20px;
+`
+const CartTitle = styled.h1`
+  display: flex;
   font-weight: 600;
   font-size: 24px;
-  margin-top: -10px;
+  margin-left: 5px;
 `
-const Line = styled.hr`
-  width: 95%;
-  color: lightgray;
-`
-const CartItems = styled.div`
+const CartItems = styled.h2`
   display: flex;
-  flex: 1;
-  width: 95%;
-  padding-bottom: 10px;
-  padding-left: 10px;
-  background-color: white;
-  font-size: 16px;
+  font-size: 20px;
+  padding-left: 5px;
+  background-color: #F5F5F5;
+  font-weight: 500;
 `
 
 const CartCardContainer = styled.div`
@@ -82,6 +59,7 @@ const CartCardContainer = styled.div`
   width: 100%;
   overflow: scroll;
   align-items: center;
+  background-color: #F5F5F5;
   justify-content: center;
 `
 
@@ -90,7 +68,7 @@ const CartCardWrapper = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-color: white;
+  background-color: #F5F5F5;
   height: auto;
   width: 97%;
 `
@@ -98,6 +76,7 @@ const CartCardWrapper = styled.div`
 const CartEmpty = styled.h2`
   font-size: 16px;
   font-weight: 500;
+  background-color: #F5F5F5;
 `
 
 const CheckOutContainer = styled.div`
@@ -105,8 +84,7 @@ const CheckOutContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: white;
-  border: 0.5px solid lightgray;
+  background-color: #F5F5F5;
   width: 100%;
   height: 100%;
 `
@@ -115,11 +93,9 @@ const InfoBanner = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  background-color: white;
+  background-color: #F5F5F5;
   font-weight: 500;
-  ${mobile({ 
-    fontSize: '14px'
-})};
+  margin-top: 10px;
 `
 const Info = styled.p`
   font-size: 14px;
@@ -128,13 +104,10 @@ const Info = styled.p`
 const PricingInfo = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 99%;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
-  ${mobile({ 
-    fontSize: '14px'
-  })};
+  font-size: 16px;
 `
 
 const PricingDetailRow = styled.div` 
@@ -165,13 +138,9 @@ display: flex;
 flex-direction: row;
 align-items: center;
 justify-content: center;
-background-color: white;
+background-color: #F5F5F5;
 width: 90%;
 margin-top: 10px;
-${mobile({ 
-  height: 'auto',
-  width: '200px'
-})};
 `
 const CheckoutButtons = styled.button`
 display: flex;
@@ -181,10 +150,7 @@ text-align: center;
 height: 40px;
 margin-right: 10px;
 width: 90%;
-${mobile({ 
-  height: '25px',
-  width: '90px'
-})};
+cursor: pointer;
 `
 
 const RouterLink = styled(Link)`
@@ -202,15 +168,10 @@ const Cart = () => {
   return (
      <CartContainer>  
 
-      <CartTitleBanner>
         <BannerContainer>
           <CartTitle>Cart</CartTitle>
+          <CartItems>({cardQuantity})</CartItems>
         </BannerContainer>
-      </CartTitleBanner>
-
-      <Line />
-
-      <CartItems>Items ({cardQuantity})</CartItems>
 
       <CartCardContainer>
      <CartCardWrapper>
@@ -227,12 +188,12 @@ const Cart = () => {
         </PricingInfo>
 
         <ButtonBank>
-          <CheckoutButtons style = {{backgroundColor: 'white', border: '1.5px solid lightgray'}}>
+          <CheckoutButtons style = {{backgroundColor: '#FEFDFD', border: '1.5px solid #CCD3C2'}}>
             <RouterLink to = '/cart'>
             Full Cart
             </RouterLink>
             </CheckoutButtons>
-          <CheckoutButtons style = {{fontWeight: '600', color: 'white', backgroundColor: 'green', border: '1px solid lightgray'}}>Check Out</CheckoutButtons>
+          <CheckoutButtons style = {{fontWeight: '600', color: '#FEFDFD', backgroundColor: '#517A3E', border: '1.5px solid #CCD3C2'}}>Check Out</CheckoutButtons>
         </ButtonBank>
 
         <InfoBanner>

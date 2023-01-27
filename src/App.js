@@ -1,14 +1,13 @@
 import './App.css';
 import Cart from './components/Cart';
 import Navbar from './components/Navbar/Navbar';
-import Test from './components/Test';
 import FullCart from './pages/FullCart';
 import Home from './pages/Home';
 import ProductPage from './pages/ProductPage';
 import Card from './components/ProductCard';
 import ProductView from './pages/ProductView';
 import Footer from './components/Footer';
-import Flower from './pages/ProductPages/Flower';
+import PlantTypes from './pages/ProductPages/PlantTypes';
 
 import {
   createBrowserRouter,
@@ -16,6 +15,7 @@ import {
   Route,
   Outlet,
 } from 'react-router-dom'
+import EasyPlants from './pages/ProductPages/EasyPlants';
 
 
 const Layout = () => {
@@ -44,8 +44,13 @@ const router = createBrowserRouter([
     },
 
     {
-      path: '/flowers',
-      element: <Flower />
+      path: '/type/:type',
+      element: <PlantTypes />,
+    },
+
+    {
+      path: '/easy',
+      element: <EasyPlants />
     },
 
     {

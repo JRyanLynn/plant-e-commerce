@@ -2,7 +2,7 @@ import React, { useEffect, useState} from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams} from 'react-router-dom';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { productArray } from '../data';
+import { productArray } from '../../data';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { Rating } from '@mui/material';
 
@@ -20,7 +20,6 @@ const PageContainer = styled.div`
     height: 100%;
     justify-content: center;
     align-items: center;
-    margin-top: -10px;
 `
 
 const PageWrapper = styled.div`
@@ -230,60 +229,53 @@ const ProductPrice = styled.p`
     margin-top: -3px;
 `
 
-const ProductPage = () => {
+const PlantTypes = () => {
 
-   const navigate = useNavigate();
+//array sorting values found in handle click and useEffect
+const [sort, setSort] = useState(false);
+const [careTypes, setCareTypes] = useState([]);
+const [lightTypes, setLightTypes] = useState([]);
+const [categoryTypes, setCategoryTypes] = useState([]);
+const [array, setArray] = useState(productArray);
 
-   const {id} = useParams();
+//states for loading screen
+const [isLoading, setIsLoading] = useState(false);
+const [screenOpacity, setScreenOpacity] = useState(1);
 
+//React Routing
+const {type} = useParams();
+const navigate = useNavigate();
 
-    //for sort dropdown
-    const [sort, setSort] = useState(false);
-    const [careTypes, setCareTypes] = useState([]);
-    const [lightTypes, setLightTypes] = useState([]);
-    const [categoryTypes, setCategoryTypes] = useState([]);
-    const [array, setArray] = useState(productArray);
+const handleCheckboxChange = (event) => {
+    setIsLoading(!isLoading) 
+    if (event.target.name === 'care') {
+        if (event.target.checked) {
+            setCareTypes([...careTypes, event.target.value])
+        } else {setCareTypes(careTypes.filter(filter => filter !== event.target.value))}
+    } else if (event.target.name  === 'light') {
+        if (event.target.checked) {
+            setLightTypes([...lightTypes, event.target.value])
+        } else {setLightTypes(lightTypes.filter(filter => filter !== event.target.value))}
+    } 
+};
 
-    //states for loading screen
-    const [isLoading, setIsLoading] = useState(false);
-    const [screenOpacity, setScreenOpacity] = useState(1);
+useEffect (() => {
+   if (isLoading) {
+     setScreenOpacity(0);
+    } else {
+      setScreenOpacity(1);
+    }
+    const filtered = productArray.filter(product => {
+        return (careTypes.length  === 0 || careTypes.includes(product.care)) &&
+                (lightTypes.length  === 0 || lightTypes.includes(product.light)) &&
+                (categoryTypes.length  === 0 || categoryTypes.includes(product.category) || categoryTypes.includes(product.type)) 
+    });
+    setTimeout(() => {
+        setIsLoading(false);
+    }, 200);
+    setArray(filtered.filter(product => product.category === type || product.type === type));
+}, [careTypes, lightTypes, categoryTypes, isLoading, type]);
 
-    //combines checkbox values based on object array category clusters
-    const handleCheckboxChange = (event) => {
-        setIsLoading(!isLoading) 
-        if (event.target.name === 'care') {
-            if (event.target.checked) {
-                setCareTypes([...careTypes, event.target.value])
-            } else {setCareTypes(careTypes.filter(filter => filter !== event.target.value))}
-        } else if (event.target.name  === 'light') {
-            if (event.target.checked) {
-                setLightTypes([...lightTypes, event.target.value])
-            } else {setLightTypes(lightTypes.filter(filter => filter !== event.target.value))}
-        } else if (event.target.name === 'category' || event.target.name === 'type') {
-            if (event.target.checked) {
-                setCategoryTypes([...categoryTypes, event.target.value])
-            } else {setCategoryTypes(categoryTypes.filter(filter => filter !== event.target.value))}
-        }
-
-    };
-    
-    useEffect (() => {
-        if (isLoading) {
-            setScreenOpacity(0);
-           } else {
-             setScreenOpacity(1);
-           }
-        const filtered = productArray.filter(product => {
-            return (careTypes.length  === 0 || careTypes.includes(product.care)) &&
-                    (lightTypes.length  === 0 || lightTypes.includes(product.light)) &&
-                    (categoryTypes.length  === 0 || categoryTypes.includes(product.category) || categoryTypes.includes(product.type)) 
-        });
-        setArray(filtered);
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 200);
-    }, [careTypes, lightTypes, categoryTypes, isLoading]);
-    
     //filters for sort values
     const hiLow = () => {
         let sortedArray = [...array];
@@ -302,16 +294,15 @@ const ProductPage = () => {
         setSort(false);
       };
 
-      let price = (number) => {return number.toFixed(2)};
-
+      let price = (number) => {return number.toFixed(2)};   
 
   return (
     <Page>
-        <PageContainer>
-            <PageWrapper>
-            <SortWrapper>
+    <PageContainer>
+        <PageWrapper>
+        <SortWrapper>
         <SortButtonRow>
-            <ListTitle style = {{fontSize: '28px'}}>All Plants</ListTitle>
+            <ListTitle style = {{fontSize: '28px'}}>{type.replace(/\b[a-z]/g, (match) => match.toUpperCase())}</ListTitle>
             <SortComponentContainer>
             <SortButton onClick = {() => setSort(!sort)}>Sort <SortDownArrow /></SortButton>
             {sort?
@@ -327,59 +318,52 @@ const ProductPage = () => {
             </SortButtonRow>
             </SortWrapper>
         <PageContentWrapper>
-            <CategoryColumn>
+        <CategoryColumn>
 
-            <List>
-                <ListItem><ListTitle>Type</ListTitle></ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'category' value = 'flower' onChange={(e) => handleCheckboxChange(e)} />Flower</ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'category' value = 'leafy' onChange={(e) => handleCheckboxChange(e)}/>Leafy</ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'category' value = 'edible' onChange={(e) => handleCheckboxChange(e)}/>Edible</ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'type' value = 'herb' onChange={(e) => handleCheckboxChange(e)} />Herb</ListItem>
-            </List>
-            <BreakLine />
+        <List>
+            <ListItem><ListTitle>Care Type</ListTitle></ListItem>
+            <ListItem><ListInput type= 'checkbox' name = 'care' value = 'easy' onChange={(e) => handleCheckboxChange(e)}/>Easy</ListItem>
+            <ListItem><ListInput type = 'checkbox' name = 'care' value = 'medium'  onChange={(e) => handleCheckboxChange(e)} />Medium</ListItem>
+            <ListItem><ListInput type = 'checkbox' name = 'care' value = 'difficult'  onChange={(e) => handleCheckboxChange(e)}/>Special Care</ListItem>
+        </List>
 
-            <List>
-                <ListItem><ListTitle>Care Type</ListTitle></ListItem>
-                <ListItem><ListInput type= 'checkbox' name = 'care' value = 'easy' onChange={(e) => handleCheckboxChange(e)}/>Easy</ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'care' value = 'medium'  onChange={(e) => handleCheckboxChange(e)} />Medium</ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'care' value = 'difficult'  onChange={(e) => handleCheckboxChange(e)}/>Special Care</ListItem>
-            </List>
+        <BreakLine />
+        <List>
+            <ListItem><ListTitle>Light</ListTitle></ListItem>
+            <ListItem><ListInput type = 'checkbox' name = 'light' value = 'bright' onChange={(e) => handleCheckboxChange(e)} />Bright</ListItem>
+            <ListItem><ListInput type = 'checkbox' name = 'light' value = 'medium' onChange={(e) => handleCheckboxChange(e)}/>Medium</ListItem>
+            <ListItem><ListInput type = 'checkbox' name = 'light' value = 'low' onChange={(e) => handleCheckboxChange(e)} />Dark</ListItem>
+        </List>
 
-            <BreakLine />
-            <List>
-                <ListItem><ListTitle>Light</ListTitle></ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'light' value = 'bright' onChange={(e) => handleCheckboxChange(e)}/>Bright</ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'light' value = 'medium' onChange={(e) => handleCheckboxChange(e)}/>Medium</ListItem>
-                <ListItem><ListInput type = 'checkbox' name = 'light' value = 'low' onChange={(e) => handleCheckboxChange(e)} />Dark</ListItem>
-            </List>
+        </CategoryColumn>
 
-            </CategoryColumn>
+        <ProductGridWrapper style={{ opacity: screenOpacity }}>
+           {array.length > 0 ? array.map((item) => (
+           <ProductCard key ={item.id} 
+                        onClick={() => navigate(`/products/${item.id}`)}
+                        >
+                 <ProductImg key = {item.image} src = {item.image} alt = 'Product Image' />
+                
+                <ProductInfo key = {item.id}>
+                    <ProductName key = {item.name}>{item.name}</ProductName>
+                   
+                    <Reviews key = {item.reviews}>
+                        <ReviewContainer>
+                        <Rating style = {{}} name="read-only" readOnly  size="small"/>
+                        <ReviewText>(100)</ReviewText>
+                    </ReviewContainer>
+                    </Reviews>
+                    <ProductPrice key = {item.price}>{`$${price(item.price)}`}</ProductPrice>
+                </ProductInfo> 
+                </ProductCard> 
+                )) : <NoResult>Sorry, no items found</NoResult>}
 
-            <ProductGridWrapper style={{ opacity: screenOpacity }}>
-               {array.length > 0 ? array.map((item) => (
-                <ProductCard key = {item.id} onClick={() => navigate(`/products/${item.id}`)}>
-                    <ProductImg key = {item.image} src = {item.image} alt = 'Product Image' />
-                    
-                    <ProductInfo key = {item.id}>
-                        <ProductName key = {item.name}>{item.name}</ProductName>
-                        <Reviews key = {item.reviews}>
-                            <ReviewContainer>
-                            <Rating style = {{}} name="read-only" readOnly  size="small"/>
-                            <ReviewText>(100)</ReviewText>
-                            </ReviewContainer>
-                        </Reviews>
-                        <ProductPrice key = {item.price}>{`$${price(item.price)}`}</ProductPrice>
-                    </ProductInfo>
-                    </ProductCard>
-                    )): <NoResult>Sorry, no products fit your search</NoResult>}
-
-            </ProductGridWrapper>
-            </PageContentWrapper>
-            </PageWrapper>
-        </PageContainer>
-    </Page>
+        </ProductGridWrapper> 
+        </PageContentWrapper>
+        </PageWrapper>
+    </PageContainer>
+</Page>
   )
 }
 
-export default ProductPage
-
+export default PlantTypes;

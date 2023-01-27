@@ -7,7 +7,6 @@ import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined';
 import WaterOutlinedIcon from '@mui/icons-material/WaterOutlined';
 import ThermostatOutlinedIcon from '@mui/icons-material/ThermostatOutlined';
 import GrassOutlinedIcon from '@mui/icons-material/GrassOutlined';
-import GradeOutlinedIcon from '@mui/icons-material/GradeOutlined';
 import { Rating } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../redux/cartReducer';

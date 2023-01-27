@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
-import { productArray } from '../../data';
+import { productArray } from '../../../data';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 
 import SearchIcon from '@mui/icons-material/Search';
@@ -43,12 +43,11 @@ const SearchResultContainer = styled.div`
     justify-content: center;
     top: 150;
     width: 450px;
-    margin-left: 50px;
     height: auto;
+    margin-left: 50px;
     border: 0.5px solid #CCD3C2;
     z-index: 999;
     background-color: #FEFDFD;
-    margin-bottom: 10px;
     box-shadow:
     0 2.8px 2.2px rgba(0, 0, 0, 0.034),
     0 6.7px 5.3px rgba(0, 0, 0, 0.048),
@@ -90,7 +89,7 @@ const SearchBar = () => {
     <>
     <SearchContainer>
     <InputRow>
-   <Input style = {{width: "450px"}} placeholder="Search For Plants You Love" onChange={e => {setSearchResults(e.target.value); setSearchResultBox(true)}} />
+   <Input style = {{width: "450px"}} placeholder="Search For Plants You Love" onChange={e => {setSearchResults((e.target.value).toLowerCase()); setSearchResultBox(true)}} />
    <QueryIcon />
    </InputRow>
 
