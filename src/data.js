@@ -14,7 +14,7 @@ const productArray =
     water: 'Every 2-4 weeks or when soil is dry',
     environment: 'Warm Climate',
     quantity: 100,
-    sold: 0,
+    sold: 30,
     saleFrequency: 0
 },
 
@@ -32,7 +32,7 @@ const productArray =
     light: 'bright',
     water: 'Keep soil moist',
     environment: 'Warm Climate',
-    quantity: 50,
+    quantity: 0,
     sold: 0,
     saleFrequency: 0
 },
@@ -204,7 +204,7 @@ const productArray =
     water: 'Keep moist',
     environment: 'Tolerant of temperatures as low as 50 degrees',
     quantity: 25,
-    sold: 0,
+    sold: 20,
     saleFrequency: 0
 },
 
@@ -261,7 +261,7 @@ const productArray =
     water: 'Allow soil to dry out between waterings',
     environment: 'Tolerant of temperatures as low as 65 degrees and requires extra humidity',
     quantity: 25,
-    sold: 0,
+    sold: 80,
     saleFrequency: 0
 },
 
@@ -337,7 +337,7 @@ const productArray =
     water: 'When soil is dry',
     environment: 'Tolerant of temperatures as low as 40 degrees',
     quantity: 9,
-    sold: 0,
+    sold: 60,
     saleFrequency: 0
 },
 
@@ -451,7 +451,7 @@ const productArray =
     water: 'Allow soil to dry out between waterings',
     environment: 'Temperatures as low as 60 degrees',
     quantity: 34,
-    sold: 0,
+    sold: 120,
     saleFrequency: 0
 },
 
@@ -508,7 +508,7 @@ const productArray =
     water: 'Keep soil moist',
     environment: 'Temperatures as low as 15 degrees',
     quantity: 24,
-    sold: 0,
+    sold: 300,
     saleFrequency: 0
 },
 
@@ -527,7 +527,7 @@ const productArray =
     water: 'Keep soil moist',
     environment: 'Frost tolerant',
     quantity: 2,
-    sold: 0,
+    sold: 100,
     saleFrequency: 0
 },
 

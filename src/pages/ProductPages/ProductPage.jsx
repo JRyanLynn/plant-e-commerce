@@ -390,9 +390,6 @@ const ProductPage = () => {
 
    const navigate = useNavigate();
 
-   const {id} = useParams();
-
-
     //for sort dropdown
     const [sort, setSort] = useState(false);
     const [careTypes, setCareTypes] = useState([]);
@@ -468,7 +465,7 @@ const ProductPage = () => {
             <PageWrapper>
             <SortWrapper>
         <SortButtonRow>
-            <ListTitle style = {{fontSize: '28px'}}>All Plants</ListTitle>
+            <SortListTitle>All Plants</SortListTitle>
             <SortComponentContainer>
             <SortButton onClick = {() => setSort(!sort)}>Sort <SortDownArrow /></SortButton>
             {sort?

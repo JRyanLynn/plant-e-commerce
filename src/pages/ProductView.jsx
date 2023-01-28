@@ -99,21 +99,6 @@ const Price = styled.h2`
 
 `
 
-const Discount = styled.h3`
-    font-size: 18px;
-    font-weight: 500;
-    text-decoration: line-through;
-    color: gray;
-    margin-left: 5px;
-    margin-right: 5px;
-`
-
-const DiscountRate = styled.h3`
-    font-size: 18px;
-    font-weight: 500;
-    color: red;
-`
-
 const ReviewContainer = styled.div`
     Display: flex;
     align-items: center;

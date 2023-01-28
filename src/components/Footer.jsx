@@ -1,84 +1,144 @@
 import React from 'react';
-import styled from 'styled-components';
-import { mobile, tablet, laptop, desktop} from '../media';
+import styled from "styled-components";
+import { mobile } from '../media';
 
-const Wrapper = styled.div`
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import PhoneIcon from '@mui/icons-material/Phone';
+import PinterestIcon from '@mui/icons-material/Pinterest';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import BusinessIcon from '@mui/icons-material/Business';
+
+  
+  const Container = styled.div`
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin-top: 5px;
-    padding-bottom: 5px;
-    background-color: white;
-    width: 100%;
-    height: 100%;
-    ${mobile({ 
-    width: '100%'
-    })};
-`
-
-const FooterElement = styled.div`
+    font-family: Arial;
+    ${mobile({ flexDirection: "column" })}
+  `;
+  
+  const Left = styled.div`
+    flex: 1;
     display: flex;
     flex-direction: column;
+    padding: 20px;
+  `;
+  
+  const Logo = styled.h1``;
+  
+  const Desc = styled.p`
+    margin: 20px 0px;
+  `;
+  
+  const SocialContainer = styled.div`
+    display: flex;
+  `;
+  
+  const SocialIcon = styled.div`
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: white;
+    background-color: #${(props) => props.color};
+    display: flex;
     align-items: center;
-    justify-content: flex-start;
-    flex: 1;
-    width: 100%;
-    height: 150px;
-    align-items: center;
-    background-color: lightgray;
-    ${mobile({ 
-        height: '170px',
-
-    })};
-`
-const TitleContents = styled.h1`
-    fontWeight: bold; 
-    font-size: 20px;
-`
-
-const Contents = styled.a`
-    font-size: 16px;
-    text-align: center;
     justify-content: center;
-    padding-top: 3px;
+    margin-right: 20px;
+  `;
+  
+  const Center = styled.div`
+    flex: 1;
+    padding: 20px;
+    ${mobile({ display: "none" })}
+  `;
+  
+  const Title = styled.h3`
+    margin-bottom: 30px;
+  `;
+  
+  const List = styled.ul`
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+  `;
+  
+  const ListItem = styled.li`
+    width: 50%;
+    margin-bottom: 10px;
+  `;
+  
+  const Right = styled.div`
+    flex: 1;
+    padding: 20px;
+    ${mobile({ backgroundColor: "#fff8f8" })}
+  `;
+  
+  const ContactItem = styled.div`
+    margin-bottom: 20px;
+    display: flex;
     align-items: center;
-    &:hover{
-        text-decoration: underline;
-    }
-    ${mobile({ 
-        fontSize: '13px',
-        textAlign: 'center',
-        padding: '3px'
-    })};
-`
+  `;
+  
+  const Payment = styled.img`
+      width: 50%;
+  `;
 
 const Footer = () => {
   return (
-    <Wrapper>
-    <FooterElement>
-        <TitleContents>About</TitleContents>
-        <Contents>Mission</Contents>
-        <Contents>Farmers</Contents>
-        <Contents>FAQs</Contents>
-        <Contents>Blog</Contents>
-    </FooterElement>
-
-    <FooterElement>
-        <TitleContents>Need Help</TitleContents>
-        <Contents>Order Issues</Contents>
-        <Contents>Get a Refund</Contents>
-        <Contents>Talk to Customer Service</Contents>
-    </FooterElement>
-
-    <FooterElement>
-        <TitleContents>Contact</TitleContents>
-        <Contents>1800-111-1111</Contents>
-        <Contents>Denver, CO</Contents>
-        <Contents>email@address.com</Contents>
-    </FooterElement>
-    </Wrapper>
-
+    <Container>
+    <Left>
+      <Logo>Plant Decor</Logo>
+      <Desc>
+        There are many variations of passages of Lorem Ipsum available, but
+        the majority have suffered alteration in some form, by injected
+        humour, or randomised words which don’t look even slightly believable.
+      </Desc>
+      <SocialContainer>
+        <SocialIcon color="3B5999">
+          <FacebookIcon />
+        </SocialIcon>
+        <SocialIcon color="E4405F">
+          <InstagramIcon />
+        </SocialIcon>
+        <SocialIcon color="55ACEE">
+          <TwitterIcon />
+        </SocialIcon>
+        <SocialIcon color="E60023">
+          <PinterestIcon />
+        </SocialIcon>
+      </SocialContainer>
+    </Left>
+    <Center>
+      <Title>Useful Links</Title>
+      <List>
+        <ListItem>Home</ListItem>
+        <ListItem>Cart</ListItem>
+        <ListItem>All Plants</ListItem>
+        <ListItem>Herbs</ListItem>
+        <ListItem>Flowers</ListItem>
+        <ListItem>Leafy Plants</ListItem>
+        <ListItem>Edible Plants</ListItem>
+        <ListItem>Easy Plants</ListItem>
+        <ListItem>By Light Requirement</ListItem>
+        <ListItem>Terms</ListItem>
+      </List>
+    </Center>
+    <Right>
+      <Title>Contact</Title>
+      <ContactItem>
+        <BusinessIcon style={{marginRight:"10px"}}/> 2121 Ocean Lane - Denver, Co 97202
+      </ContactItem>
+      <ContactItem>
+        <PhoneIcon style={{marginRight:"10px"}}/> +1-800-666-6666
+      </ContactItem>
+      <ContactItem>
+        <MailOutlineIcon style={{marginRight:"10px"}} /> contact@plants.com
+      </ContactItem>
+      <Payment src="https://i.ibb.co/Qfvn4z6/payment.png" />
+    </Right>
+  </Container>
   )
 }
 

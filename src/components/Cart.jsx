@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import Card from './ProductCard';
-import { mobile, tablet} from '../media';
 import { Link } from "react-router-dom";
 import { useSelector } from 'react-redux';
 

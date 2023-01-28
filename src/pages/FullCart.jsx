@@ -1,9 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import Footer from '../components/Footer';
-import Navbar from '../components/Navbar/Navbar'
 import Card from '../components/ProductCard';
-import { mobile, tablet, laptop, desktop} from '../media';
+import { mobile, tablet} from '../media';
 import { useSelector } from 'react-redux';
 
 const PageContainer = styled.div`

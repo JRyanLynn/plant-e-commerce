@@ -469,7 +469,7 @@ const EasyPlants = () => {
             <PageWrapper>
             <SortWrapper>
         <SortButtonRow>
-            <ListTitle style = {{fontSize: '28px'}}>Easy Plants</ListTitle>
+            <SortListTitle>Easy Plants</SortListTitle>
             <SortComponentContainer>
             <SortButton onClick = {() => setSort(!sort)}>Sort <SortDownArrow /></SortButton>
             {sort?

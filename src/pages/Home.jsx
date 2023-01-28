@@ -1,125 +1,179 @@
-import { alignProperty } from "@mui/material/styles/cssUtils";
-import { fontSize } from "@mui/system";
 import React from "react";
 import styled from "styled-components";
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar/Navbar";
-import { mobile, tablet, laptop, desktop} from '../media';
+import { mobile, tablet} from '../media';
 import { Link } from "react-router-dom";
+import { productArray } from "../data";
 
 const PageContainer = styled.div`
     width: 100%;
     height: 100%;
-    align-items: center;
-    justify-content: center;
+    font-family: Arial;
+    background-color: #FEFDFD;
+    color: #1B1212;
+    margin-top: -33px;
+    ${mobile({ 
+        margin: '0px'
+    })};
 `
 
 const HeroContainer = styled.div`
     display: flex;
-    z-index: 500;
-    align-items: center;
-    justify-content: center;
     height: 100%;
     width: 100%;
 `
 
 const HeroWrapper = styled.div`
     display: flex;
-    position: relative;
     width: 100%;
-    z-index: 0;
-    margin-left: 100px;
-    margin-right: 100px;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
     height: 500px;
+    background-color: #F6F6F7;
     ${mobile({ 
-        width: 'auto',
-        maxHeight: '300px',
+        width: '100%',
+        height: '300px',
         margin: '0',
         marginTop: '-70px'
+    })};
+`
+const HeroImgContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 500px;
+    margin-left: 25px;
+    ${mobile({ 
+        height: '300px',
+        marginLeft: '10px'
+    })};
+    ${tablet({ 
+        marginLeft: '10px'
     })};
 `
 
 const HeroImage = styled.img`
     display: flex;
-    align-items: center;
-    justify-content: center;
     height: 100%;
-    width: 95%;
+    width: 100%;
 `
+
 const HeroAdContainer = styled.div`
     display: flex;
-    position: absolute;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: black;
-    margin-top: 100px;
     width: 50%;
-    height: 50%;
+    height: 60%;
     ${mobile({ 
-        marginTop: '-30px',
-        marginBottom: '-20px'
+       
     })};
 `
 
+const HeroTitleRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    height: 70px;
+    width: 100%;
+    ${mobile({ 
+       marginLeft: '3px',
+       height: '30px',
+    })};
+    ${tablet({ 
+        marginLeft: '3px',
+        height: '50px',
+     })};
+`
+
 const HeroTitle = styled.h1`
-    text-align: center;
-    color: white;
-    background: rgba(0,0,0,0.5);
-    margin-top: 35px;
-    font-size: 40px;
+    color: #1B1212;
+    font-size: 50px;
+    font-weight: 600;
+    margin-left: 20px;
+    ${mobile({ 
+        fontSize: '20px',
+        marginLeft: '2px'
+    })};
+    ${tablet({ 
+        fontSize: '30px',
+        marginLeft: '5px'
+    })};
+`
+
+const HeroSubText = styled.p`
+    color: #1B1212;
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 25px;
+    margin-top: 30px;
+    ${mobile({ 
+       marginTop: '10px',
+       fontSize: '9px',
+       marginLeft: '5px'
+    })};
+    ${tablet({ 
+        marginTop: '20px',
+        fontSize: '12px',
+        marginLeft: '10px'
+     })};
 `
 
 const HeroButtonContainer = styled.div`
     display: flex;
     flex-direction: row;
-    height: 100%;
+    margin-left: 20px;
+    margin-top: 20px;
+    height: auto;
     width: 100%;
-    margin-top: -90px;
-    align-items: center;
-    justify-content: center;
     ${mobile({ 
-        marginTop: '5px'
+        marginLeft: '5px'
+    })};
+    ${tablet({ 
+        marginLeft: '10px'
     })};
 `
 
 const HeroButton = styled.button`
     display: flex;
     font-size: 20px;
-    width: 180px;
-    height: 40px;
+    width: auto;
+    height: auto;
+    padding: 8px;
     align-items: center;
     justify-content: center;
-    background-color: white;
-    border: 1px solid black;
+    background-color: #517A3E;
+    border: 1px solid #1B1212;
+    color: #FEFDFD;
+    font-weight: 600;
+    ${mobile({ 
+        height: '30px',
+        width: 'auto',
+        fontSize: '12px'
+    })};
+    ${tablet({ 
+        height: 'auto',
+        width: 'auto',
+        fontSize: '16px',
+        padding: '5px'
+    })};
 `
 
-const Container = styled.div`
+
+
+const CategoryContainer = styled.div`
     display: flex;
     margin-top: 10px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: auto;
+    height: 100;
 `
 
-const Wrapper = styled.div`
+const CategoryWrapper = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     margin-top: 5px;
     padding-bottom: 5px;
-    background-color: white;
-    width: 83%;
+    width: 100%;
     height: 100%;
-    ${mobile({ 
-    width: '100%'
-    })};
 `
 
 const Banner = styled.div`
@@ -128,7 +182,7 @@ const Banner = styled.div`
     justify-content: space-between;
     flex-direction: row;
     height: auto;
-    width: 70%;
+    width: 100%;
     background-color: white;
 `
 
@@ -138,6 +192,7 @@ const BannerTitle = styled.h1`
     font-size: 26px;
     justify-content: flex-start;
     align-items: center;
+    margin-left: 10px;
     ${mobile({ 
         fontSize: '16px',
         marginBottom: '10px',
@@ -149,31 +204,26 @@ const BannerButton = styled.button`
     display: flex;
     height: auto;
     width: auto;
-    margin-right: 40px;
-    font-size: 20px;
+    font-size: 16px;
+    color: #FEFDFD;
     padding: 5px;
-    background-color: white;
-    border: 1px solid black;
+    background-color: #517A3E;
+    margin-right: 20px;
     ${mobile({ 
         margin: '0px',
         fontSize: '14px'
     })};
 `
 
-const ImageContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    border: 1px solid lightgray;
-    background-color: white;
-    justify-content: center;
-    align-items: center;
-    margin-right: 10px;
-    margin-top: 5px;
-    border-radius: 5px;
-    height: 260px;
-    width: 360px;
+const CategoryCard = styled.div`
+width: 23%;
+height: 60%;
+background: white;
+margin: 5px;
+border: 1px solid #CCD3C2;
+cursor: pointer;
+text-align: center;
     ${mobile({ 
-        margin: '5px',
         height: '120px',
         width: '100%',
         margin: '0px'
@@ -182,6 +232,7 @@ const ImageContainer = styled.div`
 
 const Name = styled.h1`
     font-size: 26px;
+    font-weight: 500;
     ${mobile({ 
         fontSize: '14px'
     })};
@@ -196,20 +247,9 @@ const Price = styled.p`
 `
 
 const CategoryImage = styled.img`
-    display: flex;
-    height: 100%;
     width: 100%;
-`
-
-const PopularImage = styled.img`
-    display: flex;
-    padding-top: 20px;
-    max-height: 150px;
-    width: auto;
-    ${mobile({ 
-        height: '70px',
-        width: '100%',
-    })};
+    height: 200px;
+    display: block;
 `
 
 const RouterLink = styled(Link)`
@@ -218,116 +258,108 @@ const RouterLink = styled(Link)`
 `
 
 const Home = () => {    
-        const imageArray = 
-            {   
-                id: '1',
-                name: 'Aloe',
-                image: 'https://www.ikea.com/us/en/images/products/aloe-vera-potted-plant-aloe__67410_pe181254_s4.jpg',
-                price: '$4.99',
-                dimensions: '12 inches x 4 inches',
-                category: 'succulent',
-                care: 'easy',
-                light: 'Full sun',
-                water: 'Every 2-4 weeks',
-                environment: 'Warm Climate',
-                quantity: '100'
-            }
-        
     return (
         <PageContainer>
         <HeroContainer >
             <HeroWrapper>
                 <HeroAdContainer>
-                    <HeroTitle>Winter Blues Got You Down?</HeroTitle>
+                
+                
+                <HeroTitleRow>
+                <HeroTitle>Better</HeroTitle>
+                <HeroTitle style = {{color: '#517A3E'}}>Plants</HeroTitle>
+                </HeroTitleRow>
+
+                <HeroTitleRow>
+                <HeroTitle>Better</HeroTitle>
+                <HeroTitle style = {{color: '#517A3E'}}>Decoration</HeroTitle>
+                </HeroTitleRow>
+
+
+                <HeroSubText>Make your furniture green with plants that'll fit any space.</HeroSubText>
+
                     <HeroButtonContainer>
-                        <HeroButton><RouterLink to = 'product/1'>Shop Now</RouterLink></HeroButton>
+                    <RouterLink to = 'product/1'><HeroButton>Shop Now</HeroButton></RouterLink>
                     </HeroButtonContainer>
                 </HeroAdContainer>
-                <HeroImage src = 'https://media-cldnry.s-nbcnews.com/image/upload/newscms/2018_13/2378671/180327-design-interior-ac-632p.jpg'/>
+
+                <HeroImgContainer>
+                <HeroImage src = 'https://media-cldnry.s-nbcnews.com/image/upload/newscms/2018_13/2378671/180327-design-interior-ac-632p.jpg' alt = 'image of room with plants'/>
+                </HeroImgContainer>
             </HeroWrapper>
         </HeroContainer>
 
-        <Container>
+        <CategoryContainer>
             <Banner >
-                <BannerTitle>Plants You'll Love For Less</BannerTitle>
-                <BannerButton>Explore</BannerButton>
+                <BannerTitle>Categories</BannerTitle>
+                <RouterLink to = '/product/1'><BannerButton>Explore</BannerButton></RouterLink>
             </Banner>
-            <Wrapper>
+
+            <CategoryWrapper>
             
-            <ImageContainer>
-                <CategoryImage src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHBJlRUCIZbZd7soSmT2S5acnLt3LNBikXBA&usqp=CAU' />
+            <CategoryCard>
+                <RouterLink to = '/product/herb'>
+                <CategoryImage src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQ7K3U7J09TClMtwppkkqIoMEmkuwtbhHFqQ&usqp=CAU' alt = 'picture for herb category' />
                 <Name>Herbs</Name>
-            </ImageContainer>
+                </RouterLink>
+            </CategoryCard>
+           
 
-            <ImageContainer>
-                <CategoryImage src = 'https://phsonline.org/uploads/attachments/cl27xfo8bhijf8craat53qxqn-paul-thompson-houseplants.0.816.2448.1632.full.jpg' />
-                <Name>Care Type</Name>
-            </ImageContainer>
-
-            <ImageContainer>
-                <CategoryImage src = 'https://www.denverpost.com/wp-content/uploads/2018/05/ap18100411714506-e1525912725340.jpg?w=1024' />
-                <Name>Editable</Name>
-            </ImageContainer>
-            </Wrapper >
-
-            <Wrapper>
-            <ImageContainer>
-                <CategoryImage src = 'https://www.gardeningknowhow.com/wp-content/uploads/2021/07/green-home-houseplants.jpg' />
+            
+            <CategoryCard>
+                <RouterLink to = '/product/edible'>
+                <CategoryImage src = 'https://www.denverpost.com/wp-content/uploads/2018/05/ap18100411714506-e1525912725340.jpg?w=1024' alt = 'picture for the edible category'/>
+                <Name>Edible</Name>
+                </RouterLink>
+            </CategoryCard>
+           
+            
+            <CategoryCard>
+                <RouterLink to = 'product/flower'>
+                <CategoryImage src = 'https://www.gardeningknowhow.com/wp-content/uploads/2021/07/green-home-houseplants.jpg' alt = 'picture for the flower category' />
                 <Name>Flowers</Name>
-            </ImageContainer>
+                </RouterLink>
+            </CategoryCard>
+           
 
-            <ImageContainer>
-                <CategoryImage src = 'https://cdn.5280.com/2021/09/ReRoot_Courtesy-of-Coburn-Huff-__HuffPhoto-306484-960x720.jpg' />
-                <Name>Leafy Plants</Name>
-            </ImageContainer>
+            
+            <CategoryCard>
+                <RouterLink to = 'product/leafy'>
+                <CategoryImage src = 'https://cdn.5280.com/2021/09/ReRoot_Courtesy-of-Coburn-Huff-__HuffPhoto-306484-960x720.jpg' alt = 'picture for the leafy category'/>
+                <Name>Leafy</Name>
+                </RouterLink>
+            </CategoryCard>
+           
 
-            <ImageContainer>
-                <CategoryImage src = 'https://www.popsci.com/uploads/2019/02/08/ODUYL5UEC5M234O7A3TNTM6JHI-1024x768.jpg?auto=webp' />
+            
+            <CategoryCard>
+                <RouterLink to = '/easy'>
+                <CategoryImage src = 'https://www.popsci.com/uploads/2019/02/08/ODUYL5UEC5M234O7A3TNTM6JHI-1024x768.jpg?auto=webp' alt = 'picture for the easy care category' />
                 <Name>Easy Care</Name>
-            </ImageContainer>
-            </Wrapper>
+                </RouterLink>
+            </CategoryCard>
 
-        </Container>
+            </CategoryWrapper>
+        </CategoryContainer>
 
-
-
-        <Container>
                 <Banner>
                     <BannerTitle>Popular Items</BannerTitle>
                     <BannerButton>Shop All</BannerButton>
                 </Banner>
-                <Wrapper>
-                <ImageContainer>
-                    <PopularImage src = {imageArray.image} />
-                    <Name>{imageArray.name}</Name>
-                    <Price>{imageArray.price}</Price>
-                </ImageContainer>
 
-                <ImageContainer>
-                    <PopularImage src = {imageArray.image} />
-                    <Name>{imageArray.name}</Name>
-                    <Price>{imageArray.price}</Price>
-                </ImageContainer>
-
-                <ImageContainer>
-                    <PopularImage src = {imageArray.image} />
-                    <Name>{imageArray.name}</Name>
-                    <Price>{imageArray.price}</Price>
-                </ImageContainer>
-
-                <ImageContainer>
-                    <PopularImage src = {imageArray.image} />
-                    <Name>{imageArray.name}</Name>
-                    <Price>{imageArray.price}</Price>
-                </ImageContainer>
-
-                <ImageContainer>
-                    <PopularImage src = {imageArray.image} />
-                    <Name>{imageArray.name}</Name>
-                    <Price>{imageArray.price}</Price>
-                </ImageContainer>
-                </Wrapper>
-        </Container>
+        <CategoryContainer>
+            <CategoryWrapper>
+       {productArray.sort((a, b) => a.sold - b.sold).slice(-5).map((item) => (
+                <CategoryCard key = {item.id}>
+                <RouterLink to = {`/product/${item.type}`}>
+                    <CategoryImage src = {item.image}  />
+                    <Name>{item.name}</Name>
+                    <Price>${(item.price).toFixed(2)}</Price>
+                </RouterLink>
+                </CategoryCard>
+                ))}
+            </CategoryWrapper>
+         </CategoryContainer>
         </PageContainer>
     )
 }

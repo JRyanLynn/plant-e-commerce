@@ -1,10 +1,8 @@
 import './App.css';
-import Cart from './components/Cart';
 import Navbar from './components/Navbar/Navbar';
 import FullCart from './pages/FullCart';
 import Home from './pages/Home';
 import ProductPage from './pages/ProductPages/ProductPage';
-import Card from './components/ProductCard';
 import ProductView from './pages/ProductView';
 import Footer from './components/Footer';
 import PlantTypes from './pages/ProductPages/PlantTypes';
@@ -12,7 +10,6 @@ import PlantTypes from './pages/ProductPages/PlantTypes';
 import {
   createBrowserRouter,
   RouterProvider,
-  Route,
   Outlet,
 } from 'react-router-dom'
 import EasyPlants from './pages/ProductPages/EasyPlants';

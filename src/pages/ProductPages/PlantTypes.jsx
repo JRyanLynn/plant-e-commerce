@@ -392,7 +392,7 @@ const PlantTypes = () => {
 const [sort, setSort] = useState(false);
 const [careTypes, setCareTypes] = useState([]);
 const [lightTypes, setLightTypes] = useState([]);
-const [categoryTypes, setCategoryTypes] = useState([]);
+const [categoryTypes] = useState([]);
 const [array, setArray] = useState(productArray);
 
 //states for loading screen
@@ -507,7 +507,7 @@ useEffect (() => {
                    
                     <Reviews key = {item.reviews}>
                         <ReviewContainer>
-                        <Rating style = {{}} name="read-only" readOnly  size="small"/>
+                        <Rating name="read-only" readOnly  size="small"/>
                         <ReviewText>(100)</ReviewText>
                     </ReviewContainer>
                     </Reviews>
