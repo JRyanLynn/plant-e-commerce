@@ -32,7 +32,7 @@ const Wrapper = styled.div `
     color: #1B1212;
     ${mobile({ 
         padding: '10px 10px',
-        margin: '0px',
+        margin: '0px'
     })}
 `;
 

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate, useParams} from 'react-router-dom';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { productArray } from '../../data';
+import { mobile, tablet, desktop, laptop } from '../../media';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { Rating } from '@mui/material';
 
@@ -12,14 +13,33 @@ const Page = styled.div`
     background-color: #FEFDFD;
     font-family: Arial;
     color: #1B1212;
+    ${mobile({ 
+        marginTop: '-85px'
+    })};
 `
+const MobileLine = styled.hr`
+    color: #1B1212;
+    ${desktop({ 
+        display: 'none'
+    })};
 
+    ${laptop({ 
+        display: 'none'
+    })};
+
+    ${tablet({ 
+        display: 'none'
+    })};
+`
 const PageContainer = styled.div`
     display: flex;
     width: 100%;
     height: 100%;
     justify-content: center;
     align-items: center;
+    ${mobile({ 
+        marginTop: '20px'
+    })};
 `
 
 const PageWrapper = styled.div`
@@ -28,17 +48,34 @@ const PageWrapper = styled.div`
     height: 100%;
     flex-direction: column;
     background-color: #FEFDFD;
+    ${mobile({ 
+        width: '100%', 
+        alignItems: 'center',
+        justifyContent: 'center'
+    })};
+    ${tablet({ 
+        width: '100%', 
+    })};
 `
 
 const SortWrapper  = styled.div`
     display: flex;
     flex-direction: column; 
-    width: 96.25%;
+    width: 95.75%;
     height: 100%;
     padding-right: 10px;
     padding-left: 10px;
     justify-content: center;
     align-items: flex-end;
+    ${mobile({ 
+       width: '100%',
+       alignItems: 'center'
+    })};
+
+    ${tablet({ 
+        width: '98%',
+       
+     })};
 `
 
 const SortButtonRow = styled.div`
@@ -48,50 +85,96 @@ const SortButtonRow = styled.div`
     height: 30px;
     justify-content: space-between;
     align-items: center;
+    ${mobile({ 
+        width: '79%',
+        marginLeft: '5px'
+    })};
 `
 
 const SortButton = styled.button`
     display: flex;
+    cursor: pointer;
+
     width: 100%;
     height: 5%;
+
     align-items: center;
     justify-content: space-between;
+
     padding-left: 15px;
+    padding-bottom: 3px;
+
     font-weight: 500;
     font-size: 16px;
-    cursor: pointer;
+
     background-color: #FEFDFD;
     border: 1px solid #1B1212;
+    ${mobile({ 
+        fontSize: '12px',
+        margin: '0px',
+        paddingLeft: '5px',
+    })};
 `
 
 const SortComponentContainer = styled.div`
     width: 15%;
     height: auto;
     margin-right: 10px;
+    ${mobile({ 
+        width: '40%'
+    })};  
+
+    ${tablet({ 
+        width: '25%'
+    })};  
 `
 
 const SortContentContainer = styled.div`
     display: flex;
-    float: right;
     flex-direction: column;
     position: absolute;
     z-index: 800;
+    cursor: pointer;
+
     width: 9.65%;
-    background: #F5F5F5;
-    border: 1px solid #CCD3C2;
+    height: auto;
+
     margin-right: 10px;
     padding-top: 10px;
     padding-left: 3px;
-    height: auto;
+
     font-size: 16px;
-    cursor: pointer;
+    background: #F5F5F5;
+    border: 1px solid #CCD3C2;
+
     box-shadow:
     0 2.8px 2.2px rgba(0, 0, 0, 0.034),
     0 6.7px 5.3px rgba(0, 0, 0, 0.048),
     0 12.5px 10px rgba(0, 0, 0, 0.06),
     0 22.3px 17.9px rgba(0, 0, 0, 0.072),
     0 41.8px 33.4px rgba(0, 0, 0, 0.086),
-    0 100px 80px rgba(0, 0, 0, 0.12)
+    0 100px 80px rgba(0, 0, 0, 0.12);
+
+    ${mobile({ 
+        width: '28%',
+        margin: '0',
+        right: '56px'
+    })};
+
+    ${tablet({ 
+        width: '18%'
+    })};  
+`
+const SortListTitle = styled.h1`
+    font-Size: '28px';
+    ${mobile({ 
+        fontSize: '22px',
+        marginLeft: '5px'
+    })};
+
+    ${tablet({ 
+       marginLeft: '5px'
+    })};  
 `
 
 const DropListItem = styled.h2`
@@ -100,6 +183,9 @@ const DropListItem = styled.h2`
     font-size: 16px;
     padding-left: 2px;
     margin-top: -3px;
+    ${mobile({ 
+        fontSize: '12px'
+    })};
 `
 
 const SortDownArrow = styled(KeyboardArrowDownIcon)`
@@ -113,10 +199,17 @@ const CategoryColumn = styled.div`
     height: 100%;
     flex-direction: column;
     margin-top: 18px;
+    ${mobile({ 
+       display: 'none'
+    })};  
 `
 
 const ListTitle = styled.h1`
     font-size: 20px;
+    ${mobile({ 
+        fontSize: '16px'
+    })};
+    
 `
 
 const List = styled.ul`
@@ -128,20 +221,35 @@ const List = styled.ul`
     background: #FEFDFD;
     justify-content: center;
     align-items: flex-start;
+    ${mobile({ 
+        width: '100%',
+        marginLeft: '-35px'
+    })};
+
+    ${tablet({ 
+        marginLeft: '-40px',
+        width: '90%'
+    })};  
 
 `
 
 const ListItem = styled.li`
     list-style-type: none;
-    background: white;
     font-size: 18px;
     padding: 2px;
+    ${mobile({ 
+        fontSize: '14px'
+    })};
 `
 
 const ListInput = styled.input`
     width: 16px;
     height: 16px;
     margin-right: 5px;
+    ${mobile({ 
+        height: '14px',
+        width: '14px'
+    })};
 `
 const BreakLine = styled.hr`
     color: lightgray;
@@ -153,7 +261,12 @@ const PageContentWrapper = styled.div`
     flex-direction: row;
     width: 100%;
     height: 100%;
-    background: white;
+    background: #FEFDFD;
+    ${mobile({ 
+       alignItems: 'center',
+       justifyContent: 'center'
+    })};
+    
 `
 
 const ProductGridWrapper = styled.div`
@@ -165,8 +278,18 @@ const ProductGridWrapper = styled.div`
     padding: 10px;
     margin-top: 10px;
     margin-left: 10px;
-    margin-bottom: 150px;
-    background: white;
+    margin-bottom: 100px;
+    background: #FEFDFD;
+    ${mobile({ 
+        padding: '0px',
+        marginLeft: '40px',
+        alignItems: 'center',
+        width: '95%',
+    })};
+
+    ${tablet({ 
+        width: '95%'
+    })};
 `
 
 const NoResult = styled.h1`
@@ -175,6 +298,10 @@ const NoResult = styled.h1`
     margin-top: 100px;
     margin-left: 250px;
     font-weight: 500;
+    ${mobile({ 
+       marginLeft: '50px',
+       fontSize: '24px'
+    })};
 `
 
 const ProductCard = styled.div`
@@ -184,11 +311,17 @@ const ProductCard = styled.div`
     margin: 5px;
     border: 1px solid #CCD3C2;
     cursor: pointer;
+    ${mobile({ 
+        width: '40%'
+    })};
 `
 const ProductImg = styled.img`
     width: 100%;
     height: 200px;
     display: block;
+    ${mobile({ 
+        height: '100px'
+    })};
 `
 
 const ProductInfo = styled.div`
@@ -197,11 +330,25 @@ const ProductInfo = styled.div`
     margin-left: 15px;
     align-items: flex-start;
     justify-content: center;
+    ${mobile({ 
+        marginLeft: '5px'
+    })};
+    
+    ${tablet({ 
+        marginLeft: '5px'
+    })};   
 `
 
 const ProductName =  styled.h1`
     font-size: 20px;
     font-weight: 500;
+    ${mobile({ 
+        fontSize: '12px'
+    })};
+
+    ${tablet({ 
+        fontSize: '12px'
+    })};
 `
 
 const Reviews = styled.div`
@@ -220,6 +367,13 @@ const ReviewText = styled.a`
     font-size: 12px;
     font-weight: 500;
     margin-left: 10px;
+    ${mobile({ 
+        display: 'none'
+    })};
+
+    ${tablet({ 
+        display: 'none'
+    })};
 `
 
 const ProductPrice = styled.p`
@@ -227,6 +381,9 @@ const ProductPrice = styled.p`
     font-weight: 600;
     margin-left: 3px;
     margin-top: -3px;
+    ${mobile({ 
+        fontSize: '14px'
+    })};
 `
 
 const PlantTypes = () => {
@@ -298,11 +455,12 @@ useEffect (() => {
 
   return (
     <Page>
+        <MobileLine />
     <PageContainer>
         <PageWrapper>
         <SortWrapper>
         <SortButtonRow>
-            <ListTitle style = {{fontSize: '28px'}}>{type.replace(/\b[a-z]/g, (match) => match.toUpperCase())}</ListTitle>
+            <SortListTitle>{type.replace(/\b[a-z]/g, (match) => match.toUpperCase())}</SortListTitle>
             <SortComponentContainer>
             <SortButton onClick = {() => setSort(!sort)}>Sort <SortDownArrow /></SortButton>
             {sort?

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import { mobile } from '../../../media';
+import { mobile, tablet, desktop } from '../../../media';
 import { Link, useNavigate } from 'react-router-dom';
 
 const BurgerToggle = styled.div`
@@ -23,7 +23,15 @@ ${mobile({
     zIndex: '1000',
     paddingTop: '10px',
     paddingBottom: '20px'
-})}
+})};
+
+${tablet({ 
+    display: 'none'
+})};
+
+${desktop({ 
+    display: 'none'
+})};
 `
 const MenuItem = styled.div`
     font-size: 16px;
@@ -56,7 +64,7 @@ const NavBurgerMenu = () => {
             <MenuItem onClick={() => navigate(`/type/${'leafy'}`)}>Leafy Plants</MenuItem>
             <MenuItem onClick={() => navigate(`/type/${'edible'}`)}>Edible</MenuItem>
             <MenuItem onClick={() => navigate(`/type/herb`)}>Herbs</MenuItem>
-            <MenuItem>Easy Plants</MenuItem>
+            <MenuItem><RouterLink to = '/easy'>Easy Plants</RouterLink></MenuItem>
         </BurgerToggle>
         </>
   )

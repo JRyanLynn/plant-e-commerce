@@ -3,7 +3,7 @@ import Cart from './components/Cart';
 import Navbar from './components/Navbar/Navbar';
 import FullCart from './pages/FullCart';
 import Home from './pages/Home';
-import ProductPage from './pages/ProductPage';
+import ProductPage from './pages/ProductPages/ProductPage';
 import Card from './components/ProductCard';
 import ProductView from './pages/ProductView';
 import Footer from './components/Footer';
