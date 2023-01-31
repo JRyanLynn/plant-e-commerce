@@ -27,10 +27,10 @@ const HeroWrapper = styled.div`
     width: 100%;
     height: 500px;
     background-color: #F6F6F7;
+    margin-bottom: 10px;
     ${mobile({ 
         width: '100%',
         height: '300px',
-        margin: '0',
         marginTop: '-70px'
     })};
 `
@@ -113,21 +113,6 @@ const HeroSubText = styled.p`
      })};
 `
 
-const HeroButtonContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    margin-left: 20px;
-    margin-top: 20px;
-    height: auto;
-    width: 100%;
-    ${mobile({ 
-        marginLeft: '5px'
-    })};
-    ${tablet({ 
-        marginLeft: '10px'
-    })};
-`
-
 const HeroButton = styled.button`
     display: flex;
     font-size: 20px;
@@ -140,16 +125,20 @@ const HeroButton = styled.button`
     border: 1px solid #1B1212;
     color: #FEFDFD;
     font-weight: 600;
+    margin-left: 20px;
+    margin-top: 20px;
     ${mobile({ 
         height: '30px',
         width: 'auto',
-        fontSize: '12px'
+        fontSize: '12px',
+        marginLeft: '5px'
     })};
     ${tablet({ 
         height: 'auto',
         width: 'auto',
         fontSize: '16px',
-        padding: '5px'
+        padding: '5px',
+        marginLeft: '10px'
     })};
 `
 
@@ -162,7 +151,10 @@ const CategoryContainer = styled.div`
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 100;
+    height: 100%;
+    ${mobile({ 
+        marginTop: '0'
+    })};
 `
 
 const CategoryWrapper = styled.div`
@@ -174,6 +166,9 @@ const CategoryWrapper = styled.div`
     padding-bottom: 5px;
     width: 100%;
     height: 100%;
+    ${mobile({ 
+       marginTop: '0px'
+    })};
 `
 
 const Banner = styled.div`
@@ -183,7 +178,6 @@ const Banner = styled.div`
     flex-direction: row;
     height: auto;
     width: 100%;
-    background-color: white;
 `
 
 
@@ -194,7 +188,7 @@ const BannerTitle = styled.h1`
     align-items: center;
     margin-left: 10px;
     ${mobile({ 
-        fontSize: '16px',
+        fontSize: '18px',
         marginBottom: '10px',
         marginLeft: '0',
     })};
@@ -208,25 +202,25 @@ const BannerButton = styled.button`
     color: #FEFDFD;
     padding: 5px;
     background-color: #517A3E;
-    margin-right: 20px;
+    margin-right: 10px;
+    font-weight: 600;
     ${mobile({ 
         margin: '0px',
-        fontSize: '14px'
+        fontSize: '12px'
     })};
 `
 
 const CategoryCard = styled.div`
-width: 23%;
-height: 60%;
-background: white;
-margin: 5px;
-border: 1px solid #CCD3C2;
-cursor: pointer;
-text-align: center;
+    width: 23%;
+    height: 60%;
+    background: white;
+    margin: 5px;
+    border: 1px solid #CCD3C2;
+    cursor: pointer;
+    text-align: center;
     ${mobile({ 
-        height: '120px',
-        width: '100%',
-        margin: '0px'
+        height: 'auto',
+        margin: '2px'
     })};
 `
 
@@ -234,7 +228,7 @@ const Name = styled.h1`
     font-size: 26px;
     font-weight: 500;
     ${mobile({ 
-        fontSize: '14px'
+        fontSize: '12px'
     })};
 `
 
@@ -242,7 +236,8 @@ const Price = styled.p`
     font-size: 20px;
     margin-top: -15px;
     ${mobile({ 
-        fontSize: '16px'
+        fontSize: '14px',
+        marginTop: '1px'
     })}
 `
 
@@ -250,6 +245,12 @@ const CategoryImage = styled.img`
     width: 100%;
     height: 200px;
     display: block;
+    margin-top: -15px;
+    margin-top: 0.02px;
+    ${mobile({ 
+        height: '90px',
+    })}
+
 `
 
 const RouterLink = styled(Link)`
@@ -278,9 +279,9 @@ const Home = () => {
 
                 <HeroSubText>Make your furniture green with plants that'll fit any space.</HeroSubText>
 
-                    <HeroButtonContainer>
+                   
                     <RouterLink to = 'product/1'><HeroButton>Shop Now</HeroButton></RouterLink>
-                    </HeroButtonContainer>
+    
                 </HeroAdContainer>
 
                 <HeroImgContainer>
@@ -289,14 +290,13 @@ const Home = () => {
             </HeroWrapper>
         </HeroContainer>
 
-        <CategoryContainer>
             <Banner >
                 <BannerTitle>Categories</BannerTitle>
                 <RouterLink to = '/product/1'><BannerButton>Explore</BannerButton></RouterLink>
             </Banner>
 
+        <CategoryContainer>
             <CategoryWrapper>
-            
             <CategoryCard>
                 <RouterLink to = '/product/herb'>
                 <CategoryImage src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQ7K3U7J09TClMtwppkkqIoMEmkuwtbhHFqQ&usqp=CAU' alt = 'picture for herb category' />
@@ -351,7 +351,7 @@ const Home = () => {
             <CategoryWrapper>
        {productArray.sort((a, b) => a.sold - b.sold).slice(-5).map((item) => (
                 <CategoryCard key = {item.id}>
-                <RouterLink to = {`/product/${item.type}`}>
+                <RouterLink to = {`/products/${item.id}`}>
                     <CategoryImage src = {item.image}  />
                     <Name>{item.name}</Name>
                     <Price>${(item.price).toFixed(2)}</Price>
