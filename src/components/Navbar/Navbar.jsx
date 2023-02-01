@@ -43,10 +43,13 @@ const Wrapper = styled.div`
 })}
 `;
 
-const Burger = styled.div`
+const BurgerMenuIcon = styled(MenuIcon)`
+    color: #1B1212;
+`
+
+const BurgerContainer = styled.div`
     display: none;
     ${mobile({
-    color: 'black',
     cursor: 'pointer',
     display: 'flex',
     position: 'relative',
@@ -54,6 +57,9 @@ const Burger = styled.div`
     zIndex: '1000',
 })};
 `
+const BurgerToggle = styled.div`
+`
+
 
 const Left = styled.div`
     flex: 1;
@@ -129,13 +135,17 @@ ${tablet({
 
   ${laptop({
     display: 'none'
-})},
+})};
+
+${mobile({
+   marginBottom: '5px'
+})};
 `
 
 const FullScreenIconContainer = styled.div`
 ${mobile({
     display: 'none',
-})},
+})};
 `
 
 const MobileCartLink = styled(ShoppingCartOutlinedIcon)`
@@ -183,6 +193,10 @@ const DividerLine = styled.hr`
     display: 'none'
 })};
 `
+const RouterLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+`
 
 const CartToggle = styled.div`
     border: '0.5px solid lightgray';
@@ -192,11 +206,6 @@ const CartToggle = styled.div`
     display: 'flex';
     flexDirection: 'column';
     position: 'absolute';
-`
-
-const RouterLink = styled(Link)`
-  text-decoration: none;
-  color: black;
 `
 const SignInCloseButton = styled(CloseOutlinedIcon)`
     display: flex;
@@ -214,12 +223,12 @@ const SignInCloseButtonContainer = styled.div`
     top: calc(20%);
     left: calc(50% + 70px);
     ${mobile({
-        top: 'calc(12%)'
-    })};
+    top: 'calc(12%)'
+})};
 
     ${tablet({
-        top: 'calc(13%)'
-    })};
+    top: 'calc(13%)'
+})};
 `
 
 const TransparentPageContainer = styled.div`
@@ -232,8 +241,9 @@ const TransparentPageContainer = styled.div`
     opacity: .2;
     margin-top: -10px;
     ${mobile({
-       marginTop: '4px'
-    })};
+    marginTop: '4px'
+})};
+
 
 `
 
@@ -251,8 +261,13 @@ const Navbar = () => {
     const navigate = useNavigate();
 
     //closes element when outside of sort element is clicked
-    const handleClickAway = () => {
+    const handleCartClickAway = () => {
         setCart(false);
+    };
+
+    //closes element when outside of sort element is clicked
+    const handleBurgerClickAway = () => {
+        setShowBurger(!showBurger);
     };
 
     //number of items in redux cart 
@@ -263,9 +278,9 @@ const Navbar = () => {
             <Wrapper>
 
                 <Left>
-                    <Burger>
-                        <MenuIcon onClick={() => setShowBurger(!showBurger)} />
-                    </Burger>
+                    <BurgerContainer>
+                        <BurgerMenuIcon onClick={() => setShowBurger(!showBurger)} />
+                    </BurgerContainer>
 
                     <Logo><RouterLink to='/'>PLANT DECOR</RouterLink></Logo>
                 </Left>
@@ -307,21 +322,25 @@ const Navbar = () => {
             </Bottom>
             <DividerLine />
 
-            
 
-            {logIn ? 
-            <>
-            <TransparentPageContainer/>
-            <SignInCloseButtonContainer>
-            <SignInCloseButton onClick = {() => setLogIn(!logIn)} />
-            </SignInCloseButtonContainer> <LogIn />
-            </>
+
+            {logIn ?
+                <>
+                    <TransparentPageContainer />
+                    <SignInCloseButtonContainer>
+                        <SignInCloseButton onClick={() => setLogIn(!logIn)} />
+                    </SignInCloseButtonContainer> <LogIn />
+                </>
                 : null}
 
-            {showBurger ? <NavBurgerMenu /> : null}
+            {showBurger ? <ClickAwayListener onClickAway={handleBurgerClickAway}>
+                <BurgerToggle>
+                <NavBurgerMenu />
+                </BurgerToggle>
+            </ClickAwayListener> : null}
 
             {cart ?
-                <ClickAwayListener onClickAway={handleClickAway}>
+                <ClickAwayListener onClickAway={handleCartClickAway}>
                     <CartToggle >
                         <Cart />
                     </CartToggle>

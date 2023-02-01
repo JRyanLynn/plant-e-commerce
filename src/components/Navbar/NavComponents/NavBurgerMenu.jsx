@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { mobile, tablet, desktop } from '../../../media';
 import { Link, useNavigate } from 'react-router-dom';
 
-const BurgerToggle = styled.div`
+const BurgerContainer = styled.div`
 ${mobile({
     border: '0.5px solid #CCD3C2',
     padding: '10px',
@@ -58,14 +58,14 @@ const NavBurgerMenu = () => {
     const navigate = useNavigate();  
   return (
     <>
-        <BurgerToggle>
+        <BurgerContainer>
         <MenuItem><RouterLink to = '/'>Home</RouterLink></MenuItem>
             <MenuItem  onClick={() => navigate(`/type/${'flower'}`)}>Flowers</MenuItem>
             <MenuItem onClick={() => navigate(`/type/${'leafy'}`)}>Leafy Plants</MenuItem>
             <MenuItem onClick={() => navigate(`/type/${'edible'}`)}>Edible</MenuItem>
             <MenuItem onClick={() => navigate(`/type/herb`)}>Herbs</MenuItem>
             <MenuItem><RouterLink to = '/easy'>Easy Plants</RouterLink></MenuItem>
-        </BurgerToggle>
+        </BurgerContainer>
         </>
   )
 }
