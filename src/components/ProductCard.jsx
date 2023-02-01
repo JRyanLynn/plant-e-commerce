@@ -16,8 +16,9 @@ const CardContainer = styled.div`
   margin-right: 5px;
   margin-top: 5px;
   margin-bottom: 10px;
-  border: 0.5px solid lightgray;
-  background-color: white;
+  border: 0.5px solid #CCD3C2;
+  background-color: #FEFDFD;
+  font-family: Arial;
 `
 
 const PictureContainer = styled.div`
@@ -44,7 +45,6 @@ const CardContents = styled.div`
   display: flex;
   flex: 2;
   flex-direction: column;
-  background-color: white;
   margin-left: 15px;
 `
 
@@ -55,7 +55,6 @@ const Top = styled.div`
   width: auto; 
   justify-content: space-between; 
   align-items: center; 
-  background-color: white; 
   margin-right: 10px;
   ${mobile({ 
     marginRight: '5px',
@@ -95,24 +94,9 @@ const Bottom = styled.div`
   height: auto; 
   width: 100%; 
   font-size: 16px;
-  background-color: white; 
   align-items: center; 
-  justify-content: space-between;
+  justify-content: flex-end;
   margin-top: 30px;
-`
-
-const SaveButton = styled.button`
-  font-size: 12px;
-  font-weight: 600;
-  height: auto;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-  border: 0.5px solid lightgray;
-  padding: 5px;
-  ${mobile({ 
-    width: '40px',
-  })}; 
 `
 
 const QuantityContainer = styled.div`
@@ -133,7 +117,7 @@ const BottomButton = styled.button`
   font-weight: 500;
   align-items: center; 
   justify-content: center; 
-  background-color: white;
+  background-color: #FEFDFD;
   border: none;
   ${mobile({ 
     fontSize: '16px',
@@ -182,7 +166,6 @@ const Card = () => {
         </Middle>
 
         <Bottom>
-          <SaveButton>Save</SaveButton>
 
           <QuantityContainer>
             <BottomButton  onClick = {() => item.count === 1 ? 1 : dispatch(updateCount({ id: item.id, count: item.count - 1}))}>-</BottomButton>

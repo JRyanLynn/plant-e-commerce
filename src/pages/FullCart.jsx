@@ -7,14 +7,14 @@ import { useSelector } from 'react-redux';
 const PageContainer = styled.div`
   height: 100%;
   width: 100%;
-  background-color: white;
+  background-color: #FEFDFD;
+  font-family: Arial;
 `
 
 const CartContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: white;
   height: 100%;
   width: 100%;
   margin-top: 20px;
@@ -32,7 +32,6 @@ const PageWrapper = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  background-color: white;
   height: 100%;
   width: 80%;
   ${mobile({ 
@@ -49,7 +48,6 @@ ${tablet({
 })};
 
 `
-
 const LeftColumn = styled.div`
   display: flex;
   width: 45%;
@@ -57,7 +55,6 @@ const LeftColumn = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: white;
   ${mobile({ 
     width: '100%',
     marginTop: '-85px'
@@ -75,8 +72,7 @@ const LeftTitleContainer = styled.div`
   width: 95%;
   height: 100%;
   margin-left: 7px;
-  border: 0.5px solid lightgray;
-  background-color: white;
+  border: 0.5px solid #CCD3C2;
   align-items: center;
   margin-top: 10px;
   justify-content: space-between;
@@ -103,7 +99,6 @@ const ProductCardContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: white;
   padding-top: 10px;
   width: 100%;
   height: 100%;
@@ -126,7 +121,6 @@ const RightColumn = styled.div`
   margin-top: 10px;
   justify-content: center;
   align-items: flex-start;
-  background-color: white;
   ${mobile ({ 
     width: '100%',
     height: 'auto',
@@ -147,8 +141,7 @@ const TotalCard = styled.div`
   flex-direction: column;
   align-items: space-between;
   justify-content: center;
-  border: 0.5px solid lightgray;
-  background-color: white;
+  border: 0.5px solid #CCD3C2;
   height: 100%;
   width: 100%;
   ${mobile ({ 
@@ -171,7 +164,7 @@ const TotalItemContainer = styled.div`
 `
 const TotalLine = styled.hr`
   width: 90%;
-  color: lightgray;
+  color: #CCD3C2;
 `
 
 const TotalHeader = styled.h1`
@@ -192,12 +185,12 @@ const TotalButton = styled.button`
   height: 100%;
   font-size: 20px;
   font-weight: 600;
-  color: white;
-  background-color: green;
+  color: #FEFDFD;
+  background-color: #517A3E;
   align-items: center;
   justify-content: center;
   margin-left: 20px;
-  border: 1px solid lightgray;
+  border: 1px solid #CCD3C2;
   margin-top: 20px;
   margin-bottom: 20px;
   padding: 10px;
