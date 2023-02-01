@@ -89,7 +89,7 @@ const SearchBar = () => {
     <>
     <SearchContainer>
     <InputRow>
-   <Input style = {{width: "450px"}} placeholder="Search For Plants You Love" onChange={e => {setSearchResults((e.target.value).toLowerCase()); setSearchResultBox(true)}} />
+   <Input style = {{width: "450px"}} placeholder="Search For Plants You Love" onChange={(e) => {setSearchResults((e.target.value).toLowerCase()); setSearchResultBox(true)}} />
    <QueryIcon />
    </InputRow>
 
@@ -100,8 +100,8 @@ const SearchBar = () => {
     <SearchResultContainer>
         
         {searchResults === '' ? '' : productArray.filter((item) => item.name.toLowerCase().includes(searchResults)).slice(0, 5).map((item) => (
-                <SearchUnorderedList>
-                <SearchResultItem key = {item.id}><RouterLink to={`/products/${productArray.indexOf(item) + 1}`} onClick={() => setSearchResultBox(false)}>{item.name}</RouterLink></SearchResultItem>
+                <SearchUnorderedList key = {item.id}>
+                <SearchResultItem><RouterLink to={`/products/${productArray.indexOf(item) + 1}`} onClick={() => setSearchResultBox(false)}>{item.name}</RouterLink></SearchResultItem>
                 </SearchUnorderedList>
         ))}
     

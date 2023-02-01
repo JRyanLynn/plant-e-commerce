@@ -37,13 +37,19 @@ export const cartSlice = createSlice({
     },
 
     removeItem: (state, action) => {
-        const itemIndex = state.products.findIndex(item => item.id === action.payload);
-        if (itemIndex !== -1) {
-          state.totalQuantity -= state.products[itemIndex].quantity;
-          state.totalAmount -= state.products[itemIndex].price * state.products[itemIndex].quantity;
-          state.products.splice(itemIndex, 1);
-        }
-    },
+      const itemIndex = state.products.findIndex(item => item.id === action.payload);
+      if (itemIndex !== -1) {
+        const item = state.products[itemIndex];
+        state.totalQuantity -= item.quantity;
+        state.totalAmount -= item.price * item.quantity;
+        state.products.splice(itemIndex, 1);
+        localStorage.setItem('products', JSON.stringify(state.products));
+      }
+      if (state.products.length === 0) {
+        state.totalQuantity = 0;
+        state.totalAmount = 0;
+      }
+  },
     updateCount: (state, action) => {
         const item = state.products.find(item => item.id === action.payload.id);
         if (item) {
@@ -58,6 +64,6 @@ export const cartSlice = createSlice({
 
 
 // Action creators are generated for each case reducer function
-export const { addToCart, removeItem, resetCart, updateCount } = cartSlice.actions
+export const { addToCart, removeItem, resetCart, updateCount} = cartSlice.actions
 
 export default cartSlice.reducer
