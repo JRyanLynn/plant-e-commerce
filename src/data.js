@@ -4,6 +4,7 @@ const productArray =
     name: 'Aloe',
     productNumber: 2212,
     image: 'https://www.ikea.com/us/en/images/products/aloe-vera-potted-plant-aloe__67410_pe181254_s4.jpg',
+    imageTwo: 'http://mobileimages.lowes.com/productimages/6950f586-a1e7-44f3-8bc0-46f27003ca28/41040233.jpg',
     wholesale: 3.50,
     price: 4.90,
     dimensions: '12 inches x 4 inches',
