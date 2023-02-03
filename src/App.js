@@ -1,73 +1,33 @@
 import './App.css';
-import Navbar from './components/Navbar/Navbar';
 import FullCart from './pages/FullCart';
 import Home from './pages/Home';
+import Navbar from './components/Navbar/Navbar';
 import ProductPage from './pages/ProductPages/ProductPage';
-import ProductView from './pages/ProductView';
+import ProductView from './pages/SingleProductPage/SingleProductPage';
 import Footer from './components/Footer';
 import PlantTypes from './pages/ProductPages/PlantTypes';
-
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Outlet,
-} from 'react-router-dom'
 import EasyPlants from './pages/ProductPages/EasyPlants';
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { store } from './redux/store';
+import { Provider } from 'react-redux';
+import MapTest from './pages/test';
 
-
-const Layout = () => {
-  return (
-    <>
-    <Navbar />
-    <Outlet />
-    <Footer />
-    </>
-  )
-}
-
-const router = createBrowserRouter([
-  {
-  path: '/',
-  element: <Layout />,
-  children: [
-    {
-      path: '/',
-      element: <Home />
-    },
-
-    {
-      path: '/product/:id',
-      element: <ProductPage />
-    },
-
-    {
-      path: '/type/:type',
-      element: <PlantTypes />,
-    },
-
-    {
-      path: '/easy',
-      element: <EasyPlants />
-    },
-
-    {
-      path: '/products/:id',
-      element: <ProductView />
-    },
-
-    {
-      path: '/cart',
-      element: <FullCart />
-    }
-  ]
-  }
-])
 
 function App() {
   return (
-    <div>
-      <RouterProvider router = {router} />
-    </div>
+    <Provider store = {store}>
+      <Navbar />
+    <Routes>
+      <Route path = '/' element = {<Home />}/>
+      <Route path = '/all' element = {<ProductPage />}/>
+      <Route path = '/type/:type' element = {<PlantTypes />} />
+      <Route path = '/easy' element = {<EasyPlants />} />
+      <Route path = '/products/:id' element = {<ProductView />} />
+      <Route path = '/cart' element = {<FullCart />} />
+    </Routes>
+    <Footer />
+    </Provider>
   );
 }
 

@@ -85,6 +85,7 @@ const SearchBar = () => {
         setSearchResultBox(false);
       };
 
+
   return (
     <>
     <SearchContainer>
@@ -101,7 +102,7 @@ const SearchBar = () => {
         
         {searchResults === '' ? '' : productArray.filter((item) => item.name.toLowerCase().includes(searchResults)).slice(0, 5).map((item) => (
                 <SearchUnorderedList key = {item.id}>
-                <SearchResultItem><RouterLink to={`/products/${productArray.indexOf(item) + 1}`} onClick={() => setSearchResultBox(false)}>{item.name}</RouterLink></SearchResultItem>
+                <SearchResultItem><RouterLink to={`/products/${item.id}`} onClick={() => setSearchResultBox(false)}>{item.name}</RouterLink></SearchResultItem>
                 </SearchUnorderedList>
         ))}
     

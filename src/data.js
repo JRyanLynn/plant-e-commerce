@@ -43,6 +43,7 @@ const productArray =
     name: 'Christmas Cactus',
     productNumber: 3324,
     image: 'https://plants4home.com/wp-content/uploads/2019/10/redchristmascactus.jpg',
+    imageTwo: 'https://assets.eflorist.com/assets/products/EHR_/T123-3A.jpg',
     wholesale: 15.00,
     price: 20.01,
     dimensions: '6-12 inches tall and 12-24 inches wide',
@@ -306,7 +307,7 @@ const productArray =
 
 {
     id: 17,
-    name: 'Dracaena Marginata',
+    name: 'Dragon Tree',
     productNumber: 33093,
     image: 'https://www.thespruce.com/thmb/C2reCth-GHN2CMo6T9x8QJ_5S24=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/grow-dracaena-marginata-indoors-1902749-2-983c52a2805144d899408949969a5728.jpg',
     wholesale: 12.25,
@@ -325,7 +326,7 @@ const productArray =
 
 {
     id: 18,
-    name: 'Yupon',
+    name: 'Yaupon',
     productNumber: 33094,
     image: 'http://mobileimages.lowes.com/productimages/a025fc8d-4b43-45f2-add4-4c82814ffddd/09332746.jpg',
     wholesale: 4.25,

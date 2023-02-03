@@ -22,11 +22,9 @@ const MobileLine = styled.hr`
     ${desktop({ 
         display: 'none'
     })};
-
     ${laptop({ 
         display: 'none'
     })};
-
     ${tablet({ 
         display: 'none'
     })};
@@ -71,7 +69,6 @@ const SortWrapper  = styled.div`
        width: '100%',
        alignItems: 'center'
     })};
-
     ${tablet({ 
         width: '98%',
        
@@ -94,19 +91,14 @@ const SortButtonRow = styled.div`
 const SortButton = styled.button`
     display: flex;
     cursor: pointer;
-
     width: 100%;
     height: 5%;
-
     align-items: center;
     justify-content: space-between;
-
     padding-left: 15px;
     padding-bottom: 3px;
-
     font-weight: 500;
     font-size: 16px;
-
     background-color: #FEFDFD;
     border: 1px solid #1B1212;
     ${mobile({ 
@@ -123,7 +115,6 @@ const SortComponentContainer = styled.div`
     ${mobile({ 
         width: '40%'
     })};  
-
     ${tablet({ 
         width: '25%'
     })};  
@@ -135,18 +126,14 @@ const SortContentContainer = styled.div`
     position: absolute;
     z-index: 800;
     cursor: pointer;
-
     width: 9.65%;
     height: auto;
-
     margin-right: 10px;
     padding-top: 10px;
     padding-left: 3px;
-
     font-size: 16px;
     background: #F5F5F5;
     border: 1px solid #CCD3C2;
-
     box-shadow:
     0 2.8px 2.2px rgba(0, 0, 0, 0.034),
     0 6.7px 5.3px rgba(0, 0, 0, 0.048),
@@ -154,13 +141,11 @@ const SortContentContainer = styled.div`
     0 22.3px 17.9px rgba(0, 0, 0, 0.072),
     0 41.8px 33.4px rgba(0, 0, 0, 0.086),
     0 100px 80px rgba(0, 0, 0, 0.12);
-
     ${mobile({ 
         width: '28%',
         margin: '0',
         right: '56px'
     })};
-
     ${tablet({ 
         width: '18%'
     })};  
@@ -171,7 +156,6 @@ const SortListTitle = styled.h1`
         fontSize: '22px',
         marginLeft: '5px'
     })};
-
     ${tablet({ 
        marginLeft: '5px'
     })};  
@@ -225,12 +209,10 @@ const List = styled.ul`
         width: '100%',
         marginLeft: '-35px'
     })};
-
     ${tablet({ 
         marginLeft: '-40px',
         width: '90%'
     })};  
-
 `
 
 const ListItem = styled.li`
@@ -286,7 +268,6 @@ const ProductGridWrapper = styled.div`
         alignItems: 'center',
         width: '95%',
     })};
-
     ${tablet({ 
         width: '95%'
     })};
@@ -345,7 +326,6 @@ const ProductName =  styled.h1`
     ${mobile({ 
         fontSize: '12px'
     })};
-
     ${tablet({ 
         fontSize: '12px'
     })};
@@ -370,7 +350,6 @@ const ReviewText = styled.a`
     ${mobile({ 
         display: 'none'
     })};
-
     ${tablet({ 
         display: 'none'
     })};
@@ -512,17 +491,17 @@ const ProductPage = () => {
             <ProductGridWrapper style={{ opacity: screenOpacity }}>
                {array.length > 0 ? array.map((item) => (
                 <ProductCard key = {item.id} onClick={() => navigate(`/products/${item.id}`)}>
-                    <ProductImg key = {item.image} src = {item.image} alt = 'Product Image' />
+                    <ProductImg src = {item.image} alt = 'Product Image' />
                     
-                    <ProductInfo key = {item.id}>
-                        <ProductName key = {item.name}>{item.name}</ProductName>
-                        <Reviews key = {item.reviews}>
+                    <ProductInfo>
+                        <ProductName>{item.name}</ProductName>
+                        <Reviews>
                             <ReviewContainer>
-                            <Rating style = {{}} name="read-only" readOnly  size="small"/>
+                            <Rating name="read-only" readOnly  size="small"/>
                             <ReviewText>(100)</ReviewText>
                             </ReviewContainer>
                         </Reviews>
-                        <ProductPrice key = {item.price}>{`$${price(item.price)}`}</ProductPrice>
+                        <ProductPrice>{`$${price(item.price)}`}</ProductPrice>
                     </ProductInfo>
                     </ProductCard>
                     )): <NoResult>Sorry, no products fit your search</NoResult>}
@@ -536,4 +515,3 @@ const ProductPage = () => {
 }
 
 export default ProductPage
-

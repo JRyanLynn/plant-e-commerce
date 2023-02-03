@@ -280,7 +280,7 @@ const Home = () => {
                 <HeroSubText>Make your furniture green with plants that'll fit any space.</HeroSubText>
 
                    
-                    <RouterLink to = 'product/1'><HeroButton>Shop Now</HeroButton></RouterLink>
+                    <RouterLink to = '/all'><HeroButton>Shop Now</HeroButton></RouterLink>
     
                 </HeroAdContainer>
 
@@ -292,13 +292,13 @@ const Home = () => {
 
             <Banner >
                 <BannerTitle>Categories</BannerTitle>
-                <RouterLink to = '/product/1'><BannerButton>Explore</BannerButton></RouterLink>
+                <RouterLink to = '/products/all'><BannerButton>Explore</BannerButton></RouterLink>
             </Banner>
 
         <CategoryContainer>
             <CategoryWrapper>
             <CategoryCard>
-                <RouterLink to = '/product/herb'>
+                <RouterLink to = '/products/herb'>
                 <CategoryImage src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQ7K3U7J09TClMtwppkkqIoMEmkuwtbhHFqQ&usqp=CAU' alt = 'picture for herb category' />
                 <Name>Herbs</Name>
                 </RouterLink>
@@ -307,7 +307,7 @@ const Home = () => {
 
             
             <CategoryCard>
-                <RouterLink to = '/product/edible'>
+                <RouterLink to = '/products/edible'>
                 <CategoryImage src = 'https://www.denverpost.com/wp-content/uploads/2018/05/ap18100411714506-e1525912725340.jpg?w=1024' alt = 'picture for the edible category'/>
                 <Name>Edible</Name>
                 </RouterLink>
@@ -315,7 +315,7 @@ const Home = () => {
            
             
             <CategoryCard>
-                <RouterLink to = 'product/flower'>
+                <RouterLink to = 'products/flower'>
                 <CategoryImage src = 'https://www.gardeningknowhow.com/wp-content/uploads/2021/07/green-home-houseplants.jpg' alt = 'picture for the flower category' />
                 <Name>Flowers</Name>
                 </RouterLink>
@@ -324,7 +324,7 @@ const Home = () => {
 
             
             <CategoryCard>
-                <RouterLink to = 'product/leafy'>
+                <RouterLink to = 'products/leafy'>
                 <CategoryImage src = 'https://cdn.5280.com/2021/09/ReRoot_Courtesy-of-Coburn-Huff-__HuffPhoto-306484-960x720.jpg' alt = 'picture for the leafy category'/>
                 <Name>Leafy</Name>
                 </RouterLink>
