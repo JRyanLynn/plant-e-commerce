@@ -18,7 +18,7 @@ ${mobile({
     flexDirection: 'column',
     position: 'absolute',
     backgroundColor:  '#F5F5F5',
-    top: '70px',
+    top: '75px',
     left: '0px',
     zIndex: '1000',
     paddingTop: '10px',

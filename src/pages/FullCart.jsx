@@ -24,7 +24,7 @@ const CartContainer = styled.div`
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: '0px',
-    marginTop: '30px'
+    marginTop: '-20px'
 })};
 `
 
@@ -57,7 +57,6 @@ const LeftColumn = styled.div`
   align-items: center;
   ${mobile({ 
     width: '100%',
-    marginTop: '-85px'
 })};
 
 ${tablet ({ 

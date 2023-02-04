@@ -28,7 +28,7 @@ const SignIn = styled.div`
     0 100px 80px rgba(0, 0, 0, 0.12);
 
     ${mobile({
-    top: 'calc(10% )'
+    top: 'calc(12% )'
 })};
 
     ${tablet({

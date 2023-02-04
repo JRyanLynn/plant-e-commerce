@@ -14,7 +14,7 @@ const Page = styled.div`
     font-family: Arial;
     color: #1B1212;
     ${mobile({ 
-        marginTop: '-85px'
+        marginTop: '-20px'
     })};
 `
 const MobileLine = styled.hr`
@@ -380,6 +380,7 @@ const ProductPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [screenOpacity, setScreenOpacity] = useState(1);
 
+    //maintains array state with router, but sorts differently when page reloaded 
     //combines checkbox values based on object array category clusters
     const handleCheckboxChange = (event) => {
         setIsLoading(!isLoading) 
@@ -405,7 +406,7 @@ const ProductPage = () => {
            } else {
              setScreenOpacity(1);
            }
-        const filtered = productArray.filter(product => {
+        const filtered = array.filter(product => {
             return (careTypes.length  === 0 || careTypes.includes(product.care)) &&
                     (lightTypes.length  === 0 || lightTypes.includes(product.light)) &&
                     (categoryTypes.length  === 0 || categoryTypes.includes(product.category) || categoryTypes.includes(product.type)) 

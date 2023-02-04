@@ -17,6 +17,12 @@ const MainContent = styled.div`
     width: 85%;
     height: 100%;
     flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    ${mobile({ 
+        width: '100%',
+        flexDirection: 'column',
+    })};
 `
 
 const ImageContainer = styled.div`
@@ -26,6 +32,11 @@ const ImageContainer = styled.div`
     flex-direction: row;
     align-items: flex-start;
     margin-top: 20px;
+    ${mobile({ 
+        height: '250px',
+        width: '90%',
+        marginTop: '0px',
+    })};
 `
 
 const SideImageContainer = styled.div`
@@ -35,6 +46,11 @@ const SideImageContainer = styled.div`
     height: 100%;
     align-items: center;
     justify-content: flex-start;
+    ${mobile({ 
+       height: '100px',
+       width: '40%',
+       marginLeft: '-10px'
+    })};
 `
 
 const SideImageSizer = styled.div`
@@ -42,6 +58,10 @@ const SideImageSizer = styled.div`
     height: auto;
     border: 1px solid #CCD3C2;
     margin-top: 5px;
+    ${mobile({ 
+        height: '100%',
+        width: '80%',
+     })};
 `
 
 const Image = styled.img`
@@ -61,10 +81,16 @@ const InfoContainer = styled.div`
     border: 1px solid #CCD3C2;
     padding-left: 10px;
     padding-bottom: 15px;
+    ${mobile({ 
+        width: '90%'
+    })};
 `
 const ProductName = styled.h1`
     font-size: 30px;
-    margin-left: 15px; 
+    margin-left: 10px; 
+    ${mobile({ 
+       fontSize: '24px'
+    })};
 `
 const ProductPriceContainer = styled.div`
     display: flex;
@@ -75,6 +101,9 @@ const ProductPriceContainer = styled.div`
 const Price = styled.h2`
     font-size: 24px;
     font-weight: 600;
+    ${mobile({
+       fontSize: '20px',
+        })}
 `
 const ReviewContainer = styled.div`
     Display: flex;
@@ -88,11 +117,9 @@ const ReviewText = styled.a`
     margin-left: 10px;
     color: #517A3E;
     cursor: pointer;
-`
-const ReviewAverage = styled.h3`
-    font-size: 18px;
-    font-weight: 500;
-    margin-left: 10px;
+    ${mobile({
+        fontSize: '14px',
+         })}
 `
 
 const OptionButtonContainer = styled.div`
@@ -139,10 +166,17 @@ const OptionImageButton = styled.img`
 const ShippingIcon = styled(LocalShippingOutlinedIcon)`
     margin-right: 5px;
     margin-top: 50px;
+    ${mobile({
+        marginTop: '5px',
+         })}
 `
 
 const ShippingAnnouncement = styled.h4`
     margin-top: 70px;
+    ${mobile({
+        fontSize: '12px',
+        marginTop: '20px'
+         })}
 `
 
 const QuantityContainer = styled.div`
@@ -152,6 +186,9 @@ const QuantityContainer = styled.div`
     justify-content: center;
     width: 30%;
     margin-left: 10px;
+    ${mobile({
+        marginLeft: '0px'
+        })}
 `
 
 const QuantityButton = styled.button`
@@ -168,7 +205,6 @@ const Quantity = styled.form`
     display: flex;
     flex-direction: column;
     padding: 10px;
-
 `
 
 const QuantityInput = styled.input`
@@ -180,15 +216,24 @@ const QuantityInput = styled.input`
     text-align: center;
     font-size: 20px;
     font-weight: 500;
+    ${mobile({
+        fontSize: '16px',
+        width: '30px'
+        })}
 `
 const CheckOutButtonContainer = styled.div`
     display: flex;
     align-items: center;
-    margin: 20px;
-    margin-left: 0px;
+    margin-bottom: 20px;
     margin-top: 50px;
     width: 80%;
     margin-left: 10px;
+    ${mobile({
+        width: '95%',
+        marginTop: '0px',
+        marginLeft: '5px',
+        marginBottom: '5px'
+        })}
 `
 
 const CheckOutButton = styled.button`
@@ -202,6 +247,9 @@ const CheckOutButton = styled.button`
     align-items: center;
     justify-content: center;
     margin-left: 20px;
+    ${mobile({
+        fontSize: '14px'
+        })}
 `
 
 
@@ -245,9 +293,8 @@ const CheckoutInfo = () => {
     <InfoContainer>
         <ProductName>{item.name}</ProductName>
         <ReviewContainer>
-            <Rating name="read-only" readOnly />
-            <ReviewAverage>3.1 |</ReviewAverage>
-            <ReviewText><a href = '#reviews' style = {{color: 'inherit', textDecoration: 'none'}}>(200) Reviews</a></ReviewText>
+            <Rating name="size-small" defaultValue={4} size="small" />
+            <ReviewText style = {{color: 'inherit', textDecoration: 'none'}}>(200) Reviews</ReviewText>
         </ReviewContainer>
         
         <ProductPriceContainer>
@@ -296,7 +343,8 @@ const CheckoutInfo = () => {
             <Quantity>
                 <QuantityInput type = 'text' 
                 name = 'quantity' 
-                value = {count} />
+                value = {count}
+                onChange = { () => count} />
 
             </Quantity>
 

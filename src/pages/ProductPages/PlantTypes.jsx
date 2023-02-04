@@ -14,7 +14,7 @@ const Page = styled.div`
     font-family: Arial;
     color: #1B1212;
     ${mobile({ 
-        marginTop: '-85px'
+        marginTop: '-20px'
     })};
 `
 const MobileLine = styled.hr`

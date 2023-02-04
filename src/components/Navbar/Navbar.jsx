@@ -22,6 +22,9 @@ const Container = styled.div`
     height: 150px;
     z-index: 1;
     background-color: #FEFDFD;
+    ${mobile({
+        height: '85px'
+    })}
 `;
 
 const Wrapper = styled.div`
@@ -223,7 +226,7 @@ const SignInCloseButtonContainer = styled.div`
     top: calc(20%);
     left: calc(50% + 70px);
     ${mobile({
-    top: 'calc(12%)'
+    top: 'calc(14%)'
 })};
 
     ${tablet({
