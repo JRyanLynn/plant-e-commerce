@@ -1,6 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Rating } from '@mui/material';
+import { cardClasses, Rating } from '@mui/material';
+import { reviewArray } from '../../../reviewData';
+import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { productArray } from '../../../data';
 
 const ReviewSectionContainer = styled.div`
     display: flex;
@@ -9,11 +14,13 @@ const ReviewSectionContainer = styled.div`
     justify-content: center;
     width: 85%;
     height: 100%;
-    border: 0.5px solid lightgray;
+    border: 1px solid #CCD3C2;
+    color: #1B1212;
 `
 
 const Line = styled.hr`
     width: 90%;
+    color: #CCD3C2;
 `
 const ReviewHeaderContainer = styled.div`
     display: flex;
@@ -54,14 +61,14 @@ const RatingGraphLabel = styled.p`
 
 const RatingGraphBar = styled.div`
     width: 50%;
-    height: 10px;
-    border: 1px solid black;
+    height: 15px;
+    border: 1px solid #1B1212;
 `
 
 const RatingGraphFill = styled.div`
     width: 50%;
-    height: 10px;
-    background-color: blue;
+    height: 15px;
+    background-color: #517A3E;
 `
 
 const RatingGraphNumber = styled.p`
@@ -98,6 +105,8 @@ const AddReviewButton = styled.button`
     font-weight: 600;
     align-items: center;
     justify-content: center;
+    background-color: #517A3E;
+    color: #FEFDFD;
 `
 
 const RatingContainer = styled.div`
@@ -161,16 +170,21 @@ const Review = styled.p`
 `
 
 const Ratings = () => {
+
+    const {id} = useParams();
+
+    const productArrayItem = productArray.find(i => i.id === parseInt(id));
+
   return (
-    <ReviewSectionContainer>
+     <ReviewSectionContainer>
 
-                    <ReviewHeaderContainer>
-                        <RatingGraphContainer>
+                   <ReviewHeaderContainer key = {productArrayItem.id}>
+                    <RatingGraphContainer>
 
-                            <GraphTitle>Review Snapshot</GraphTitle>
+                            <GraphTitle>Product Reviews</GraphTitle>
 
-                            <RatingGraphRow>
-                                <RatingGraphLabel>5</RatingGraphLabel>
+                           <RatingGraphRow>
+                            <RatingGraphLabel>5</RatingGraphLabel>
                                 <RatingGraphBar><RatingGraphFill /></RatingGraphBar>
                                 <RatingGraphNumber>100</RatingGraphNumber>
                             </RatingGraphRow>
@@ -197,8 +211,8 @@ const Ratings = () => {
                                 <RatingGraphLabel>1</RatingGraphLabel>
                                 <RatingGraphBar><RatingGraphFill /></RatingGraphBar>
                                 <RatingGraphNumber>100</RatingGraphNumber>
-                            </RatingGraphRow>
-                        </RatingGraphContainer>
+                            </RatingGraphRow> 
+                        </RatingGraphContainer> 
 
                         <StatContainer>
                             <StatContainerRow>
@@ -213,7 +227,7 @@ const Ratings = () => {
                         </StatContainer>
 
                         <AddReviewButton>Add Review</AddReviewButton>
-                    </ReviewHeaderContainer>
+                    </ReviewHeaderContainer> 
 
                     <Line />
 

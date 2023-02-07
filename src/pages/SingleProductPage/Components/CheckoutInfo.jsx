@@ -3,14 +3,13 @@ import styled from 'styled-components';
 
 import { useDispatch } from 'react-redux';
 import { productArray } from '../../../data';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { addToCart } from '../../../redux/cartReducer';
 
 import { mobile, tablet, laptop, desktop} from '../../../media';
 
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import { Rating } from '@mui/material';
-
 
 const MainContent = styled.div`
     display: flex;
