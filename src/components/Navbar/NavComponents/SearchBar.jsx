@@ -6,13 +6,11 @@ import ClickAwayListener from '@mui/material/ClickAwayListener';
 
 import SearchIcon from '@mui/icons-material/Search';
 
-const SearchContainer = styled.div`
-    width: 100%;
+const SearchContainer = styled.form`
     display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 100%;
+    height: auto;
     margin-left: 30px;
-    display: block;
 `;
 
 const InputRow = styled.div`
@@ -34,19 +32,20 @@ const Input = styled.input`
     background-color: #FEFDFD;
 `;
 
-const SearchResultContainer = styled.div`
+const SearchResultContainer = styled.menu`
     display: flex;
     position: absolute;
     flex-direction: column;
     position: absolute;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
-    top: 150;
-    width: 450px;
-    height: auto;
-    margin-left: 50px;
-    border: 0.5px solid #CCD3C2;
     z-index: 999;
+    width: 455px;
+    height: auto;
+    top: 43px;
+    margin-left: 30px;
+    padding: 20px 0px 0px 10px;
+    border: 0.5px solid #CCD3C2;
     background-color: #FEFDFD;
     box-shadow:
     0 2.8px 2.2px rgba(0, 0, 0, 0.034),
@@ -61,15 +60,16 @@ const SearchUnorderedList = styled.ul`
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
-    align-items: flex-start;
-    justify-content: center;
+    height: auto;
+    margin: 0px;
+    padding: 0px;
 `
 
 const SearchResultItem = styled.li`
     display: flex;
-    height: 10px;
-    list-style-type: none;
+    height: 44px;
+    margin: 0px;
+    padding: 0px;
 `
 
 const RouterLink = styled(Link)`
@@ -85,12 +85,11 @@ const SearchBar = () => {
         setSearchResultBox(false);
       };
 
-
   return (
     <>
     <SearchContainer>
     <InputRow>
-   <Input style = {{width: "450px"}} placeholder="Search For Plants You Love" onChange={(e) => {setSearchResults((e.target.value).toLowerCase()); setSearchResultBox(true)}} />
+   <Input style = {{width: "450px"}} placeholder = "Search For Plants" onChange={(e) => {setSearchResults((e.target.value).toLowerCase()); setSearchResultBox(true)}} />
    <QueryIcon />
    </InputRow>
 
@@ -100,7 +99,7 @@ const SearchBar = () => {
     <ClickAwayListener onClickAway={handleClickAway}>
     <SearchResultContainer>
         
-        {searchResults === '' ? '' : productArray.filter((item) => item.name.toLowerCase().includes(searchResults)).slice(0, 5).map((item) => (
+        {searchResults === '' ? setSearchResultBox(false) : productArray.filter((item) => item.name.toLowerCase().includes(searchResults)).slice(0, 5).map((item) => (
                 <SearchUnorderedList key = {item.id}>
                 <SearchResultItem><RouterLink to={`/products/${item.id}`} onClick={() => setSearchResultBox(false)}>{item.name}</RouterLink></SearchResultItem>
                 </SearchUnorderedList>

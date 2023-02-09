@@ -1,11 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { cardClasses, Rating } from '@mui/material';
-import { reviewArray } from '../../../reviewData';
 import { useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
 import { productArray } from '../../../data';
+import { Rating } from '@mui/material';
 
 const ReviewSectionContainer = styled.div`
     display: flex;
