@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useRef} from 'react'
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import { productArray } from '../../../data';
@@ -30,6 +30,7 @@ const Input = styled.input`
     display: flex;
     padding: 5px;
     background-color: #FEFDFD;
+    height: 20px;
 `;
 
 const SearchResultContainer = styled.menu`
@@ -85,6 +86,8 @@ const SearchBar = () => {
         setSearchResultBox(false);
       };
 
+      const searchFilter = productArray.filter((item) => item.name.toLowerCase().includes(searchResults));
+
   return (
     <>
     <SearchContainer>
@@ -99,7 +102,7 @@ const SearchBar = () => {
     <ClickAwayListener onClickAway={handleClickAway}>
     <SearchResultContainer>
         
-        {searchResults === '' ? setSearchResultBox(false) : productArray.filter((item) => item.name.toLowerCase().includes(searchResults)).slice(0, 5).map((item) => (
+        {searchResults === '' ? setSearchResultBox(false) : searchFilter.slice(0, 5).map((item) => (
                 <SearchUnorderedList key = {item.id}>
                 <SearchResultItem><RouterLink to={`/products/${item.id}`} onClick={() => setSearchResultBox(false)}>{item.name}</RouterLink></SearchResultItem>
                 </SearchUnorderedList>

@@ -15,7 +15,6 @@ import Cart from '../Cart'
 import SearchBar from './NavComponents/SearchBar'
 import NavBurgerMenu from './NavComponents/NavBurgerMenu'
 import LogIn from './NavComponents/LogIn'
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 
 const Nav = styled.nav`
     height: 150px;
@@ -180,43 +179,6 @@ const CartToggle = styled.div`
     flexDirection: 'column';
     position: 'absolute';
 `
-const SignInCloseButton = styled(CloseOutlinedIcon)`
-    display: flex;
-    padding: 10px;
-    color: #1B1212;
-`
-const SignInCloseButtonContainer = styled.div`
-    display: flex;
-    position: absolute;
-    width: 100px;
-    height: auto;
-    align-items; flex-end;
-    justify-content: flex-end;
-    z-index: 1000;
-    top: calc(20%);
-    left: calc(50% + 70px);
-    ${mobile({
-    top: 'calc(14%)'
-})};
-
-    ${tablet({
-    top: 'calc(13%)'
-})};
-`
-
-const TransparentPageContainer = styled.div`
-    height: 1500px;
-    width: 100%;
-    z-index: 800;
-    position: absolute;
-    background: black;
-    margin-left: -8px;
-    opacity: .2;
-    margin-top: -10px;
-    ${mobile({
-    marginTop: '4px'
-})};
-`
 
 const MenuButton = styled.button`
     background-color: transparent;
@@ -317,11 +279,8 @@ const Navbar = () => {
             <DividerLine />
 
             {logIn ?
-                <>
-                    <TransparentPageContainer />
-                    <SignInCloseButtonContainer>
-                        <SignInCloseButton onClick={() => setLogIn(!logIn)} />
-                    </SignInCloseButtonContainer> <LogIn />
+            <> 
+            <LogIn />
                 </>
                 : null}
 
