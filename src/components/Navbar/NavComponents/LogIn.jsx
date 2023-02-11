@@ -23,19 +23,18 @@ const SignIn = styled.div`
     0 22.3px 17.9px rgba(0, 0, 0, 0.072),
     0 41.8px 33.4px rgba(0, 0, 0, 0.086),
     0 100px 80px rgba(0, 0, 0, 0.12);
-    ${mobile({top: 'calc(12% )'})};
-    ${tablet({top: 'calc(12% )'})};
 `
 const TransparentPageContainer = styled.div`
-    height: 1500px;
-    width: 100%;
+    height: 160vh;
+    width: 100vw;
     position: absolute;
     display: flex;
     z-index: 100;
     margin: -10px 0px 0px -8px;
     background: rgba(0, 0, 0, 0.5);
     justify-content: center;
-    ${mobile({marginTop: '4px'})};
+    ${mobile({marginTop: '4px', height: '100vh'})};
+    ${tablet({height: '100vh'})};
 `
 
 const SingInTopButtonRow = styled.div`
@@ -157,7 +156,7 @@ const LogIn = () => {
     const [register, setRegister] = useState(false);
     const [forgot, setForgot] = useState(false);
 
-    //sign in states for sign in buttons
+    //sing in will be open by default
     const handleSignInOpen = () => {
         setSignIn(true);
         setRegister(false);
@@ -177,7 +176,6 @@ const LogIn = () => {
         setForgot(true);
     }
     const [logIn, setLogIn] = useState(true);
-
 
     return (
         <>
@@ -202,10 +200,10 @@ const LogIn = () => {
 
                     {signIn ?
                         <SignInInputForm>
-                            <InputLabelRow><InputLabel for="Email">Email *</InputLabel></InputLabelRow>
+                            <InputLabelRow><InputLabel htmlFor="Email">Email *</InputLabel></InputLabelRow>
                             <TextInput type="email" id="email" required placeholder='you@email.com'></TextInput>
 
-                            <InputLabelRow><InputLabel for="Email">Password *</InputLabel></InputLabelRow>
+                            <InputLabelRow><InputLabel htmlFor="Email">Password *</InputLabel></InputLabelRow>
                             <TextInput
                                 type="password"
                                 minlength="8"
@@ -219,9 +217,9 @@ const LogIn = () => {
 
                     {register ?
                         <SignInInputForm>
-                           <InputLabelRow><InputLabel for="Email">Email *</InputLabel></InputLabelRow>
+                           <InputLabelRow><InputLabel htmlFor="Email">Email *</InputLabel></InputLabelRow>
                             <TextInput type="email" id="email" required placeholder='you@email.com'></TextInput>
-                            <InputLabelRow><InputLabel for="Email">Password *</InputLabel></InputLabelRow>
+                            <InputLabelRow><InputLabel htmlFor="Email">Password *</InputLabel></InputLabelRow>
                             <TextInput
                                 type="password"
                                 minlength="8"
@@ -229,7 +227,7 @@ const LogIn = () => {
                                 pattern="(?!000)([0-6]\d{2}|7([0-6]\d|7[012]))([ -])?(?!00)\d\d\3(?!0000)\d{4}"
                                 autocomplete="off"
                             />
-                            <InputLabelRow><InputLabel for="Password" className =  'bottom-label'>Password most be at least 8 characters</InputLabel></InputLabelRow>
+                            <InputLabelRow><InputLabel htmlFor="Password" className =  'bottom-label'>Password most be at least 8 characters</InputLabel></InputLabelRow>
                             <SignInButtonMain>Sign Up</SignInButtonMain>
                             <ForgotButton onClick={handleForgotOpen}>Forgot Password</ForgotButton>
                         </SignInInputForm> : null}
@@ -238,7 +236,7 @@ const LogIn = () => {
                         <SignInInputForm style={{ marginTop: '-10px' }}>
                             <ForgotTitleText>Reset Password</ForgotTitleText>
                             <ForgotLabel>Email to reset your password will be sent</ForgotLabel>
-                            <InputLabelRow style={{ marginTop: '10px' }}><InputLabel style={{ marginTop: '0px' }} for="Email">Email *</InputLabel></InputLabelRow>
+                            <InputLabelRow style={{ marginTop: '10px' }}><InputLabel style={{ marginTop: '0px' }} htmlFor="Email">Email *</InputLabel></InputLabelRow>
                             <TextInput type="email" id="email" required placeholder='you@email.com'></TextInput>
                             <SignInButtonMain style={{ marginTop: '20px' }}>Email Reset</SignInButtonMain> </SignInInputForm> : null}
                 </SignIn>

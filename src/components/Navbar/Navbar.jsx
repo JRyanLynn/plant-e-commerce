@@ -52,7 +52,7 @@ const NavSection = styled.div`
     display: flex;
     width: 100%;
 
-    &.navLeft {
+    &.nav-left {
         align-items: center;
         justify-content: flex-start;
         margin-left: 20px;
@@ -65,7 +65,7 @@ const NavSection = styled.div`
         })};
     }
 
-    &.navCenter {
+    &.nav-center {
         text-align: center;
         justify-content: center;
         ${mobile({
@@ -76,7 +76,7 @@ const NavSection = styled.div`
         })};
     }
 
-    &.navRight {
+    &.nav-right {
         align-items: center;
         justify-content: flex-end;
         flex-direction: row;
@@ -108,7 +108,7 @@ const StyledCartBadge = styled(Badge)({
 const SectionUl = styled.ul`
     display: flex;
     color: #1B1212;
-    &.bottomUl{
+    &.bottom-ul{
         justify-content: space-between;
         align-items: center;
         padding: 0px 40px;
@@ -148,17 +148,13 @@ const BottomSection = styled.div`
     color: #1B1212;
     align-items: center;
     justify-content: center;
-    ${mobile({
-    display: 'none',
-})};
+    ${mobile({display: 'none'})};
 `
 
 const DividerLine = styled.hr`
     width: 100%;
     color: #CCD3C2;
-    ${mobile({
-    display: 'none'
-})};
+    ${mobile({display: 'none'})};
 `
 const RouterLink = styled(Link)`
   text-decoration: none;
@@ -226,7 +222,7 @@ const Navbar = () => {
         <Nav>
             <TopSection>
 
-                <NavSection className='navLeft'>
+                <NavSection className='nav-left'>
                     
                     <MenuButton onClick={() => setShowBurger(!showBurger)}>
                         <MenuIcon />
@@ -235,11 +231,11 @@ const Navbar = () => {
                     <Logo aria-label='Link to home'><RouterLink to='/'>PLANT DECOR</RouterLink></Logo>
                 </NavSection>
 
-                <NavSection className='navCenter'>
+                <NavSection className='nav-center'>
                     <SearchBar />
                 </NavSection>
 
-                <NavSection className='navRight'>
+                <NavSection className='nav-right'>
                     <SectionUl>
                         <MenuItem>
                     <AccountCircleIcon onClick={() => setLogIn(!logIn)}></AccountCircleIcon>
@@ -267,7 +263,7 @@ const Navbar = () => {
             <DividerLine />
 
             <BottomSection>
-               <SectionUl className='bottomUl'>
+               <SectionUl className='bottom-ul'>
                 <MenuItem><RouterLink to='/'>Home</RouterLink></MenuItem>
                 <MenuItem onClick={() => navigate(`/type/${'flower'}`)}>Flowers</MenuItem>
                 <MenuItem onClick={() => navigate(`/type/${'leafy'}`)}>Leafy Plants</MenuItem>

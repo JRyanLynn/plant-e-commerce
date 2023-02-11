@@ -1,38 +1,34 @@
-import {React, useState} from 'react';
+import { React, useState } from 'react';
 import styled from 'styled-components';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { mobile, tablet, laptop, desktop} from '../media';
+import { mobile, tablet, laptop, desktop } from '../media';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateCount, removeItem} from '../redux/cartReducer';
+import { updateCount, removeItem } from '../redux/cartReducer';
 
 
-const CardContainer = styled.div`
+const CardContainer = styled.article`
   display: flex;
   height: 120px; 
   width: 95%;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  margin-left: 10px;
-  margin-right: 5px;
-  margin-top: 5px;
-  margin-bottom: 10px;
-  border: 0.5px solid #CCD3C2;
+  padding: 5px 0px 5px 0px;
+  margin: 5px 5px 10px 10px;
+  border: 1px solid #CCD3C2;
   background-color: #FEFDFD;
   font-family: Arial;
 `
 
-const PictureContainer = styled.div`
+const PictureContainer = styled.section`
   display: flex;
   flex: 1; 
   height: 100%; 
   width: 100%;
-  margin-left: 10px;
+  margin-left: 5px;
   justify-content: center;
   align-items: center;
-  ${mobile({ 
-    height: '100%',
-    width: '100%'
-  })}; 
+  ${mobile({
+  height: '100%',
+  width: '100%'
+})}; 
 `
 
 const Image = styled.img`
@@ -41,38 +37,43 @@ const Image = styled.img`
   height: 100%;
 `
 
-const CardContents = styled.div`
+const CardContents = styled.section`
   display: flex;
   flex: 2;
   flex-direction: column;
   margin-left: 15px;
 `
 
-const Top = styled.div`
+const Top = styled.section`
   display: flex; 
   flex-direction: row; 
-  height: 30px; 
+  height: 35px; 
   width: auto; 
   justify-content: space-between; 
   align-items: center; 
   margin-right: 10px;
-  ${mobile({ 
-    marginRight: '5px',
-  })}; 
+  margin-top: 5px;
+  ${mobile({
+  marginRight: '5px',
+})}; 
 `
 
-const Price = styled.h1`
-  font-size: 20px; 
-  font-weight: 600;
+const CloseButton = styled.button`
+  display: flex;
+  width: auto;
+  height: auto;
+  border: none;
+  background: none;
+  align-items: center;
+  justify-content: center;
 `
 
-const Close = styled(DeleteOutlineIcon)`
+const CloseIcon = styled(DeleteOutlineIcon)`
   font-size: 16px;
-  color: gray;
-  margin-top: 2px;
+  color: #4A4A45;
 `
 
-const Middle = styled.div`
+const Middle = styled.section`
   display: flex; 
   flex-direction: row; 
   font-size: 18px; 
@@ -80,23 +81,35 @@ const Middle = styled.div`
   align-items: center; 
   height: 30px; 
   width: 100%; 
-  background-color: white; 
-  marginTop: 10px;
 `
 
-const ProductName = styled.p`
-  font-size: 16px;
+const ProductName = styled.h1`
+  font-size: 18px;
+  font-weight: 600;
 `
 
-const Bottom = styled.div`
+const Price = styled.h1`
+  font-size: 14px;
+  font-weight: 500;
+  margin: 4px 18px 0px 0px;
+  color: #4A4A45;
+  font-size: 14px;
+  &.one-item {
+    margin-left: 2px;
+    font-size: 16px;
+    color: #1B1212;
+  }
+`
+
+const Bottom = styled.section`
   display: flex; 
   flex-direction: row; 
   height: auto; 
   width: 100%; 
-  font-size: 16px;
   align-items: center; 
-  justify-content: flex-end;
-  margin-top: 30px;
+  justify-content: space-between;
+  margin-top: 25px;
+  font-size: 16px;
 `
 
 const QuantityContainer = styled.div`
@@ -105,80 +118,81 @@ const QuantityContainer = styled.div`
   align-items: center; 
   justify-content: center; 
   margin-right: 10px;
-  ${mobile({ 
-    marginLeft: '10px',
-    marginRight: '5px'
-  })}; 
+  ${mobile({
+  marginLeft: '10px',
+  marginRight: '5px'
+})}; 
 `
 
 const BottomButton = styled.button`
   display: flex;
   font-size: 16px;
-  font-weight: 500;
   align-items: center; 
-  justify-content: center; 
+  justify-content: space-between; 
   background-color: #FEFDFD;
   border: none;
-  ${mobile({ 
-    fontSize: '16px',
-  })}; 
+  ${mobile({
+  fontSize: '16px',
+})}; 
 `
 
 const Quantity = styled.input`
   font-size: 16px;
   font-weight: 500;
-  margin-left: 10px;
-  margin-right: 10px;
-  padding-left: 5px;
-  padding-right: 5px;
+  margin: 0px 5px 0px 5px;
+  padding: 0px 5px 0px 5px;
   width: 20px;
   text-align: center;
-  ${mobile({ 
-    fontSize: '16px',
-    padding: '0px',
-    marginLeft: '5px',
-    marginRight: '5px'
-  })};  
+  border: none;
+  outline: none;
+  ${mobile({
+  fontSize: '16px',
+  padding: '0px',
+  marginLeft: '5px',
+  marginRight: '5px'
+})};  
 `
 
 
 const Card = () => {
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-  
+
   return (
     <>
-    {cart.products.map ((item) =>(
-    
-    <CardContainer key = {item.id}>
-     <PictureContainer>
-        <Image key = {item.image} src = {item.img} alt = 'Product Image' />
-      </PictureContainer>
-      
-      <CardContents>
-        <Top>
-          <Price key = {item.price}>${(item.price * item.count).toFixed(2)}</Price>
-          <Close onClick = {() => dispatch(removeItem(item.id))} />
-        </Top>
+      {cart.products.map((item) => (
 
-        <Middle>
-          <ProductName key={item.title}>{item.title}</ProductName>
-        </Middle>
+        <CardContainer key={item.id}>
+          <PictureContainer>
+            <Image key={item.image} src={item.img} alt={item.name} />
+          </PictureContainer>
 
-        <Bottom>
+          <CardContents>
+            <Top>
+              <ProductName key={item.title}>{item.title}</ProductName>
+              <CloseButton onClick={() => dispatch(removeItem(item.id))}><CloseIcon /></CloseButton>
+            </Top>
 
-          <QuantityContainer>
-            <BottomButton  onClick = {() => item.count === 1 ? 1 : dispatch(updateCount({ id: item.id, count: item.count - 1}))}>-</BottomButton>
-            <Quantity type = 'text' name = 'quantity' value = {item.count} onChange={(e) => dispatch(updateCount(item.id, e.target.value))} />
-            <BottomButton onClick = {() => dispatch(updateCount({ id: item.id, count: item.count + 1 })) }>+</BottomButton>
-          </QuantityContainer>
+            <Middle>
+              <Price className='one-item'>${(item.price * 1).toFixed(2)}</Price>
+            </Middle>
+            <Bottom>
 
-        </Bottom>
+              <QuantityContainer>
+                <BottomButton onClick={() => item.count === 1 ? 1 : dispatch(updateCount({ id: item.id, count: item.count - 1 }))}>-</BottomButton>
+                <Quantity type='text'
+                  name='quantity'
+                  readonly="readonly"
+                  value={item.count} onChange={(e) => dispatch(updateCount(item.id, e.target.value))} />
+                <BottomButton onClick={() => dispatch(updateCount({ id: item.id, count: item.count + 1 }))}>+</BottomButton>
+              </QuantityContainer>
+              <Price key={item.price}>${(item.price * item.count).toFixed(2)}</Price>
+            </Bottom>
 
 
-      </CardContents>
-     </CardContainer>))}
-     </>
+          </CardContents>
+        </CardContainer>))}
+    </>
   )
 }
 
