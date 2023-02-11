@@ -17,32 +17,22 @@ const Page = styled.div`
         marginTop: '-20px'
     })};
 `
-const MobileLine = styled.hr`
+const MobileDivider = styled.hr`
     color: #1B1212;
-    ${desktop({ 
-        display: 'none'
-    })};
-
-    ${laptop({ 
-        display: 'none'
-    })};
-
-    ${tablet({ 
-        display: 'none'
-    })};
+    ${desktop({ display: 'none'})};
+    ${laptop({ display: 'none'})};
+    ${tablet({ display: 'none'})};
 `
-const PageContainer = styled.div`
+const ProductPageContainer = styled.div`
     display: flex;
     width: 100%;
     height: 100%;
     justify-content: center;
     align-items: center;
-    ${mobile({ 
-        marginTop: '20px'
-    })};
+    ${mobile({ marginTop: '20px'})};
 `
 
-const PageWrapper = styled.div`
+const ProductPageWrapper = styled.main`
     display: flex;
     width: 90%;
     height: 100%;
@@ -53,35 +43,28 @@ const PageWrapper = styled.div`
         alignItems: 'center',
         justifyContent: 'center'
     })};
-    ${tablet({ 
-        width: '100%', 
-    })};
+    ${tablet({ width: '100%', })};
 `
 
 const SortWrapper  = styled.div`
     display: flex;
     flex-direction: column; 
-    width: 95.75%;
+    width: 96.20%;
     height: 100%;
-    padding-right: 10px;
-    padding-left: 10px;
+    padding: 0px 10px 0px 10px;
     justify-content: center;
     align-items: flex-end;
     ${mobile({ 
        width: '100%',
        alignItems: 'center'
     })};
-
-    ${tablet({ 
-        width: '98%',
-       
-     })};
+    ${tablet({ width: '98%'})};
 `
 
-const SortButtonRow = styled.div`
+const SortButtonRow = styled.nav`
     display: flex;
     flex-direction: row;
-    width: 77.25%;
+    width: 75%;
     height: 30px;
     justify-content: space-between;
     align-items: center;
@@ -89,25 +72,23 @@ const SortButtonRow = styled.div`
         width: '79%',
         marginLeft: '5px'
     })};
+    ${tablet({
+        width: '69%',
+        marginRight: '20px'
+})};
 `
 
 const SortButton = styled.button`
     display: flex;
     cursor: pointer;
-
     width: 100%;
     height: 5%;
-
     align-items: center;
     justify-content: space-between;
-
-    padding-left: 15px;
-    padding-bottom: 3px;
-
+    padding: 0px 0px 3px 15px;
     font-weight: 500;
     font-size: 16px;
-
-    background-color: #FEFDFD;
+    background-color: #dcdcdc;
     border: 1px solid #1B1212;
     ${mobile({ 
         fontSize: '12px',
@@ -116,37 +97,28 @@ const SortButton = styled.button`
     })};
 `
 
-const SortComponentContainer = styled.div`
+const SortComponentContainer = styled.menu`
     width: 15%;
     height: auto;
     margin-right: 10px;
-    ${mobile({ 
-        width: '40%'
-    })};  
-
-    ${tablet({ 
-        width: '25%'
-    })};  
+    ${mobile({ width: '40%'})};  
+    ${tablet({ width: '25%'})};  
 `
 
-const SortContentContainer = styled.div`
+const SortOptionListContainer = styled.ul`
     display: flex;
     flex-direction: column;
     position: absolute;
     z-index: 800;
     cursor: pointer;
-
-    width: 9.65%;
+    width: 9.75%;
     height: auto;
-
-    margin-right: 10px;
-    padding-top: 10px;
-    padding-left: 3px;
-
+    margin: 0;
+    padding: 0;
+    padding-bottom: 10px;
     font-size: 16px;
     background: #F5F5F5;
     border: 1px solid #CCD3C2;
-
     box-shadow:
     0 2.8px 2.2px rgba(0, 0, 0, 0.034),
     0 6.7px 5.3px rgba(0, 0, 0, 0.048),
@@ -154,16 +126,12 @@ const SortContentContainer = styled.div`
     0 22.3px 17.9px rgba(0, 0, 0, 0.072),
     0 41.8px 33.4px rgba(0, 0, 0, 0.086),
     0 100px 80px rgba(0, 0, 0, 0.12);
-
     ${mobile({ 
-        width: '28%',
+        width: '29.5%',
         margin: '0',
         right: '56px'
     })};
-
-    ${tablet({ 
-        width: '18%'
-    })};  
+    ${tablet({width: '18%'})};  
 `
 const SortListTitle = styled.h1`
     font-Size: '28px';
@@ -171,45 +139,36 @@ const SortListTitle = styled.h1`
         fontSize: '22px',
         marginLeft: '5px'
     })};
-
-    ${tablet({ 
-       marginLeft: '5px'
-    })};  
+    ${tablet({marginLeft: '5px'})};  
 `
 
-const DropListItem = styled.h2`
+const DropListItem = styled.li`
     font-weight: 500;
     position: relative;
     font-size: 16px;
-    padding-left: 2px;
-    margin-top: -3px;
-    ${mobile({ 
-        fontSize: '12px'
-    })};
+    padding-left: 5px;
+    list-style-type: none;
+    margin-top: 10px;
+    ${mobile({fontSize: '12px'})};
 `
 
 const SortDownArrow = styled(KeyboardArrowDownIcon)`
     margin-left: 5px;
 `
 
-const CategoryColumn = styled.div`
+const CategoryFilterColumn = styled.menu`
     display: flex;
     width: 25%;
     margin-left: 20px;
     height: 100%;
     flex-direction: column;
     margin-top: 18px;
-    ${mobile({ 
-       display: 'none'
-    })};  
+    ${mobile({display: 'none'})}; 
 `
 
-const ListTitle = styled.h1`
+const ListTitle = styled.h2`
     font-size: 20px;
-    ${mobile({ 
-        fontSize: '16px'
-    })};
-    
+    ${mobile({fontSize: '16px'})};
 `
 
 const List = styled.ul`
@@ -225,27 +184,24 @@ const List = styled.ul`
         width: '100%',
         marginLeft: '-35px'
     })};
-
     ${tablet({ 
         marginLeft: '-40px',
         width: '90%'
     })};  
-
 `
 
 const ListItem = styled.li`
     list-style-type: none;
     font-size: 18px;
     padding: 2px;
-    ${mobile({ 
-        fontSize: '14px'
-    })};
+    ${mobile({fontSize: '14px'})};
 `
 
 const ListInput = styled.input`
     width: 16px;
     height: 16px;
     margin-right: 5px;
+    accent-color: #517A3E;
     ${mobile({ 
         height: '14px',
         width: '14px'
@@ -265,20 +221,17 @@ const PageContentWrapper = styled.div`
     ${mobile({ 
        alignItems: 'center',
        justifyContent: 'center'
-    })};
-    
+    })};  
 `
 
-const ProductGridWrapper = styled.div`
+const ProductGridWrapper = styled.section`
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
     height: 100%;
     padding: 10px;
-    margin-top: 10px;
-    margin-left: 10px;
-    margin-bottom: 100px;
+    margin: 10px 0px 100px 10px;
     background: #FEFDFD;
     ${mobile({ 
         padding: '0px',
@@ -286,75 +239,65 @@ const ProductGridWrapper = styled.div`
         alignItems: 'center',
         width: '95%',
     })};
-
-    ${tablet({ 
-        width: '95%'
+    ${tablet({
+        width: '90%',
+        alignItems: 'center'
     })};
 `
 
 const NoResult = styled.h1`
     align-items: center;
     justify-content: center;
-    margin-top: 100px;
-    margin-left: 250px;
-    font-weight: 500;
+    margin: 100px 0px 0px 250px;
     ${mobile({ 
        marginLeft: '50px',
        fontSize: '24px'
     })};
 `
 
-const ProductCard = styled.div`
+const ProductCard = styled.article`
     width: 23%;
     height: 60%;
     background: white;
     margin: 5px;
     border: 1px solid #CCD3C2;
     cursor: pointer;
-    ${mobile({ 
-        width: '40%'
+    ${mobile({width: '40%'})};
+    ${tablet({
+        width: '22%',
+        alignItems: 'center'
     })};
 `
 const ProductImg = styled.img`
     width: 100%;
     height: 200px;
     display: block;
-    ${mobile({ 
+    ${mobile({height: '100px'})};
+    ${tablet({
         height: '100px'
     })};
 `
 
-const ProductInfo = styled.div`
+const ProductInfo = styled.section`
     display: flex;
     flex-direction: column;
     margin-left: 15px;
     align-items: flex-start;
     justify-content: center;
-    ${mobile({ 
-        marginLeft: '5px'
-    })};
-    
-    ${tablet({ 
-        marginLeft: '5px'
-    })};   
+    ${mobile({marginLeft: '5px'})};
+    ${tablet({marginLeft: '5px'})};   
 `
 
 const ProductName =  styled.h1`
     font-size: 20px;
     font-weight: 500;
-    ${mobile({ 
-        fontSize: '12px'
-    })};
-
-    ${tablet({ 
-        fontSize: '12px'
-    })};
+    ${mobile({fontSize: '12px'})};
+    ${tablet({fontSize: '12px', fontWeight: '600'})};
 `
 
 const Reviews = styled.div`
     font-size: 16px;
-    margin-bottom: 5px;
-    margin-top: -3px;
+    margin: -3px 0px 5px 0px;
 `
 const ReviewContainer = styled.div`
     Display: flex;
@@ -367,23 +310,16 @@ const ReviewText = styled.a`
     font-size: 12px;
     font-weight: 500;
     margin-left: 10px;
-    ${mobile({ 
-        display: 'none'
-    })};
-
-    ${tablet({ 
-        display: 'none'
-    })};
+    ${mobile({display: 'none'})};
+    ${tablet({display: 'none'})};
 `
 
 const ProductPrice = styled.p`
     font-size: 18px;
     font-weight: 600;
-    margin-left: 3px;
-    margin-top: -3px;
-    ${mobile({ 
-        fontSize: '14px'
-    })};
+    margin: -3px 0px 10px 3px;
+    ${mobile({fontSize: '14px'})};
+    ${tablet({fontSize: '14px'})};
 `
 
 const PlantTypes = () => {
@@ -455,9 +391,9 @@ useEffect (() => {
 
   return (
     <Page>
-        <MobileLine />
-    <PageContainer>
-        <PageWrapper>
+        <MobileDivider />
+    <ProductPageContainer>
+        <ProductPageWrapper>
         <SortWrapper>
         <SortButtonRow>
             <SortListTitle>{type.replace(/\b[a-z]/g, (match) => match.toUpperCase())}</SortListTitle>
@@ -465,18 +401,18 @@ useEffect (() => {
             <SortButton onClick = {() => setSort(!sort)}>Sort <SortDownArrow /></SortButton>
             {sort?
             < ClickAwayListener onClickAway={handleClickAway}>
-            <SortContentContainer>
+            <SortOptionListContainer>
                     <DropListItem onClick = {lowHi}>Price - Low-High</DropListItem>
                     <DropListItem onClick = {hiLow}>Price - High-Low</DropListItem>
                     <DropListItem>Customer Rating</DropListItem>
-            </SortContentContainer>
+            </SortOptionListContainer>
             </ ClickAwayListener>
             : null}
             </SortComponentContainer>
             </SortButtonRow>
             </SortWrapper>
         <PageContentWrapper>
-        <CategoryColumn>
+        <CategoryFilterColumn>
 
         <List>
             <ListItem><ListTitle>Care Type</ListTitle></ListItem>
@@ -493,7 +429,7 @@ useEffect (() => {
             <ListItem><ListInput type = 'checkbox' name = 'light' value = 'low' onChange={(e) => handleCheckboxChange(e)} />Dark</ListItem>
         </List>
 
-        </CategoryColumn>
+        </CategoryFilterColumn>
 
         <ProductGridWrapper style={{ opacity: screenOpacity }}>
            {array.length > 0 ? array.map((item) => (
@@ -518,8 +454,8 @@ useEffect (() => {
 
         </ProductGridWrapper> 
         </PageContentWrapper>
-        </PageWrapper>
-    </PageContainer>
+        </ProductPageWrapper>
+    </ProductPageContainer>
 </Page>
   )
 }
