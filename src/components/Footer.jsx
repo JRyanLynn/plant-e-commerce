@@ -8,15 +8,16 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import BusinessIcon from '@mui/icons-material/Business';
 
   
-  const Container = styled.div`
+  const Container = styled.footer`
     display: flex;
     font-family: Arial;
     background-color: #F5F5F5;
     color: #1B1212;
+    margin-top: 50px;
     ${mobile({ flexDirection: "column" })}
   `;
   
-  const Left = styled.div`
+  const Left = styled.section`
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -34,7 +35,7 @@ import BusinessIcon from '@mui/icons-material/Business';
     margin-top: -5px;
   `;
   
-  const Center = styled.div`
+  const Center = styled.section`
     flex: 1;
     padding: 20px;
     ${mobile({ display: "none" })}
@@ -60,7 +61,7 @@ import BusinessIcon from '@mui/icons-material/Business';
     cursor: pointer;
   `
   
-  const Right = styled.div`
+  const Right = styled.section`
     flex: 1;
     padding: 20px;
   `;
@@ -92,7 +93,7 @@ const Footer = () => {
         <ListItem>Contact</ListItem>
         <ListItem>My Order</ListItem>
         <ListItem><RouterLink to= '/cart'>Cart</RouterLink></ListItem>
-        <ListItem><RouterLink to = '/product/1'>All Plants</RouterLink></ListItem>
+        <ListItem><RouterLink to = '/all'>All Plants</RouterLink></ListItem>
         <ListItem><RouterLink to = 'type/herb'>Herbs</RouterLink></ListItem>
         <ListItem><RouterLink to = 'type/flower'>Flowers</RouterLink></ListItem>
         <ListItem><RouterLink to = 'type/leafy'>Leafy Plants</RouterLink></ListItem>

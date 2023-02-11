@@ -1,6 +1,6 @@
 import './App.css';
 import FullCart from './pages/FullCart';
-import Home from './pages/Home';
+import Home from './pages/HomePage/Home';
 import Navbar from './components/Navbar/Navbar';
 import ProductPage from './pages/ProductPages/ProductPage';
 import ProductView from './pages/SingleProductPage/SingleProductPage';
