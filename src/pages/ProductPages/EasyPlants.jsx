@@ -370,7 +370,7 @@ const EasyPlants = () => {
                     (lightTypes.length  === 0 || lightTypes.includes(product.light)) &&
                     (categoryTypes.length  === 0 || categoryTypes.includes(product.category) || categoryTypes.includes(product.type)) 
         });
-        setArray(filtered);
+        setArray(filtered.filter(product => product.care === "easy"));
         setTimeout(() => {
             setIsLoading(false);
         }, 200);
@@ -450,7 +450,7 @@ const EasyPlants = () => {
                         <ProductName key = {item.name}>{item.name}</ProductName>
                         <Reviews key = {item.reviews}>
                             <ReviewContainer>
-                            <Rating style = {{}} name="read-only" readOnly  size="small"/>
+                            <Rating name="read-only" readOnly  size="small"/>
                             <ReviewText>(100)</ReviewText>
                             </ReviewContainer>
                         </Reviews>

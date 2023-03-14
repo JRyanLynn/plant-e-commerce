@@ -362,7 +362,7 @@ const ProductPage = () => {
            } else {
              setScreenOpacity(1);
            }
-        const filtered = array.filter(product => {
+        const filtered = productArray.filter(product => {
             return (careTypes.length  === 0 || careTypes.includes(product.care)) &&
                     (lightTypes.length  === 0 || lightTypes.includes(product.light)) &&
                     (categoryTypes.length  === 0 || categoryTypes.includes(product.category) || categoryTypes.includes(product.type)) 

@@ -33,7 +33,7 @@ const TransparentPageContainer = styled.div`
     margin: -10px 0px 0px -8px;
     background: rgba(0, 0, 0, 0.5);
     justify-content: center;
-    ${mobile({marginTop: '4px', height: '100vh'})};
+    ${mobile({marginTop: '4px', height: '85vmax'})};
     ${tablet({height: '100vh'})};
 `
 

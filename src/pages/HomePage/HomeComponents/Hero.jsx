@@ -39,6 +39,7 @@ const HeroImgContainer = styled.section`
     width: 60.66%;
     margin: 0px 20px 0px 20px;
     border: 0.5px solid #CCD3C2;
+    z-index: 0;
     ${mobile({
     height: '200px',
     width: '100%',
@@ -102,7 +103,7 @@ const HeroTitleRow = styled.div`
     &.picture-banner {
         background-color: rgba(28, 18, 18, 0.53);
         position: absolute;
-        z-index: 500;
+        z-index: 100;
         bottom: 0px;
         left: 0px;
     }

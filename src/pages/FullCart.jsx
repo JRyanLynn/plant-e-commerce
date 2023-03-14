@@ -11,7 +11,7 @@ const PageContainer = styled.div`
   font-family: Arial;
 `
 
-const CartContainer = styled.div`
+const CartContainer = styled.main`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -48,7 +48,7 @@ ${tablet({
 })};
 
 `
-const LeftColumn = styled.div`
+const LeftColumn = styled.section`
   display: flex;
   width: 45%;
   height: auto;
@@ -66,7 +66,7 @@ ${tablet ({
 
 
 `
-const LeftTitleContainer = styled.div`
+const LeftTitleContainer = styled.header`
   display: flex;
   width: 95%;
   height: 100%;
@@ -93,7 +93,7 @@ const TitleText = styled.h1`
 })};
 `
 
-const ProductCardContainer = styled.div`
+const ProductCardContainer = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -112,7 +112,7 @@ ${tablet ({
 
 `
 
-const RightColumn = styled.div`
+const RightColumn = styled.aside`
   display: flex;
   flex-direction: column;
   width: 25%;
@@ -135,7 +135,7 @@ const CartEmpty = styled.h2`
   font-weight: 500;
 `
 
-const TotalCard = styled.div`
+const TotalCard = styled.section`
   display: flex;
   flex-direction: column;
   align-items: space-between;

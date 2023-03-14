@@ -11,7 +11,7 @@ import { mobile, tablet, laptop, desktop} from '../../../media';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import { Rating } from '@mui/material';
 
-const MainContent = styled.div`
+const MainContent = styled.section`
     display: flex;
     width: 85%;
     height: 100%;

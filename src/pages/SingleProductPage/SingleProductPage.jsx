@@ -12,14 +12,14 @@ import GrassOutlinedIcon from '@mui/icons-material/GrassOutlined';
 import PopularItemList from '../../components/Navbar/PopularItemList';
 import Ratings from './Components/Ratings';
 
-const PageContainer = styled.div`
+const PageContainer = styled.main`
     width: 100%;
     height: 100%;
     background-color: #FEFDFD;
     font-family: Arial;
     color: #1B1212;
 `
-const PageContentWrapper = styled.div`
+const PageContentWrapper = styled.body`
     display: flex;
     width: 100%;
     height: 100%;
@@ -29,7 +29,7 @@ const PageContentWrapper = styled.div`
     background-color: #FEFDFD;
 `
 
-const DescriptionContainer = styled.div`
+const DescriptionContainer = styled.section`
     display: flex;
     height 100%;
     width: 85%;

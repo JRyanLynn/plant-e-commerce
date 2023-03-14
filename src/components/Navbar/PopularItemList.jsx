@@ -17,7 +17,7 @@ const CategoryContainer = styled.div`
     })};
 `
 
-const CategoryWrapper = styled.div`
+const CategoryWrapper = styled.section`
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -30,7 +30,7 @@ const CategoryWrapper = styled.div`
        marginTop: '0px'
     })};
 `
-const CategoryCard = styled.div`
+const CategoryCard = styled.article`
     width: 23%;
     height: 60%;
     background: white;
@@ -38,6 +38,9 @@ const CategoryCard = styled.div`
     border: 1px solid #CCD3C2;
     cursor: pointer;
     text-align: center;
+    &:hover{
+        border: 1px solid #1B1212;
+    }
     ${mobile({ 
         height: 'auto',
         margin: '2px'

@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { productArray } from '../../../data';
 import { Rating } from '@mui/material';
 
-const ReviewSectionContainer = styled.div`
+const ReviewSectionContainer = styled.section`
     display: flex;
     flex-direction: column;
     align-items: center;
