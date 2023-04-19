@@ -179,7 +179,7 @@ const Card = () => {
             <Bottom>
 
               <QuantityContainer>
-                <BottomButton onClick={() => item.count === 1 ? 1 : dispatch(updateCount({ id: item.id, count: item.count - 1 }))}>-</BottomButton>
+                <BottomButton onClick={() => item.count === 1 ? 1 : dispatch(updateCount({ id: item.id, count: item.count - 1}))}>-</BottomButton>
                 <Quantity type='text'
                   name='quantity'
                   readonly="readonly"

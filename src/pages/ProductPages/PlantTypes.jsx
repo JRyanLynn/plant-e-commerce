@@ -2,10 +2,10 @@ import React, { useEffect, useState} from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams} from 'react-router-dom';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { productArray } from '../../data';
 import { mobile, tablet, desktop, laptop } from '../../media';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { Rating } from '@mui/material';
+import axios from 'axios';
 
 const Page = styled.div`
     width: 100%;
@@ -329,7 +329,8 @@ const [sort, setSort] = useState(false);
 const [careTypes, setCareTypes] = useState([]);
 const [lightTypes, setLightTypes] = useState([]);
 const [categoryTypes] = useState([]);
-const [array, setArray] = useState(productArray);
+const [products, setProducts] = useState([]);
+const [array, setArray] = useState(products);
 
 //states for loading screen
 const [isLoading, setIsLoading] = useState(false);
@@ -353,12 +354,22 @@ const handleCheckboxChange = (event) => {
 };
 
 useEffect (() => {
+    const getProducts = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/api/products')
+            setProducts(res.data);
+        } catch (error) {console.log(error)}
+    } 
+    getProducts();
+}, []);
+
+useEffect (() => {
    if (isLoading) {
      setScreenOpacity(0);
     } else {
       setScreenOpacity(1);
     }
-    const filtered = productArray.filter(product => {
+    const filtered = products.filter(product => {
         return (careTypes.length  === 0 || careTypes.includes(product.care)) &&
                 (lightTypes.length  === 0 || lightTypes.includes(product.light)) &&
                 (categoryTypes.length  === 0 || categoryTypes.includes(product.category) || categoryTypes.includes(product.type)) 
@@ -367,7 +378,7 @@ useEffect (() => {
         setIsLoading(false);
     }, 200);
     setArray(filtered.filter(product => product.category === type || product.type === type));
-}, [careTypes, lightTypes, categoryTypes, isLoading, type]);
+}, [careTypes, lightTypes, categoryTypes, isLoading, type, products]);
 
     //filters for sort values
     const hiLow = () => {

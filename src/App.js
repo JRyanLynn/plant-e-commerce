@@ -11,9 +11,10 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { store } from './redux/store';
 import { Provider } from 'react-redux';
-import MapTest from './pages/test';
+import Success from './pages/Success';
+import Checkout from './pages/Checkout';
 
-
+//plant-app\src\components\Checkout\Checkout.jsx
 function App() {
   return (
     <Provider store = {store}>
@@ -25,6 +26,8 @@ function App() {
       <Route path = '/easy' element = {<EasyPlants />} />
       <Route path = '/products/:id' element = {<ProductView />} />
       <Route path = '/cart' element = {<FullCart />} />
+      <Route path = '/checkout' element = {<Checkout />} />
+      <Route path = '/success' element = {<Success />}/>
     </Routes>
     <Footer />
     </Provider>

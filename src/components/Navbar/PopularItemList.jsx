@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { productArray } from '../../data';
 import { Link } from 'react-router-dom';
 import { mobile, tablet, laptop, desktop } from '../../media';
+import axios from 'axios';
 
 const CategoryContainer = styled.div`
     display: flex;
@@ -80,10 +80,22 @@ const RouterLink = styled(Link)`
 
 
 const PopularItemList = () => {
+    const [products, setProducts] = useState([]);
+
+    useEffect (() => {
+        const getProducts = async () => {
+            try {
+                const res = await axios.get('http://localhost:5000/api/products')
+                setProducts(res.data);
+            } catch (error) {  console.log(error)}
+        } 
+        getProducts();
+    }, [])
+
   return (
     <CategoryContainer>
     <CategoryWrapper>
-{productArray.sort((a, b) => a.sold - b.sold).slice(-5).map((item) => (
+{products.sort((a, b) => a.sold - b.sold).slice(-5).map((item) => (
         <CategoryCard key = {item.id}>
         <RouterLink to = {`/products/${item.id}`}>
             <CategoryImage src = {item.image}  />

@@ -2,10 +2,11 @@ import React, { useEffect, useState} from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams} from 'react-router-dom';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { productArray } from '../../data';
+//import { productArray } from '../../data';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { Rating } from '@mui/material';
 import { mobile, tablet, desktop, laptop } from '../../media';
+import axios from 'axios';
 
 const Page = styled.div`
     width: 100%;
@@ -331,7 +332,8 @@ const ProductPage = () => {
     const [careTypes, setCareTypes] = useState([]);
     const [lightTypes, setLightTypes] = useState([]);
     const [categoryTypes, setCategoryTypes] = useState([]);
-    const [array, setArray] = useState(productArray);
+    const [products, setProducts] = useState([]);
+    const [array, setArray] = useState(products);
 
     //states for loading screen
     const [isLoading, setIsLoading] = useState(false);
@@ -355,14 +357,24 @@ const ProductPage = () => {
             } else {setCategoryTypes(categoryTypes.filter(filter => filter !== event.target.value))}
         }
     };
-    
+
+    useEffect (() => {
+        const getProducts = async () => {
+            try {
+                const res = await axios.get('http://localhost:5000/api/products')
+                setProducts(res.data);
+            } catch (error) {console.log(error)}
+        } 
+        getProducts();
+    }, []);
+
     useEffect (() => {
         if (isLoading) {
             setScreenOpacity(0);
            } else {
              setScreenOpacity(1);
            }
-        const filtered = productArray.filter(product => {
+        const filtered = products.filter(product => {
             return (careTypes.length  === 0 || careTypes.includes(product.care)) &&
                     (lightTypes.length  === 0 || lightTypes.includes(product.light)) &&
                     (categoryTypes.length  === 0 || categoryTypes.includes(product.category) || categoryTypes.includes(product.type)) 
@@ -371,7 +383,7 @@ const ProductPage = () => {
         setTimeout(() => {
             setIsLoading(false);
         }, 200);
-    }, [careTypes, lightTypes, categoryTypes, isLoading]);
+    }, [careTypes, lightTypes, categoryTypes, isLoading, products]);
     
     //filters for sort values
     const hiLow = () => {

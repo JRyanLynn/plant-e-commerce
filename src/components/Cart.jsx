@@ -168,41 +168,45 @@ const RouterLink = styled(Link)`
 
 const Cart = () => {
   const cardQuantity = useSelector((state) => state.cart.products.length);
-  
+
   //Pulls prices from redux and multiples them by count
-  const subTotal = useSelector((state) => 
-  state.cart.products.reduce((acc, product) => 
-    acc + product.price * product.count, 0))
+  const subTotal = useSelector((state) =>
+    state.cart.products.reduce((acc, product) =>
+      acc + product.price * product.count, 0))
 
   return (
-     <CartContainer>  
+    <CartContainer>
 
-        <BannerContainer>
-          <CartTitle>Cart</CartTitle>
-          <CartItems>({cardQuantity})</CartItems>
-        </BannerContainer>
+      <BannerContainer>
+        <CartTitle>Cart</CartTitle>
+        <CartItems>({cardQuantity})</CartItems>
+      </BannerContainer>
 
       <CartCardContainer>
-     <CartCardWrapper>
-     {cardQuantity === 0 ? <CartEmpty>No Items Found</CartEmpty> : <Card />}
-      </CartCardWrapper>
+        <CartCardWrapper>
+          {cardQuantity === 0 ? <CartEmpty>No Items Found</CartEmpty> : <Card />}
+        </CartCardWrapper>
       </CartCardContainer>
 
       <CheckOutContainer>
         <PricingInfo>
           <PricingDetailRow>
-          <PricingDetail>Subtotal</PricingDetail>
-          <Price>${(subTotal).toFixed(2)}</Price>
+            <PricingDetail>Subtotal</PricingDetail>
+            <Price>${(subTotal).toFixed(2)}</Price>
           </PricingDetailRow>
         </PricingInfo>
 
         <ButtonBank>
           <CheckoutButtons className='full-cart'>
-            <RouterLink to = '/cart'>
-            Full Cart
+            <RouterLink to='/cart'>
+              Full Cart
+            </RouterLink>
+          </CheckoutButtons>
+          <CheckoutButtons className='check-out'>
+            <RouterLink to = '/checkout'>
+            Check Out
             </RouterLink>
             </CheckoutButtons>
-          <CheckoutButtons className = 'check-out'>Check Out</CheckoutButtons>
         </ButtonBank>
 
         <InfoBanner>
