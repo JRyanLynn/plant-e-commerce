@@ -328,7 +328,6 @@ const EasyPlants = () => {
 
     const { id } = useParams();
 
-
     //for sort dropdown
     const [sort, setSort] = useState(false);
     const [careTypes, setCareTypes] = useState([]);
