@@ -1,9 +1,9 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { productArray } from '../../data';
 import { useParams } from 'react-router-dom';
 import CheckoutInfo from './Components/CheckoutInfo';
 import { mobile, tablet, laptop, desktop } from '../../media';
+import axios from 'axios';
 
 import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined';
 import WaterOutlinedIcon from '@mui/icons-material/WaterOutlined';
@@ -19,7 +19,7 @@ const PageContainer = styled.main`
     font-family: Arial;
     color: #1B1212;
 `
-const PageContentWrapper = styled.body`
+const PageContentWrapper = styled.div`
     display: flex;
     width: 100%;
     height: 100%;
@@ -125,10 +125,30 @@ const MightLikeContainer = styled.div`
     })};
 `
 const ProductView = () => {
+    const [products, setProducts] = useState([]);
 
     const { id } = useParams();
 
-    const item = productArray.find(i => i.id === parseInt(id));
+    //array generates products, but the product.find method isn't working
+    useEffect(() => {
+        const getProduct = async () => {
+          try {
+            const response = await axios.get('http://localhost:5000/api/products');
+            setProducts(response.data);
+          } catch (error) {
+            console.log(error);
+          }
+        };
+        getProduct();
+      }, []);
+    
+    //loads an empty array first
+    const item = products.find(i => i.id === parseInt(id));
+
+    //change loading screen
+    if (!item) {
+        return <div></div>;
+      }
 
     return (
         <PageContainer key={item.id}>

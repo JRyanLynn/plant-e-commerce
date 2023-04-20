@@ -1,12 +1,11 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-
+import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { productArray } from '../../../data';
 import { useNavigate, useParams } from 'react-router-dom';
 import { addToCart } from '../../../redux/cartReducer';
 
-import { mobile, tablet, laptop, desktop} from '../../../media';
+import { mobile, tablet, laptop, desktop } from '../../../media';
 
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import { Rating } from '@mui/material';
@@ -18,10 +17,10 @@ const MainContent = styled.section`
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    ${mobile({ 
-        width: '100%',
-        flexDirection: 'column',
-    })};
+    ${mobile({
+    width: '100%',
+    flexDirection: 'column',
+})};
 `
 
 const ImageContainer = styled.div`
@@ -31,11 +30,11 @@ const ImageContainer = styled.div`
     flex-direction: row;
     align-items: flex-start;
     margin-top: 20px;
-    ${mobile({ 
-        height: '250px',
-        width: '90%',
-        marginTop: '0px',
-    })};
+    ${mobile({
+    height: '250px',
+    width: '90%',
+    marginTop: '0px',
+})};
 `
 
 const SideImageContainer = styled.div`
@@ -45,11 +44,11 @@ const SideImageContainer = styled.div`
     height: 100%;
     align-items: center;
     justify-content: flex-start;
-    ${mobile({ 
-       height: '100px',
-       width: '40%',
-       marginLeft: '-10px'
-    })};
+    ${mobile({
+    height: '100px',
+    width: '40%',
+    marginLeft: '-10px'
+})};
 `
 
 const SideImageSizer = styled.div`
@@ -57,10 +56,10 @@ const SideImageSizer = styled.div`
     height: auto;
     border: 1px solid #CCD3C2;
     margin-top: 5px;
-    ${mobile({ 
-        height: '100%',
-        width: '80%',
-     })};
+    ${mobile({
+    height: '100%',
+    width: '80%',
+})};
 `
 
 const Image = styled.img`
@@ -80,16 +79,16 @@ const InfoContainer = styled.div`
     border: 1px solid #CCD3C2;
     padding-left: 10px;
     padding-bottom: 15px;
-    ${mobile({ 
-        width: '90%'
-    })};
+    ${mobile({
+    width: '90%'
+})};
 `
 const ProductName = styled.h1`
     font-size: 30px;
     margin-left: 10px; 
-    ${mobile({ 
-       fontSize: '24px'
-    })};
+    ${mobile({
+    fontSize: '24px'
+})};
 `
 const ProductPriceContainer = styled.div`
     display: flex;
@@ -101,8 +100,8 @@ const Price = styled.h2`
     font-size: 24px;
     font-weight: 600;
     ${mobile({
-       fontSize: '20px',
-        })}
+    fontSize: '20px',
+})}
 `
 const ReviewContainer = styled.div`
     Display: flex;
@@ -117,8 +116,8 @@ const ReviewText = styled.a`
     color: #517A3E;
     cursor: pointer;
     ${mobile({
-        fontSize: '14px',
-         })}
+    fontSize: '14px',
+})}
 `
 
 const OptionButtonContainer = styled.div`
@@ -166,16 +165,16 @@ const ShippingIcon = styled(LocalShippingOutlinedIcon)`
     margin-right: 5px;
     margin-top: 50px;
     ${mobile({
-        marginTop: '5px',
-         })}
+    marginTop: '5px',
+})}
 `
 
 const ShippingAnnouncement = styled.h4`
     margin-top: 70px;
     ${mobile({
-        fontSize: '12px',
-        marginTop: '20px'
-         })}
+    fontSize: '12px',
+    marginTop: '20px'
+})}
 `
 
 const QuantityContainer = styled.div`
@@ -186,8 +185,8 @@ const QuantityContainer = styled.div`
     width: 30%;
     margin-left: 10px;
     ${mobile({
-        marginLeft: '0px'
-        })}
+    marginLeft: '0px'
+})}
 `
 
 const QuantityButton = styled.button`
@@ -216,9 +215,9 @@ const QuantityInput = styled.input`
     font-size: 20px;
     font-weight: 500;
     ${mobile({
-        fontSize: '16px',
-        width: '30px'
-        })}
+    fontSize: '16px',
+    width: '30px'
+})}
 `
 const CheckOutButtonContainer = styled.div`
     display: flex;
@@ -228,11 +227,11 @@ const CheckOutButtonContainer = styled.div`
     width: 80%;
     margin-left: 10px;
     ${mobile({
-        width: '95%',
-        marginTop: '0px',
-        marginLeft: '5px',
-        marginBottom: '5px'
-        })}
+    width: '95%',
+    marginTop: '0px',
+    marginLeft: '5px',
+    marginBottom: '5px'
+})}
 `
 
 const CheckOutButton = styled.button`
@@ -247,121 +246,150 @@ const CheckOutButton = styled.button`
     justify-content: center;
     margin-left: 20px;
     ${mobile({
-        fontSize: '14px'
-        })}
+    fontSize: '14px'
+})}
 `
 
 
 const CheckoutInfo = () => {
     const dispatch = useDispatch();
+  const { id } = useParams();
 
-    const {id} = useParams();
+  // state for backend
+  const [products, setProducts] = useState([]);
 
-    const item = productArray.find(i => i.id === parseInt(id));
+  // For quantity increment
+  const [count, setCount] = useState(1);
 
-    //For quantity increment
-    const [count, setCount] = useState(1);
+  // Default state for plant size options
+  const [size, setSize] = useState(0);
 
-    //Default state for plant size options
-    const [size, setSize] = useState(0)
+  // Default for pot choices
+  const [pot, setPot] = useState(0);
 
-    //Default for pot choices
-    const [pot, setPot] = useState(0);
+  // states to put side image in main image container
+  const [mainImage, setMainImage] = useState('');
 
-    //updates price with addons
-    const totalPrice = (item.price + size + pot).toFixed(2);
+  // array generates products, but the product.find method isn't working
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/products");
+        setProducts(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getProduct();
+  }, []);
 
-    //states to put side image in main image container
-    const [mainImage, setMainImage] = useState(item.image);
+  // move item declaration inside useEffect hook
+  const item = products.find((i) => i.id === parseInt(id));
 
-  return (
-    <MainContent key = {item.id}>
-    <ImageContainer>
-        <SideImageContainer>
-            <SideImageSizer style = {{marginTop: '0px'}}>
-                <Image src = {item.image} onClick={() => setMainImage(item.image)} />
-            </SideImageSizer>
+  // update main image when item changes
+useEffect(() => {
+    if (item) {
+      setMainImage(item.image);
+    }
+  }, [item]);
+  
 
-            {item.imageTwo &&<SideImageSizer>
-        <Image src = {item.imageTwo} onClick={() => setMainImage(item.imageTwo)} /> 
-            </SideImageSizer> }
-        </SideImageContainer>
-      <Image src = {mainImage}/> 
-    </ImageContainer>
+   //change loading screen
+   if (!item) {
+    return <div></div>;
+  }
 
-    <InfoContainer>
-        <ProductName>{item.name}</ProductName>
-        <ReviewContainer>
-            <Rating name="size-small" defaultValue={4} size="small" />
-            <ReviewText style = {{color: 'inherit', textDecoration: 'none'}}>(200) Reviews</ReviewText>
-        </ReviewContainer>
-        
-        <ProductPriceContainer>
-            <Price>${(totalPrice * count).toFixed(2)}</Price>
-           
-        </ProductPriceContainer>
+  // update price with addons
+  const totalPrice = (item?.price + size + pot)?.toFixed(2);
 
-        <SectionLabel>Choose a Size</SectionLabel>
-        <OptionButtonContainer>
-            <OptionButton onClick = {() => setSize(0)}
-            style={{ backgroundColor: size === 0 ? "#F5F5F5" : "#CCD3C2" }}>
-                Seedling</OptionButton>
+    return (
+        <MainContent key={item.id}>
+            <ImageContainer>
+                <SideImageContainer>
+                    <SideImageSizer style={{ marginTop: '0px' }}>
+                        <Image src={item.image} onClick={() => setMainImage(item.image)} />
+                    </SideImageSizer>
 
-            <OptionButton onClick = {() => setSize(5)} 
-            style={{ backgroundColor: size === 5 ? "#F5F5F5" : "#CCD3C2" }}>
-                Medium</OptionButton>
-            <OptionButton onClick = {() => setSize(10)} 
-            style={{ backgroundColor: size === 10 ? "#F5F5F5" : "#CCD3C2" }}>
-                Mature</OptionButton>
-        </OptionButtonContainer>
+                    {item.imageTwo && <SideImageSizer>
+                        <Image src={item.imageTwo} onClick={() => setMainImage(item.imageTwo)} />
+                    </SideImageSizer>}
+                </SideImageContainer>
+                <Image src={mainImage} />
+            </ImageContainer>
 
-        <SectionLabel>Choose a Pot</SectionLabel>
-        <OptionButtonContainer>
-            <OptionImageButton onClick = {() => setPot(0)} src = 'https://www.htgsupply.com/wp-content/uploads/2019/02/nursery-pot-5gal-1.jpg' 
-            alt = 'nursery pot' 
-            style={{border: pot === 0 ? "1px solid  #1B1212" : "1px solid #CCD3C2" }} />
-            <OptionImageButton onClick = {() => setPot(5)} src = 'https://mobileimages.lowes.com/productimages/0456d1ba-7470-443c-9fc2-4eb876970d4d/07656944.jpg?size=pdhism' 
-            alt = 'red plastic pot'
-            style={{border: pot === 5 ? "1px solid  #1B1212" : "1px solid #CCD3C2" }}/>
-            <OptionImageButton onClick = {() => setPot(5.0001)} src = 'https://www.oldrailwaylinegc.co.uk/shop/gallery/5022938012196-large.jpg' alt = 'green plastic pot'
-            style={{border: pot === 5.0001 ? "1px solid  #1B1212" : "1px solid #CCD3C2" }}
-            />
-            <OptionImageButton onClick = {() => setPot(5.0002)} src = 'http://mobileimages.lowes.com/productimages/473492b6-4b6b-42e6-8b1b-53dab697a304/07656947.jpg' 
-            alt = 'blue plastic pot'
-            style={{border: pot === 5.0002 ? "1px solid  #1B1212" : "1px solid #CCD3C2" }} />
-        </OptionButtonContainer>
+            <InfoContainer>
+                <ProductName>{item.name}</ProductName>
+                <ReviewContainer>
+                    <Rating name="size-small" defaultValue={4} size="small" />
+                    <ReviewText style={{ color: 'inherit', textDecoration: 'none' }}>(200) Reviews</ReviewText>
+                </ReviewContainer>
 
-        <OptionButtonContainer>
-        <ShippingIcon /><ShippingAnnouncement>Free Shipping On All Orders Over $30</ShippingAnnouncement>
-        </OptionButtonContainer>
+                <ProductPriceContainer>
+                    <Price>${(totalPrice * count).toFixed(2)}</Price>
 
-        <CheckOutButtonContainer>
-        <QuantityContainer>
-            <QuantityButton onClick = {() => count === 1 ? 1 : setCount(count - 1)}>-</QuantityButton>
-            
-            <Quantity>
-                <QuantityInput type = 'text' 
-                name = 'quantity' 
-                value = {count}
-                onChange = { () => count} />
+                </ProductPriceContainer>
 
-            </Quantity>
+                <SectionLabel>Choose a Size</SectionLabel>
+                <OptionButtonContainer>
+                    <OptionButton onClick={() => setSize(0)}
+                        style={{ backgroundColor: size === 0 ? "#F5F5F5" : "#CCD3C2" }}>
+                        Seedling</OptionButton>
 
-            <QuantityButton onClick = {() => setCount(count + 1)}>+</QuantityButton>
-        </QuantityContainer>
-            <CheckOutButton onClick = {() => dispatch(addToCart({
-                id: item.id,
-                title: item.name,
-                img: item.image,
-                price: totalPrice,
-                count: count,
-                pot: pot,
-                size: size
-            }))}>Add To Cart</CheckOutButton>
-        </CheckOutButtonContainer>
-    </InfoContainer>
-</MainContent>
-  )
+                    <OptionButton onClick={() => setSize(5)}
+                        style={{ backgroundColor: size === 5 ? "#F5F5F5" : "#CCD3C2" }}>
+                        Medium</OptionButton>
+                    <OptionButton onClick={() => setSize(10)}
+                        style={{ backgroundColor: size === 10 ? "#F5F5F5" : "#CCD3C2" }}>
+                        Mature</OptionButton>
+                </OptionButtonContainer>
+
+                <SectionLabel>Choose a Pot</SectionLabel>
+                <OptionButtonContainer>
+                    <OptionImageButton onClick={() => setPot(0)} src='https://www.htgsupply.com/wp-content/uploads/2019/02/nursery-pot-5gal-1.jpg'
+                        alt='nursery pot'
+                        style={{ border: pot === 0 ? "1px solid  #1B1212" : "1px solid #CCD3C2" }} />
+                    <OptionImageButton onClick={() => setPot(5)} src='https://mobileimages.lowes.com/productimages/0456d1ba-7470-443c-9fc2-4eb876970d4d/07656944.jpg?size=pdhism'
+                        alt='red plastic pot'
+                        style={{ border: pot === 5 ? "1px solid  #1B1212" : "1px solid #CCD3C2" }} />
+                    <OptionImageButton onClick={() => setPot(5.0001)} src='https://www.oldrailwaylinegc.co.uk/shop/gallery/5022938012196-large.jpg' alt='green plastic pot'
+                        style={{ border: pot === 5.0001 ? "1px solid  #1B1212" : "1px solid #CCD3C2" }}
+                    />
+                    <OptionImageButton onClick={() => setPot(5.0002)} src='http://mobileimages.lowes.com/productimages/473492b6-4b6b-42e6-8b1b-53dab697a304/07656947.jpg'
+                        alt='blue plastic pot'
+                        style={{ border: pot === 5.0002 ? "1px solid  #1B1212" : "1px solid #CCD3C2" }} />
+                </OptionButtonContainer>
+
+                <OptionButtonContainer>
+                    <ShippingIcon /><ShippingAnnouncement>Free Shipping On All Orders Over $30</ShippingAnnouncement>
+                </OptionButtonContainer>
+
+                <CheckOutButtonContainer>
+                    <QuantityContainer>
+                        <QuantityButton onClick={() => count === 1 ? 1 : setCount(count - 1)}>-</QuantityButton>
+
+                        <Quantity>
+                            <QuantityInput type='text'
+                                name='quantity'
+                                value={count}
+                                onChange={() => count} />
+
+                        </Quantity>
+
+                        <QuantityButton onClick={() => setCount(count + 1)}>+</QuantityButton>
+                    </QuantityContainer>
+                    <CheckOutButton onClick={() => dispatch(addToCart({
+                        id: item.id,
+                        title: item.name,
+                        img: item.image,
+                        price: totalPrice,
+                        count: count,
+                        pot: pot,
+                        size: size
+                    }))}>Add To Cart</CheckOutButton>
+                </CheckOutButtonContainer>
+            </InfoContainer>
+        </MainContent>
+    )
 }
 
 export default CheckoutInfo;
