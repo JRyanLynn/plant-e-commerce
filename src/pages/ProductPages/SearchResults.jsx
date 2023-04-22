@@ -1,6 +1,6 @@
 import React, { useEffect, useState} from 'react';
 import styled from 'styled-components';
-import { useNavigate, useParams} from 'react-router-dom';
+import { useLocation, useNavigate, useParams} from 'react-router-dom';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { Rating } from '@mui/material';
@@ -322,11 +322,11 @@ const ProductPrice = styled.p`
     ${tablet({fontSize: '14px'})};
 `
 
-const ProductPage = () => {
-
+const SearchResults = () => {
+    //pulls data from search bar
    const navigate = useNavigate();
+   const {id} = useParams();
 
-    //for sort dropdown
     const [sort, setSort] = useState(false);
     const [careTypes, setCareTypes] = useState([]);
     const [lightTypes, setLightTypes] = useState([]);
@@ -337,6 +337,7 @@ const ProductPage = () => {
     //states for loading screen
     const [isLoading, setIsLoading] = useState(false);
     const [screenOpacity, setScreenOpacity] = useState(1);
+
 
     //maintains array state with router, but sorts differently when page reloaded 
     //combines checkbox values based on object array category clusters
@@ -357,16 +358,20 @@ const ProductPage = () => {
         }
     };
 
+    //connects to backend and matches search data to product array
     useEffect (() => {
         const getProducts = async () => {
             try {
                 const res = await axios.get('http://localhost:5000/api/products')
-                setProducts(res.data);
+                const ids = id.split(',').map(Number); // split and convert to array of integers
+                const filteredProducts = res.data.filter((product) => ids.includes(product.id));
+                setProducts(filteredProducts);
             } catch (error) {console.log(error)}
         } 
         getProducts();
-    }, []);
+    }, [id]);
 
+    //filter function for checkboxes
     useEffect (() => {
         if (isLoading) {
             setScreenOpacity(0);
@@ -383,7 +388,7 @@ const ProductPage = () => {
             setIsLoading(false);
         }, 200);
     }, [careTypes, lightTypes, categoryTypes, isLoading, products]);
-    
+
     //filters for sort values
     const hiLow = () => {
         let sortedArray = [...array];
@@ -412,7 +417,7 @@ const ProductPage = () => {
             <ProductPageWrapper>
             <SortWrapper>
         <SortButtonRow>
-            <SortListTitle>All Plants</SortListTitle>
+            <SortListTitle>Results</SortListTitle>
             <SortComponentContainer>
             <SortButton onClick = {() => setSort(!sort)}>Sort <SortDownArrow /></SortButton>
             {sort?
@@ -482,4 +487,4 @@ const ProductPage = () => {
   )
 }
 
-export default ProductPage
+export default SearchResults

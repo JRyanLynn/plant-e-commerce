@@ -129,7 +129,6 @@ const ProductView = () => {
 
     const { id } = useParams();
 
-    //array generates products, but the product.find method isn't working
     useEffect(() => {
         const getProduct = async () => {
           try {

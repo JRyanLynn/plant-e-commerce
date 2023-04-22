@@ -13,6 +13,7 @@ import { store } from './redux/store';
 import { Provider } from 'react-redux';
 import Success from './pages/Success';
 import Checkout from './pages/Checkout';
+import SearchResults from './pages/ProductPages/SearchResults';
 
 //plant-app\src\components\Checkout\Checkout.jsx
 function App() {
@@ -23,6 +24,7 @@ function App() {
       <Route path = '/' element = {<Home />}/>
       <Route path = '/all' element = {<ProductPage />}/>
       <Route path = '/type/:type' element = {<PlantTypes />} />
+      <Route path="/searchResults/:id" element={<SearchResults />} />
       <Route path = '/easy' element = {<EasyPlants />} />
       <Route path = '/products/:id' element = {<ProductView />} />
       <Route path = '/cart' element = {<FullCart />} />

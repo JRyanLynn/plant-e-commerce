@@ -1,7 +1,7 @@
-import React, {useState, useRef} from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios';
 import styled from 'styled-components';
-import {Link} from 'react-router-dom';
-import { productArray } from '../../../data';
+import { Link, useNavigate } from 'react-router-dom';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 
 import SearchIcon from '@mui/icons-material/Search';
@@ -27,6 +27,7 @@ const QueryIcon = styled(SearchIcon)`
 `
 
 const Input = styled.input`
+    width: 450px;
     display: flex;
     padding: 5px;
     background-color: #FEFDFD;
@@ -79,39 +80,91 @@ const RouterLink = styled(Link)`
 `
 
 const SearchBar = () => {
+    const navigate = useNavigate();
     const [searchResultBox, setSearchResultBox] = useState(false);
     const [searchResults, setSearchResults] = useState('');
+    const [products, setProducts] = useState([]);
 
+    useEffect(() => {
+        const getProduct = async () => {
+          try {
+            const response = await axios.get('http://localhost:5000/api/products');
+            setProducts(response.data);
+          } catch (error) {
+            console.log(error);
+          }
+        };
+        getProduct();
+      }, []);
+
+    //change loading screen
+    if (!products) {
+        return <div></div>;
+    }
+
+    //closes dropdown
     const handleClickAway = () => {
         setSearchResultBox(false);
+    };
+
+    //yields search results
+    const searchFilter = products.filter((item) => item.name.toLowerCase().includes(searchResults));
+
+    //map to pass to data to searchResults Page
+    const id = searchFilter.map(i => i.id)
+
+    //search function to pass data to searchResults page
+    const handleSearch = (e) => {
+        e.preventDefault();
+        if (searchFilter.length > 1) {
+          navigate(`/searchResults/${id}`);
+        } else if (searchFilter.length === 1) {
+          navigate(`/products/${id}`);
+        } else {
+          // Display the "No results found" message here
+        }
       };
 
-      const searchFilter = productArray.filter((item) => item.name.toLowerCase().includes(searchResults));
+    return (
+        <>
+            <SearchContainer onSubmit={handleSearch}>
+                <InputRow>
+                    <Input
+                        placeholder="Search For Plants"
+                        onChange={(e) => {
+                            setSearchResults((e.target.value).toLowerCase());
+                            setSearchResultBox(true)
+                        }} />
+                   <RouterLink to={searchFilter.length > 0 ? (searchFilter.length > 1 ? `/searchResults/${id}` : `/products/${id}`) : false}>
+                        <QueryIcon />
+                    </RouterLink>
+                </InputRow>
+            </SearchContainer>
 
-  return (
-    <>
-    <SearchContainer>
-    <InputRow>
-   <Input style = {{width: "450px"}} placeholder = "Search For Plants" onChange={(e) => {setSearchResults((e.target.value).toLowerCase()); setSearchResultBox(true)}} />
-   <QueryIcon />
-   </InputRow>
-
-    </SearchContainer>
-
-{searchResultBox ?
-    <ClickAwayListener onClickAway={handleClickAway}>
-    <SearchResultContainer>
-        
-        {searchResults === '' ? setSearchResultBox(false) : searchFilter.slice(0, 5).map((item) => (
-                <SearchUnorderedList key = {item.id}>
-                <SearchResultItem><RouterLink to={`/products/${item.id}`} onClick={() => setSearchResultBox(false)}>{item.name}</RouterLink></SearchResultItem>
-                </SearchUnorderedList>
-        ))}
-    
-    </SearchResultContainer> 
-    </ClickAwayListener> : null}
-    </>
-  )
+            {searchResultBox ?
+                <ClickAwayListener onClickAway={handleClickAway}>
+                    <SearchResultContainer>
+                        {searchResults === '' ? setSearchResultBox(false) :
+                            searchFilter.length === 0 ? (
+                                <SearchUnorderedList>
+                                    <SearchResultItem>
+                                        Sorry, no results found.
+                                    </SearchResultItem>
+                                </SearchUnorderedList>
+                            ) : (
+                                searchFilter.slice(0, 5).map((item) => (
+                                    <SearchUnorderedList key={item.id}>
+                                        <SearchResultItem>
+                                         <RouterLink to={`/products/${item.id}`} onClick={() => setSearchResultBox(false)}>{item.name}</RouterLink>
+                                        </SearchResultItem>
+                                    </SearchUnorderedList>
+                                ))
+                            )
+                        }
+                    </SearchResultContainer>
+                </ClickAwayListener> : null}
+        </>
+    )
 }
 
 export default SearchBar
