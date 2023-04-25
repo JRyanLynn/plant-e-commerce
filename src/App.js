@@ -8,15 +8,15 @@ import Footer from './components/Footer';
 import PlantTypes from './pages/ProductPages/PlantTypes';
 import EasyPlants from './pages/ProductPages/EasyPlants';
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Redirect } from 'react-router-dom';
 import { store } from './redux/store';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import Success from './pages/Success';
 import Checkout from './pages/Checkout';
 import SearchResults from './pages/ProductPages/SearchResults';
 
-//plant-app\src\components\Checkout\Checkout.jsx
 function App() {
+  //const user = useSelector((state) => state.user.currentUser);
   return (
     <Provider store = {store}>
       <Navbar />

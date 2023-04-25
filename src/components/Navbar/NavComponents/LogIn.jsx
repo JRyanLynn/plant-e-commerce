@@ -2,6 +2,10 @@ import React, { useState } from 'react'
 import styled from 'styled-components';
 import { mobile, tablet } from '../../../media';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
+import { login } from '../../../redux/apiCall';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { sendRegister } from '../../../helpers';
 
 const SignIn = styled.div`
     display: flex;
@@ -15,7 +19,7 @@ const SignIn = styled.div`
     width: 350px;
     height: 500px;
     border: 1px solid #CCD3C2;
-    margin-top: 10px;
+    margin-top: 130px;
     box-shadow:
     0 2.8px 2.2px rgba(0, 0, 0, 0.034),
     0 6.7px 5.3px rgba(0, 0, 0, 0.048),
@@ -27,15 +31,18 @@ const SignIn = styled.div`
 const TransparentPageContainer = styled.div`
     height: 160vh;
     width: 100vw;
-    position: absolute;
+    position: fixed;
     display: flex;
     z-index: 100;
-    margin: -10px 0px 0px -8px;
     background: rgba(0, 0, 0, 0.5);
     justify-content: center;
-    ${mobile({marginTop: '4px', height: '85vmax'})};
-    ${tablet({height: '100vh'})};
-`
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    ${mobile({ marginTop: '4px', height: '85vmax' })};
+    ${tablet({ height: '100vh' })};
+`;
 
 const SingInTopButtonRow = styled.div`
     display: flex;
@@ -121,6 +128,15 @@ const SignInButtonMain = styled.button`
     color: #FEFDFD;
     font-weight: 600;
     cursor: pointer;
+    &: disabled {
+        color: gray;
+        cursor: not-allowed;
+    }
+`
+
+const Error = styled.span`
+    color: red;
+    margin-top: 20px;
 `
 
 const ForgotButton = styled.button`
@@ -151,10 +167,35 @@ const ForgotTitleText = styled.h1`
     height: auto;
 `
 
+const RouterLink = styled(Link)`
+  text-decoration: none;
+  cursor: pointer;
+  color: #1B1212;
+`
+
+
 const LogIn = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    //states for login toggles
     const [signIn, setSignIn] = useState(true);
     const [register, setRegister] = useState(false);
     const [forgot, setForgot] = useState(false);
+
+    //string states for input fields
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+
+    //use grabs info from redux and backend 
+    const { isFetching, error } = useSelector((state) => state.user);
+
+    //handles backend post request and redux 
+    const [logIn, setLogIn] = useState(true);
+
+    //handles register errors
+    const [usernameError, setUsernameError] = useState(null);
+    const [emailError, setEmailError] = useState(null);
 
     //sing in will be open by default
     const handleSignInOpen = () => {
@@ -175,7 +216,40 @@ const LogIn = () => {
         setRegister(false);
         setForgot(true);
     }
-    const [logIn, setLogIn] = useState(true);
+
+    //grabs redux userSlice login state
+    const user = useSelector((state) => state.user.currentUser);
+
+    //handles signIn button click, navigates and closes modal
+    const handleLogin = (e) => {
+        e.preventDefault();
+        login(dispatch, { username, password });
+        if (user) {
+            navigate('/');
+            setLogIn(false);
+        }
+    }
+
+    //Create user: sends user data to db, api call in helpers folder
+    const submitRegister = (e) => {
+        e.preventDefault();
+        sendRegister(username, email, password)
+            .then((response) => {
+                console.log(response.data);
+                setSignIn(true);
+                setRegister(false);
+            })
+            .catch((error) => {
+                console.log(error);
+                if (error.response && error.response.status === 422) {
+                    setUsernameError('Username already exists');
+                } else if (error.response && error.response.status === 400) {
+                    setEmailError('Account already exists');
+                } else {
+                    console.log(error)
+                }
+            })
+    }
 
     return (
         <>
@@ -201,34 +275,65 @@ const LogIn = () => {
                     {signIn ?
                         <SignInInputForm>
                             <InputLabelRow><InputLabel htmlFor="Email">Email *</InputLabel></InputLabelRow>
-                            <TextInput type="email" id="email" required placeholder='you@email.com'></TextInput>
+                            <TextInput
+                                type="username"
+                                id="username"
+                                required
+                                placeholder='User Name'
+                                onChange={(e) => setUsername(e.target.value)}
+                            >
+                            </TextInput>
 
                             <InputLabelRow><InputLabel htmlFor="Email">Password *</InputLabel></InputLabelRow>
                             <TextInput
                                 type="password"
-                                minlength="8"
                                 required
-                                pattern="(?!000)([0-6]\d{2}|7([0-6]\d|7[012]))([ -])?(?!00)\d\d\3(?!0000)\d{4}"
                                 autocomplete="off"
+                                onChange={(e) => setPassword(e.target.value)}
                             />
-                            <SignInButtonMain>Log In</SignInButtonMain>
+                            <SignInButtonMain onClick={handleLogin} disabled={isFetching}>Log In</SignInButtonMain>
+                            {error && <Error>Username or password incorrect</Error>}
                             <ForgotButton onClick={handleForgotOpen}>Forgot Password</ForgotButton>
                         </SignInInputForm> : null}
 
                     {register ?
                         <SignInInputForm>
-                           <InputLabelRow><InputLabel htmlFor="Email">Email *</InputLabel></InputLabelRow>
-                            <TextInput type="email" id="email" required placeholder='you@email.com'></TextInput>
-                            <InputLabelRow><InputLabel htmlFor="Email">Password *</InputLabel></InputLabelRow>
+                            <InputLabelRow>
+                                <InputLabel htmlFor="username" style={{ color: usernameError ? 'red' : 'inherit' }}>Username *</InputLabel>
+                            </InputLabelRow>
+                            <TextInput
+                                type="username"
+                                id="username"
+                                value={username}
+                                required
+                                placeholder='Username'
+                                onChange={(e) => setUsername(e.target.value)}
+                            />
+                            <InputLabelRow>
+                                <InputLabel htmlFor="Email" style={{ color: emailError ? 'red' : 'inherit' }}>Email *</InputLabel>
+                            </InputLabelRow>
+                            <TextInput
+                                type="email"
+                                id="email"
+                                value={email}
+                                required
+                                placeholder='you@email.com'
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                            <InputLabelRow>
+                                <InputLabel htmlFor="Email">Password *</InputLabel>
+                            </InputLabelRow>
                             <TextInput
                                 type="password"
+                                value={password}
                                 minlength="8"
                                 required
-                                pattern="(?!000)([0-6]\d{2}|7([0-6]\d|7[012]))([ -])?(?!00)\d\d\3(?!0000)\d{4}"
                                 autocomplete="off"
+                                onChange={(e) => setPassword(e.target.value)}
                             />
-                            <InputLabelRow><InputLabel htmlFor="Password" className =  'bottom-label'>Password most be at least 8 characters</InputLabel></InputLabelRow>
-                            <SignInButtonMain>Sign Up</SignInButtonMain>
+                            <InputLabelRow>
+                                <InputLabel htmlFor="Password" className='bottom-label'>Password most be at least 8 characters</InputLabel></InputLabelRow>
+                            <SignInButtonMain onClick={submitRegister}>Sign Up</SignInButtonMain>
                             <ForgotButton onClick={handleForgotOpen}>Forgot Password</ForgotButton>
                         </SignInInputForm> : null}
 
