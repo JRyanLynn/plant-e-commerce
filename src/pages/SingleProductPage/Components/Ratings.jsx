@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import { productArray } from '../../../data';
 import { Rating } from '@mui/material';
 
 const ReviewSectionContainer = styled.section`
@@ -115,18 +115,17 @@ const RatingContainer = styled.div`
     align-items: center;
 `
 
+const ReviewAverage = styled.h3`
+    font-size: 18px;
+    font-weight: 500;
+    margin-left: 10px;
+`
 const IndividualRatingContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 85%;
     height: 100%;
     padding: 10px;
-
-`
-const ReviewAverage = styled.h3`
-    font-size: 18px;
-    font-weight: 500;
-    margin-left: 10px;
 `
 
 const RatingContents = styled.div`
@@ -165,87 +164,173 @@ const Review = styled.p`
     font-size: 20px;
     font-weight: 500;
 `
-
 const Ratings = () => {
 
-    const {id} = useParams();
+    // state for backend
+    const [reviews, setReviews] = useState([]);
+    //state to add review
+    const [addReview, setAddReview] = useState(false);
 
-    const productArrayItem = productArray.find(i => i.id === parseInt(id));
+    const { id } = useParams();
 
-  return (
-     <ReviewSectionContainer>
+    //get request from backend 
+    useEffect(() => {
+        const getReviews = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/reviews');
+                setReviews(response.data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+        getReviews();
+    }, []);
 
-                   <ReviewHeaderContainer key = {productArrayItem.id}>
-                    <RatingGraphContainer>
+    // grabs id from page using params and matches it to filter array
+    const item = reviews.filter((i) => i.id === parseInt(id));
 
-                            <GraphTitle>Product Reviews</GraphTitle>
+    //change loading screen
+    if (!item) {
+        return <div></div>;
+    }
 
-                           <RatingGraphRow>
-                            <RatingGraphLabel>5</RatingGraphLabel>
-                                <RatingGraphBar><RatingGraphFill /></RatingGraphBar>
-                                <RatingGraphNumber>100</RatingGraphNumber>
-                            </RatingGraphRow>
+    //Average is a reduce 
+    const avgReview = item.length > 0 ? item.reduce((sum, review) => sum + review.rating, 0) / item.length : 0;
 
-                            <RatingGraphRow>
-                                <RatingGraphLabel>4</RatingGraphLabel>
-                                <RatingGraphBar><RatingGraphFill /></RatingGraphBar>
-                                <RatingGraphNumber>100</RatingGraphNumber>
-                            </RatingGraphRow>
+    console.log(avgReview)
 
-                            <RatingGraphRow>
-                                <RatingGraphLabel>3</RatingGraphLabel>
-                                <RatingGraphBar><RatingGraphFill /></RatingGraphBar>
-                                <RatingGraphNumber>100</RatingGraphNumber>
-                            </RatingGraphRow>
+    //function generates the number of ratings for each star in the reviewCount(5) format
+    const reviewCount = (value) => {
+        return item.filter(index => index.rating === value).length;
+    }
 
-                            <RatingGraphRow>
-                                <RatingGraphLabel>2</RatingGraphLabel>
-                                <RatingGraphBar><RatingGraphFill /></RatingGraphBar>
-                                <RatingGraphNumber>100</RatingGraphNumber>
-                            </RatingGraphRow>
+    //function for how long ago review posted
+    function timeAgo(date) {
+        const now = Date.now();
+        const diff = now - date.getTime();
+        const seconds = Math.floor(diff / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
 
-                            <RatingGraphRow>
-                                <RatingGraphLabel>1</RatingGraphLabel>
-                                <RatingGraphBar><RatingGraphFill /></RatingGraphBar>
-                                <RatingGraphNumber>100</RatingGraphNumber>
-                            </RatingGraphRow> 
-                        </RatingGraphContainer> 
+        if (days > 0) {
+            return days === 1 ? '1 day ago' : `${days} days ago`;
+        } else if (hours > 0) {
+            return hours === 1 ? '1 hour ago' : `${hours} hours ago`;
+        } else if (minutes > 0) {
+            return minutes === 1 ? '1 minute ago' : `${minutes} minutes ago`;
+        } else {
+            return seconds === 1 ? '1 second ago' : `${seconds} seconds ago`;
+        }
+    };
 
-                        <StatContainer>
-                            <StatContainerRow>
-                                <StatContainerLabel>Overall</StatContainerLabel>
-                                <Rating />
-                                <ReviewAverage>4.0</ReviewAverage>
-                            </StatContainerRow>
+    //most recent review
+    const newestReview = item.sort((a, b) => {
+        return new Date(b.date) - new Date(a.date);
+    });
 
-                            <StatContainerLabel>Most Recent Review</StatContainerLabel>
+    const mostRecentReview = newestReview.length > 0 ? newestReview[0] : false;
 
 
-                        </StatContainer>
+    return (
+        <ReviewSectionContainer>
 
-                        <AddReviewButton>Add Review</AddReviewButton>
-                    </ReviewHeaderContainer> 
+            <ReviewHeaderContainer>
+                <RatingGraphContainer>
 
-                    <Line />
+                    <GraphTitle>Product Reviews</GraphTitle>
 
-                    <IndividualRatingContainer>
-                        <RatingContents>
-                            <RatingContainerRow>
-                                <Rating />
-                                <ReviewTime>1 Day Ago</ReviewTime>
-                            </RatingContainerRow>
-                            <VerifiedUser>Verified User</VerifiedUser>
-                            <ReviewTitle>Great Plant</ReviewTitle>
-                            <Review>This product was great. I bought it for my kitchen and it has done well in the window.</Review>
-                        </RatingContents>
-                    </IndividualRatingContainer>
-                    <Line />
+                    <RatingGraphRow>
+                        <RatingGraphLabel>5</RatingGraphLabel>
+                        <RatingGraphBar>
+                            <RatingGraphFill style={{ width: item.length ? `${(reviewCount(5) / item.length) * 100}%` : '0' }} />
+                        </RatingGraphBar>
+                        <RatingGraphNumber>{reviewCount(5)}</RatingGraphNumber>
+                    </RatingGraphRow>
 
-                    <RatingContainer>
+                    <RatingGraphRow>
+                        <RatingGraphLabel>4</RatingGraphLabel>
+                        <RatingGraphBar>
+                            <RatingGraphFill style={{ width: item.length ? `${(reviewCount(4) / item.length) * 100}%` : '0' }} />
+                        </RatingGraphBar>
+                        <RatingGraphNumber>{reviewCount(4)}</RatingGraphNumber>
+                    </RatingGraphRow>
 
-                    </RatingContainer>
-                </ReviewSectionContainer>
-  )
+                    <RatingGraphRow>
+                        <RatingGraphLabel>3</RatingGraphLabel>
+                        <RatingGraphBar>
+                            <RatingGraphFill style={{ width: item.length ? `${(reviewCount(3) / item.length) * 100}%` : '0' }} />
+                        </RatingGraphBar>
+                        <RatingGraphNumber>{reviewCount(3)}</RatingGraphNumber>
+                    </RatingGraphRow>
+
+                    <RatingGraphRow>
+                        <RatingGraphLabel>2</RatingGraphLabel>
+                        <RatingGraphBar>
+                            <RatingGraphFill style={{ width: item.length ? `${(reviewCount(2) / item.length) * 100}%` : '0' }} />
+                        </RatingGraphBar>
+                        <RatingGraphNumber>{reviewCount(2)}</RatingGraphNumber>
+                    </RatingGraphRow>
+
+                    <RatingGraphRow>
+                        <RatingGraphLabel>1</RatingGraphLabel>
+                        <RatingGraphBar>
+                            <RatingGraphFill style={{ width: item.length ? `${(reviewCount(1) / item.length) * 100}%` : '0' }} />
+                        </RatingGraphBar>
+                        <RatingGraphNumber>{reviewCount(1)}</RatingGraphNumber>
+                    </RatingGraphRow>
+                </RatingGraphContainer>
+
+                <StatContainer>
+                    <StatContainerRow>
+                        <StatContainerLabel>Overall</StatContainerLabel>
+                        <Rating readOnly value={avgReview} />
+                        <ReviewAverage>{avgReview}</ReviewAverage>
+                    </StatContainerRow>
+
+                    <StatContainerLabel>Most Recent Review</StatContainerLabel>
+                    <Review>{mostRecentReview.review}</Review>
+
+
+                </StatContainer>
+
+                <AddReviewButton>Add Review</AddReviewButton>
+            </ReviewHeaderContainer>
+
+            <Line />
+
+
+
+            <IndividualRatingContainer>
+                <RatingContents>
+                    {item.map((item) => {
+                        const dateObj = new Date(item.date);
+                        const elapsed = timeAgo(dateObj);
+
+                        return (
+                            <RatingContainer>
+                                <RatingContainerRow key={item.id}>
+                                    <Rating readOnly value={item.rating} />
+                                    <ReviewTime>{elapsed}</ReviewTime>
+                                </RatingContainerRow>
+
+                                <RatingContainerRow>
+                                    <VerifiedUser>{item.username}</VerifiedUser>
+                                </RatingContainerRow>
+                                <ReviewTitle>{item.title}</ReviewTitle>
+                                <Review>{item.review}</Review>
+                                <Line style={{ width: '100%' }} />
+                            </RatingContainer>
+                        );
+                    })}
+                </RatingContents>
+
+            </IndividualRatingContainer>
+
+
+
+        </ReviewSectionContainer>
+    )
 }
 
 export default Ratings
