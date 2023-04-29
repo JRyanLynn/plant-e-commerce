@@ -3,6 +3,8 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { Rating } from '@mui/material';
+import RatingPost from './RatingPost';
+import { mobile, tablet, laptop, desktop } from '../../../media';
 
 const ReviewSectionContainer = styled.section`
     display: flex;
@@ -26,6 +28,9 @@ const ReviewHeaderContainer = styled.div`
     height: 100%;
     justify-content: center;
     margin-bottom: 20px;
+    ${mobile({
+        flexDirection: 'column'
+    })}
 `
 
 const RatingGraphContainer = styled.div`
@@ -35,11 +40,17 @@ const RatingGraphContainer = styled.div`
     height: 100%;
     margin-top: 20px;
     margin-left: 20px;
+    ${mobile({
+        marginLeft: '0px'
+    })}
 `
 
 const GraphTitle = styled.h1`
     font-size: 24px;
     font-weight: 500;
+    ${mobile({
+    display: 'none'
+})}
 `
 
 const RatingGraphRow = styled.div`
@@ -60,6 +71,9 @@ const RatingGraphBar = styled.div`
     width: 50%;
     height: 15px;
     border: 1px solid #1B1212;
+    ${mobile({
+    width: '100%'
+})}
 `
 
 const RatingGraphFill = styled.div`
@@ -80,6 +94,9 @@ const StatContainer = styled.div`
     height: 100%;
     width: 100%;
     margin-top: 20px;
+    ${mobile({
+    display: 'none'
+})}
 `
 const StatContainerRow = styled.div`
     display: flex;
@@ -87,15 +104,44 @@ const StatContainerRow = styled.div`
     align-items: center;
     width: 95%;
 `
+const MobileStatContainerRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 95%;
+    ${tablet({
+        display: 'none'
+    })};
+    ${laptop({
+        display: 'none'
+    })};
+    ${desktop({
+        display: 'none'
+    })};
+`
+
+
 const StatContainerLabel = styled.h2`
     font-size: 24px;
     font-weight: 500;
+    margin-right: 10px;   
+
+`
+
+const MobileStatContainerLabel = styled.h2`
+    font-size: 24px;
+    font-weight: 500;
     margin-right: 10px;
+
+`
+
+const MobileRating = styled(Rating)`
+
 `
 
 const AddReviewButton = styled.button`
-    width: 25%;
-    height: 40px;
+    width: 35%;
+    height: 44px;
     padding: 5px;
     margin-top: 35px;
     font-size: 16px;
@@ -104,6 +150,31 @@ const AddReviewButton = styled.button`
     justify-content: center;
     background-color: #517A3E;
     color: #FEFDFD;
+    ${tablet({
+        display: 'none'
+    })};
+    ${mobile({
+        display: 'none'
+    })};
+`
+
+const MobileReviewFormButton = styled.button`
+    width: 90%;
+    height: 40px;
+    padding: 5px;
+    margin: 20px 0px 20px 0px;
+    font-size: 16px;
+    font-weight: 600;
+    align-items: center;
+    justify-content: center;
+    background-color: #517A3E;
+    color: #FEFDFD;
+    ${desktop({
+        display: 'none'
+    })},
+    ${laptop({
+        display: 'none'
+    })},
 `
 
 const RatingContainer = styled.div`
@@ -120,6 +191,13 @@ const ReviewAverage = styled.h3`
     font-weight: 500;
     margin-left: 10px;
 `
+
+const MobileReviewAverage = styled.h3`
+    font-size: 18px;
+    font-weight: 500;
+    margin-left: 10px;
+`
+
 const IndividualRatingContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -165,13 +243,12 @@ const Review = styled.p`
     font-weight: 500;
 `
 const Ratings = () => {
+    const { id } = useParams();
 
     // state for backend
     const [reviews, setReviews] = useState([]);
-    //state to add review
-    const [addReview, setAddReview] = useState(false);
-
-    const { id } = useParams();
+    //toggles review form
+    const [toggleReview, setToggleReview] = useState(false);
 
     //get request from backend 
     useEffect(() => {
@@ -194,8 +271,8 @@ const Ratings = () => {
         return <div></div>;
     }
 
-    //Average is a reduce 
-    const avgReview = item.length > 0 ? item.reduce((sum, review) => sum + review.rating, 0) / item.length : 0;
+    //Average with floor to eliminate floats
+    const avgReview = item.length > 0 ? Math.floor(item.reduce((sum, review) => sum + review.rating, 0) / item.length) : 0;
 
     console.log(avgReview)
 
@@ -231,11 +308,17 @@ const Ratings = () => {
 
     const mostRecentReview = newestReview.length > 0 ? newestReview[0] : false;
 
-
     return (
         <ReviewSectionContainer>
 
             <ReviewHeaderContainer>
+
+                <MobileStatContainerRow>
+                    <MobileStatContainerLabel>Overall</MobileStatContainerLabel>
+                    <MobileRating readOnly value={avgReview} />
+                    <MobileReviewAverage>{avgReview}</MobileReviewAverage>
+                </MobileStatContainerRow>
+
                 <RatingGraphContainer>
 
                     <GraphTitle>Product Reviews</GraphTitle>
@@ -289,36 +372,38 @@ const Ratings = () => {
                     </StatContainerRow>
 
                     <StatContainerLabel>Most Recent Review</StatContainerLabel>
-                    <Review>{mostRecentReview.review}</Review>
+                    <Review>
+                        {mostRecentReview.review && mostRecentReview.review.slice(0, 100) + (mostRecentReview.review.length > 100 ? "..." : "")}
+                    </Review>
 
 
                 </StatContainer>
 
-                <AddReviewButton>Add Review</AddReviewButton>
+                <AddReviewButton onClick={() => setToggleReview((!toggleReview))}>Add a Review</AddReviewButton>
             </ReviewHeaderContainer>
-
+            <MobileReviewFormButton onClick={() => setToggleReview((!toggleReview))}>Add a Review</MobileReviewFormButton>
+            
             <Line />
 
-
-
+            {toggleReview ? <RatingPost /> : null}
             <IndividualRatingContainer>
                 <RatingContents>
-                    {item.map((item) => {
+                    {item.map((item, index) => {
                         const dateObj = new Date(item.date);
                         const elapsed = timeAgo(dateObj);
 
                         return (
-                            <RatingContainer>
+                            <RatingContainer key={index}>
                                 <RatingContainerRow key={item.id}>
-                                    <Rating readOnly value={item.rating} />
+                                    <Rating key={item.rating} readOnly value={item.rating} />
                                     <ReviewTime>{elapsed}</ReviewTime>
                                 </RatingContainerRow>
 
                                 <RatingContainerRow>
-                                    <VerifiedUser>{item.username}</VerifiedUser>
+                                    <VerifiedUser key={item.username}>{item.username}</VerifiedUser>
                                 </RatingContainerRow>
-                                <ReviewTitle>{item.title}</ReviewTitle>
-                                <Review>{item.review}</Review>
+                                <ReviewTitle key={item.title}>{item.title}</ReviewTitle>
+                                <Review key={item.review}>{item.review}</Review>
                                 <Line style={{ width: '100%' }} />
                             </RatingContainer>
                         );

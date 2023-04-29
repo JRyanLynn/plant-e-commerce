@@ -150,12 +150,11 @@ const CheckoutButtons = styled.button`
   &.full-cart {
     background-color: #FEFDFD; 
     border: 1px solid #CCD3C2;
-    font-weight: 600;
+    font-weight: 500;
   }
   &.check-out {
     font-weight: 600;
-    color: #FEFDFD;
-    background-color: #517A3E ;
+    background-color: #517A3E;
     border: 1px solid #CCD3C2;
   }
 
@@ -203,7 +202,7 @@ const Cart = () => {
             </RouterLink>
           </CheckoutButtons>
           <CheckoutButtons className='check-out'>
-            <RouterLink to = '/checkout'>
+            <RouterLink style={{color: '#FEFDFD'}} to = '/checkout'>
             Check Out
             </RouterLink>
             </CheckoutButtons>
