@@ -129,7 +129,7 @@ const Success = styled.p`
   font-weight: 500;
 `
 
-const RatingPost = () => {
+const RatingForm = () => {
   const { id } = useParams();
   console.log(id)
   //state to open/close review
@@ -238,4 +238,4 @@ const RatingPost = () => {
   )
 }
 
-export default RatingPost
+export default RatingForm

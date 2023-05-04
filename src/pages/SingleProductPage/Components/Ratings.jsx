@@ -3,7 +3,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { Rating } from '@mui/material';
-import RatingPost from './RatingPost';
+import RatingForm from './RatingForm';
 import { mobile, tablet, laptop, desktop } from '../../../media';
 
 const ReviewSectionContainer = styled.section`
@@ -29,8 +29,8 @@ const ReviewHeaderContainer = styled.div`
     justify-content: center;
     margin-bottom: 20px;
     ${mobile({
-        flexDirection: 'column'
-    })}
+    flexDirection: 'column'
+})}
 `
 
 const RatingGraphContainer = styled.div`
@@ -41,8 +41,8 @@ const RatingGraphContainer = styled.div`
     margin-top: 20px;
     margin-left: 20px;
     ${mobile({
-        marginLeft: '0px'
-    })}
+    marginLeft: '0px'
+})}
 `
 
 const GraphTitle = styled.h1`
@@ -110,14 +110,14 @@ const MobileStatContainerRow = styled.div`
     align-items: center;
     width: 95%;
     ${tablet({
-        display: 'none'
-    })};
+    display: 'none'
+})};
     ${laptop({
-        display: 'none'
-    })};
+    display: 'none'
+})};
     ${desktop({
-        display: 'none'
-    })};
+    display: 'none'
+})};
 `
 
 
@@ -151,11 +151,11 @@ const AddReviewButton = styled.button`
     background-color: #517A3E;
     color: #FEFDFD;
     ${tablet({
-        display: 'none'
-    })};
+    display: 'none'
+})};
     ${mobile({
-        display: 'none'
-    })};
+    display: 'none'
+})};
 `
 
 const MobileReviewFormButton = styled.button`
@@ -170,11 +170,11 @@ const MobileReviewFormButton = styled.button`
     background-color: #517A3E;
     color: #FEFDFD;
     ${desktop({
-        display: 'none'
-    })},
+    display: 'none'
+})},
     ${laptop({
-        display: 'none'
-    })},
+    display: 'none'
+})},
 `
 
 const RatingContainer = styled.div`
@@ -273,8 +273,6 @@ const Ratings = () => {
 
     //Average with floor to eliminate floats
     const avgReview = item.length > 0 ? Math.floor(item.reduce((sum, review) => sum + review.rating, 0) / item.length) : 0;
-
-    console.log(avgReview)
 
     //function generates the number of ratings for each star in the reviewCount(5) format
     const reviewCount = (value) => {
@@ -382,10 +380,10 @@ const Ratings = () => {
                 <AddReviewButton onClick={() => setToggleReview((!toggleReview))}>Add a Review</AddReviewButton>
             </ReviewHeaderContainer>
             <MobileReviewFormButton onClick={() => setToggleReview((!toggleReview))}>Add a Review</MobileReviewFormButton>
-            
+
             <Line />
 
-            {toggleReview ? <RatingPost /> : null}
+            {toggleReview ? <RatingForm /> : null}
             <IndividualRatingContainer>
                 <RatingContents>
                     {item.map((item, index) => {

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { addToCart } from '../../../redux/cartReducer';
+import { getProduct, getReviews } from '../../../helpers';
 
 import { mobile, tablet, laptop, desktop } from '../../../media';
 
@@ -250,57 +251,70 @@ const CheckOutButton = styled.button`
 })}
 `
 
-
 const CheckoutInfo = () => {
     const dispatch = useDispatch();
-  const { id } = useParams();
+    const { id } = useParams();
 
-  // state for backend
-  const [products, setProducts] = useState([]);
+    // state for backend
+    const [products, setProducts] = useState([]);
 
-  // For quantity increment
-  const [count, setCount] = useState(1);
+    // For quantity increment
+    const [count, setCount] = useState(1);
 
-  // Default state for plant size options
-  const [size, setSize] = useState(0);
+    // Default state for plant size options
+    const [size, setSize] = useState(0);
 
-  // Default for pot choices
-  const [pot, setPot] = useState(0);
+    // Default for pot choices
+    const [pot, setPot] = useState(0);
 
-  // states to put side image in main image container
-  const [mainImage, setMainImage] = useState('');
+    // states to put side image in main image container
+    const [mainImage, setMainImage] = useState('');
 
-  // array generates products, but the product.find method isn't working
-  useEffect(() => {
-    const getProduct = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/api/products");
-        setProducts(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getProduct();
-  }, []);
+    //review state 
+    const [reviews, setReviews] = useState([]);
 
-  // move item declaration inside useEffect hook
-  const item = products.find((i) => i.id === parseInt(id));
+    //gets reviews from helpers file
+    useEffect(() => {
+        const fetchReviews = async () => {
+            const reviews = await getReviews();
+            setReviews(reviews);
+        };
+        fetchReviews();
+    }, []);
 
-  // update main image when item changes
-useEffect(() => {
-    if (item) {
-      setMainImage(item.image);
+    // array generates products
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await getProduct();
+            setProducts(data);
+        };
+        fetchData();
+    }, []);
+
+    // move item declaration inside useEffect hook
+    const item = products.find((i) => i.id === parseInt(id));
+
+    // Filters review array by id
+    const reviewArray = reviews.filter((i) => i.id === parseInt(id));
+
+    //average review from array
+    const avgReview = reviewArray ? Math.floor(reviewArray.reduce((sum, review) => sum + review.rating, 0) / reviewArray.length) : 0;
+    console.log(avgReview)
+
+    // update main image when item changes because backend values wont allow the use of state
+    useEffect(() => {
+        if (item) {
+            setMainImage(item.image);
+        }
+    }, [item]);
+
+    //change loading screen
+    if (!item) {
+        return <div></div>;
     }
-  }, [item]);
-  
 
-   //change loading screen
-   if (!item) {
-    return <div></div>;
-  }
-
-  // update price with addons
-  const totalPrice = (item?.price + size + pot)?.toFixed(2);
+    // update price with addons
+    const totalPrice = (item?.price + size + pot)?.toFixed(2);
 
     return (
         <MainContent key={item.id}>
@@ -320,8 +334,8 @@ useEffect(() => {
             <InfoContainer>
                 <ProductName>{item.name}</ProductName>
                 <ReviewContainer>
-                    <Rating name="size-small" defaultValue={4} size="small" />
-                    <ReviewText style={{ color: 'inherit', textDecoration: 'none' }}>(200) Reviews</ReviewText>
+                    <Rating name="size-small" value={avgReview} readOnly size="small" />
+                    <ReviewText style={{ color: 'inherit', textDecoration: 'none' }}>{`(${reviewArray.length}) Reviews`}</ReviewText>
                 </ReviewContainer>
 
                 <ProductPriceContainer>

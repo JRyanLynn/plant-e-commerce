@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import axios from 'axios';
+import { mobile, tablet, desktop, laptop } from '../../media';
+import { getProduct, getReviews } from '../../helpers';
+
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { Rating } from '@mui/material';
-import { mobile, tablet, desktop, laptop } from '../../media';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+
 
 const Page = styled.div`
     width: 100%;
@@ -340,6 +342,9 @@ const EasyPlants = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [screenOpacity, setScreenOpacity] = useState(1);
 
+    //review state 
+    const [reviews, setReviews] = useState([]);
+
     //combines checkbox values based on object array category clusters
     const handleCheckboxChange = (event) => {
         setIsLoading(!isLoading)
@@ -359,14 +364,13 @@ const EasyPlants = () => {
 
     };
 
-    useEffect (() => {
-        const getProducts = async () => {
-            try {
-                const res = await axios.get('http://localhost:5000/api/products')
-                setProducts(res.data);
-            } catch (error) {console.log(error)}
-        } 
-        getProducts();
+    //loads product array
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await getProduct();
+            setProducts(data);
+        };
+        fetchData();
     }, []);
 
     useEffect(() => {
@@ -386,6 +390,23 @@ const EasyPlants = () => {
         }, 200);
     }, [careTypes, lightTypes, categoryTypes, isLoading, products]);
 
+    //gets reviews from helpers file
+    useEffect(() => {
+        const fetchReviews = async () => {
+            const reviews = await getReviews();
+            setReviews(reviews);
+        };
+        fetchReviews();
+    }, []);
+
+    //reviewByIndex is review array, avgReview pulls from that to make the avg for each index in the product array map
+    const reviewArray = (productId) => {
+        const reviewByIndex = reviews.filter((i) => i.id === productId);
+        const avgReview = reviewByIndex.length > 0
+            ? Math.floor(reviewByIndex.reduce((sum, review) => sum + review.rating, 0) / reviewByIndex.length) : 0;
+        return { reviewByIndex, avgReview }
+    };
+
     //filters for sort values
     const hiLow = () => {
         let sortedArray = [...array];
@@ -398,6 +419,12 @@ const EasyPlants = () => {
         sortedArray.sort((a, b) => a.price - b.price)
         setArray(sortedArray)
     }
+
+    const sortByAvgReview = () => {
+        let sortedArray = [...array];
+        sortedArray.sort((a, b) => reviewArray(b.id).avgReview - reviewArray(a.id).avgReview);
+        setArray(sortedArray);
+    };
 
     //closes element when outside of sort element is clicked
     const handleClickAway = () => {
@@ -423,7 +450,7 @@ const EasyPlants = () => {
                                         <SortOptionListContainer>
                                             <DropListItem onClick={lowHi}>Price - Low-High</DropListItem>
                                             <DropListItem onClick={hiLow}>Price - High-Low</DropListItem>
-                                            <DropListItem>Customer Rating</DropListItem>
+                                            <DropListItem onClick={sortByAvgReview}>Customer Rating</DropListItem>
                                         </SortOptionListContainer>
                                     </ ClickAwayListener>
                                     : null}
@@ -460,8 +487,8 @@ const EasyPlants = () => {
                                         <ProductName key={item.name}>{item.name}</ProductName>
                                         <Reviews key={item.reviews}>
                                             <ReviewContainer>
-                                                <Rating name="read-only" readOnly size="small" />
-                                                <ReviewText>(100)</ReviewText>
+                                                <Rating name="product-review" value={reviewArray(item.id).avgReview} readOnly size="small" />
+                                                <ReviewText>{reviewArray(item.id).reviewByIndex.length}</ReviewText>
                                             </ReviewContainer>
                                         </Reviews>
                                         <ProductPrice key={item.price}>{`$${price(item.price)}`}</ProductPrice>

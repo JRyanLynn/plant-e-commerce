@@ -1,11 +1,12 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useNavigate, useParams} from 'react-router-dom';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { useNavigate, useParams } from 'react-router-dom';
 import { mobile, tablet, desktop, laptop } from '../../media';
+import { getProduct, getReviews } from '../../helpers';
+
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { Rating } from '@mui/material';
-import axios from 'axios';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 const Page = styled.div`
     width: 100%;
@@ -13,15 +14,15 @@ const Page = styled.div`
     background-color: #FEFDFD;
     font-family: Arial;
     color: #1B1212;
-    ${mobile({ 
-        marginTop: '-20px'
-    })};
+    ${mobile({
+    marginTop: '-20px'
+})};
 `
 const MobileDivider = styled.hr`
     color: #1B1212;
-    ${desktop({ display: 'none'})};
-    ${laptop({ display: 'none'})};
-    ${tablet({ display: 'none'})};
+    ${desktop({ display: 'none' })};
+    ${laptop({ display: 'none' })};
+    ${tablet({ display: 'none' })};
 `
 const ProductPageContainer = styled.div`
     display: flex;
@@ -29,7 +30,7 @@ const ProductPageContainer = styled.div`
     height: 100%;
     justify-content: center;
     align-items: center;
-    ${mobile({ marginTop: '20px'})};
+    ${mobile({ marginTop: '20px' })};
 `
 
 const ProductPageWrapper = styled.main`
@@ -38,15 +39,15 @@ const ProductPageWrapper = styled.main`
     height: 100%;
     flex-direction: column;
     background-color: #FEFDFD;
-    ${mobile({ 
-        width: '100%', 
-        alignItems: 'center',
-        justifyContent: 'center'
-    })};
+    ${mobile({
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center'
+})};
     ${tablet({ width: '100%', })};
 `
 
-const SortWrapper  = styled.div`
+const SortWrapper = styled.div`
     display: flex;
     flex-direction: column; 
     width: 96.20%;
@@ -54,11 +55,11 @@ const SortWrapper  = styled.div`
     padding: 0px 10px 0px 10px;
     justify-content: center;
     align-items: flex-end;
-    ${mobile({ 
-       width: '100%',
-       alignItems: 'center'
-    })};
-    ${tablet({ width: '98%'})};
+    ${mobile({
+    width: '100%',
+    alignItems: 'center'
+})};
+    ${tablet({ width: '98%' })};
 `
 
 const SortButtonRow = styled.nav`
@@ -68,13 +69,13 @@ const SortButtonRow = styled.nav`
     height: 30px;
     justify-content: space-between;
     align-items: center;
-    ${mobile({ 
-        width: '79%',
-        marginLeft: '5px'
-    })};
+    ${mobile({
+    width: '79%',
+    marginLeft: '5px'
+})};
     ${tablet({
-        width: '69%',
-        marginRight: '20px'
+    width: '69%',
+    marginRight: '20px'
 })};
 `
 
@@ -90,19 +91,19 @@ const SortButton = styled.button`
     font-size: 16px;
     background-color: #dcdcdc;
     border: 1px solid #1B1212;
-    ${mobile({ 
-        fontSize: '12px',
-        margin: '0px',
-        paddingLeft: '5px',
-    })};
+    ${mobile({
+    fontSize: '12px',
+    margin: '0px',
+    paddingLeft: '5px',
+})};
 `
 
 const SortComponentContainer = styled.menu`
     width: 15%;
     height: auto;
     margin-right: 10px;
-    ${mobile({ width: '40%'})};  
-    ${tablet({ width: '25%'})};  
+    ${mobile({ width: '40%' })};  
+    ${tablet({ width: '25%' })};  
 `
 
 const SortOptionListContainer = styled.ul`
@@ -126,20 +127,20 @@ const SortOptionListContainer = styled.ul`
     0 22.3px 17.9px rgba(0, 0, 0, 0.072),
     0 41.8px 33.4px rgba(0, 0, 0, 0.086),
     0 100px 80px rgba(0, 0, 0, 0.12);
-    ${mobile({ 
-        width: '29.5%',
-        margin: '0',
-        right: '56px'
-    })};
-    ${tablet({width: '18%'})};  
+    ${mobile({
+    width: '29.5%',
+    margin: '0',
+    right: '56px'
+})};
+    ${tablet({ width: '18%' })};  
 `
 const SortListTitle = styled.h1`
     font-Size: '28px';
-    ${mobile({ 
-        fontSize: '22px',
-        marginLeft: '5px'
-    })};
-    ${tablet({marginLeft: '5px'})};  
+    ${mobile({
+    fontSize: '22px',
+    marginLeft: '5px'
+})};
+    ${tablet({ marginLeft: '5px' })};  
 `
 
 const DropListItem = styled.li`
@@ -149,7 +150,7 @@ const DropListItem = styled.li`
     padding-left: 5px;
     list-style-type: none;
     margin-top: 10px;
-    ${mobile({fontSize: '12px'})};
+    ${mobile({ fontSize: '12px' })};
 `
 
 const SortDownArrow = styled(KeyboardArrowDownIcon)`
@@ -163,12 +164,12 @@ const CategoryFilterColumn = styled.menu`
     height: 100%;
     flex-direction: column;
     margin-top: 18px;
-    ${mobile({display: 'none'})}; 
+    ${mobile({ display: 'none' })}; 
 `
 
 const ListTitle = styled.h2`
     font-size: 20px;
-    ${mobile({fontSize: '16px'})};
+    ${mobile({ fontSize: '16px' })};
 `
 
 const List = styled.ul`
@@ -180,21 +181,21 @@ const List = styled.ul`
     background: #FEFDFD;
     justify-content: center;
     align-items: flex-start;
-    ${mobile({ 
-        width: '100%',
-        marginLeft: '-35px'
-    })};
-    ${tablet({ 
-        marginLeft: '-40px',
-        width: '90%'
-    })};  
+    ${mobile({
+    width: '100%',
+    marginLeft: '-35px'
+})};
+    ${tablet({
+    marginLeft: '-40px',
+    width: '90%'
+})};  
 `
 
 const ListItem = styled.li`
     list-style-type: none;
     font-size: 18px;
     padding: 2px;
-    ${mobile({fontSize: '14px'})};
+    ${mobile({ fontSize: '14px' })};
 `
 
 const ListInput = styled.input`
@@ -202,10 +203,10 @@ const ListInput = styled.input`
     height: 16px;
     margin-right: 5px;
     accent-color: #517A3E;
-    ${mobile({ 
-        height: '14px',
-        width: '14px'
-    })};
+    ${mobile({
+    height: '14px',
+    width: '14px'
+})};
 `
 const BreakLine = styled.hr`
     color: lightgray;
@@ -218,10 +219,10 @@ const PageContentWrapper = styled.div`
     width: 100%;
     height: 100%;
     background: #FEFDFD;
-    ${mobile({ 
-       alignItems: 'center',
-       justifyContent: 'center'
-    })};  
+    ${mobile({
+    alignItems: 'center',
+    justifyContent: 'center'
+})};  
 `
 
 const ProductGridWrapper = styled.section`
@@ -233,26 +234,26 @@ const ProductGridWrapper = styled.section`
     padding: 10px;
     margin: 10px 0px 100px 10px;
     background: #FEFDFD;
-    ${mobile({ 
-        padding: '0px',
-        marginLeft: '40px',
-        alignItems: 'center',
-        width: '95%',
-    })};
+    ${mobile({
+    padding: '0px',
+    marginLeft: '40px',
+    alignItems: 'center',
+    width: '95%',
+})};
     ${tablet({
-        width: '90%',
-        alignItems: 'center'
-    })};
+    width: '90%',
+    alignItems: 'center'
+})};
 `
 
 const NoResult = styled.h1`
     align-items: center;
     justify-content: center;
     margin: 100px 0px 0px 250px;
-    ${mobile({ 
-       marginLeft: '50px',
-       fontSize: '24px'
-    })};
+    ${mobile({
+    marginLeft: '50px',
+    fontSize: '24px'
+})};
 `
 
 const ProductCard = styled.article`
@@ -262,20 +263,20 @@ const ProductCard = styled.article`
     margin: 5px;
     border: 1px solid #CCD3C2;
     cursor: pointer;
-    ${mobile({width: '40%'})};
+    ${mobile({ width: '40%' })};
     ${tablet({
-        width: '22%',
-        alignItems: 'center'
-    })};
+    width: '22%',
+    alignItems: 'center'
+})};
 `
 const ProductImg = styled.img`
     width: 100%;
     height: 200px;
     display: block;
-    ${mobile({height: '100px'})};
+    ${mobile({ height: '100px' })};
     ${tablet({
-        height: '100px'
-    })};
+    height: '100px'
+})};
 `
 
 const ProductInfo = styled.section`
@@ -284,15 +285,15 @@ const ProductInfo = styled.section`
     margin-left: 15px;
     align-items: flex-start;
     justify-content: center;
-    ${mobile({marginLeft: '5px'})};
-    ${tablet({marginLeft: '5px'})};   
+    ${mobile({ marginLeft: '5px' })};
+    ${tablet({ marginLeft: '5px' })};   
 `
 
-const ProductName =  styled.h1`
+const ProductName = styled.h1`
     font-size: 20px;
     font-weight: 500;
-    ${mobile({fontSize: '12px'})};
-    ${tablet({fontSize: '12px', fontWeight: '600'})};
+    ${mobile({ fontSize: '12px' })};
+    ${tablet({ fontSize: '12px', fontWeight: '600' })};
 `
 
 const Reviews = styled.div`
@@ -310,75 +311,97 @@ const ReviewText = styled.a`
     font-size: 12px;
     font-weight: 500;
     margin-left: 10px;
-    ${mobile({display: 'none'})};
-    ${tablet({display: 'none'})};
+    ${mobile({ display: 'none' })};
+    ${tablet({ display: 'none' })};
 `
 
 const ProductPrice = styled.p`
     font-size: 18px;
     font-weight: 600;
     margin: -3px 0px 10px 3px;
-    ${mobile({fontSize: '14px'})};
-    ${tablet({fontSize: '14px'})};
+    ${mobile({ fontSize: '14px' })};
+    ${tablet({ fontSize: '14px' })};
 `
 
 const PlantTypes = () => {
 
-//array sorting values found in handle click and useEffect
-const [sort, setSort] = useState(false);
-const [careTypes, setCareTypes] = useState([]);
-const [lightTypes, setLightTypes] = useState([]);
-const [categoryTypes] = useState([]);
-const [products, setProducts] = useState([]);
-const [array, setArray] = useState(products);
+    //array sorting values found in handle click and useEffect
+    const [sort, setSort] = useState(false);
+    const [careTypes, setCareTypes] = useState([]);
+    const [lightTypes, setLightTypes] = useState([]);
+    const [categoryTypes] = useState([]);
+    const [products, setProducts] = useState([]);
+    const [array, setArray] = useState(products);
 
-//states for loading screen
-const [isLoading, setIsLoading] = useState(false);
-const [screenOpacity, setScreenOpacity] = useState(1);
+    //states for loading screen
+    const [isLoading, setIsLoading] = useState(false);
+    const [screenOpacity, setScreenOpacity] = useState(1);
 
-//React Routing
-const {type} = useParams();
-const navigate = useNavigate();
+     //review state 
+     const [reviews, setReviews] = useState([]);
 
-const handleCheckboxChange = (event) => {
-    setIsLoading(!isLoading) 
-    if (event.target.name === 'care') {
-        if (event.target.checked) {
-            setCareTypes([...careTypes, event.target.value])
-        } else {setCareTypes(careTypes.filter(filter => filter !== event.target.value))}
-    } else if (event.target.name  === 'light') {
-        if (event.target.checked) {
-            setLightTypes([...lightTypes, event.target.value])
-        } else {setLightTypes(lightTypes.filter(filter => filter !== event.target.value))}
-    } 
-};
+    //React Routing
+    const { type } = useParams();
+    const navigate = useNavigate();
 
-useEffect (() => {
-    const getProducts = async () => {
-        try {
-            const res = await axios.get('http://localhost:5000/api/products')
-            setProducts(res.data);
-        } catch (error) {console.log(error)}
-    } 
-    getProducts();
-}, []);
+    //filter for checkboxes
+    const handleCheckboxChange = (event) => {
+        setIsLoading(!isLoading)
+        if (event.target.name === 'care') {
+            if (event.target.checked) {
+                setCareTypes([...careTypes, event.target.value])
+            } else { setCareTypes(careTypes.filter(filter => filter !== event.target.value)) }
+        } else if (event.target.name === 'light') {
+            if (event.target.checked) {
+                setLightTypes([...lightTypes, event.target.value])
+            } else { setLightTypes(lightTypes.filter(filter => filter !== event.target.value)) }
+        }
+    };
 
-useEffect (() => {
-   if (isLoading) {
-     setScreenOpacity(0);
-    } else {
-      setScreenOpacity(1);
-    }
-    const filtered = products.filter(product => {
-        return (careTypes.length  === 0 || careTypes.includes(product.care)) &&
-                (lightTypes.length  === 0 || lightTypes.includes(product.light)) &&
-                (categoryTypes.length  === 0 || categoryTypes.includes(product.category) || categoryTypes.includes(product.type)) 
-    });
-    setTimeout(() => {
-        setIsLoading(false);
-    }, 200);
-    setArray(filtered.filter(product => product.category === type || product.type === type));
-}, [careTypes, lightTypes, categoryTypes, isLoading, type, products]);
+    //loads product array
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await getProduct();
+            setProducts(data);
+        };
+        fetchData();
+    }, []);
+
+    //uses filter to string array together from checkbox states
+    useEffect(() => {
+        if (isLoading) {
+            setScreenOpacity(0);
+        } else {
+            setScreenOpacity(1);
+        }
+        const filtered = products.filter(product => {
+            return (careTypes.length === 0 || careTypes.includes(product.care)) &&
+                (lightTypes.length === 0 || lightTypes.includes(product.light)) &&
+                (categoryTypes.length === 0 || categoryTypes.includes(product.category) || categoryTypes.includes(product.type))
+        });
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 200);
+        setArray(filtered.filter(product => product.category === type || product.type === type));
+    }, [careTypes, lightTypes, categoryTypes, isLoading, type, products]);
+
+
+    //gets reviews from helpers file
+    useEffect(() => {
+        const fetchReviews = async () => {
+            const reviews = await getReviews();
+            setReviews(reviews);
+        };
+        fetchReviews();
+    }, []);
+
+    //reviewByIndex is review array, avgReview pulls from that to make the avg for each index in the product array map
+    const reviewArray = (productId) => {
+        const reviewByIndex = reviews.filter((i) => i.id === productId);
+        const avgReview = reviewByIndex.length > 0
+            ? Math.floor(reviewByIndex.reduce((sum, review) => sum + review.rating, 0) / reviewByIndex.length) : 0;
+        return { reviewByIndex, avgReview }
+    };
 
     //filters for sort values
     const hiLow = () => {
@@ -393,82 +416,88 @@ useEffect (() => {
         setArray(sortedArray)
     }
 
+    const sortByAvgReview = () => {
+        let sortedArray = [...array];
+        sortedArray.sort((a, b) => reviewArray(b.id).avgReview - reviewArray(a.id).avgReview);
+        setArray(sortedArray);
+    };
+
     //closes element when outside of sort element is clicked
     const handleClickAway = () => {
         setSort(false);
-      };
+    };
 
-      let price = (number) => {return number.toFixed(2)};   
+    let price = (number) => { return number.toFixed(2) };
 
-  return (
-    <Page>
-        <MobileDivider />
-    <ProductPageContainer>
-        <ProductPageWrapper>
-        <SortWrapper>
-        <SortButtonRow>
-            <SortListTitle>{type.replace(/\b[a-z]/g, (match) => match.toUpperCase())}</SortListTitle>
-            <SortComponentContainer>
-            <SortButton onClick = {() => setSort(!sort)}>Sort <SortDownArrow /></SortButton>
-            {sort?
-            < ClickAwayListener onClickAway={handleClickAway}>
-            <SortOptionListContainer>
-                    <DropListItem onClick = {lowHi}>Price - Low-High</DropListItem>
-                    <DropListItem onClick = {hiLow}>Price - High-Low</DropListItem>
-                    <DropListItem>Customer Rating</DropListItem>
-            </SortOptionListContainer>
-            </ ClickAwayListener>
-            : null}
-            </SortComponentContainer>
-            </SortButtonRow>
-            </SortWrapper>
-        <PageContentWrapper>
-        <CategoryFilterColumn>
+    return (
+        <Page>
+            <MobileDivider />
+            <ProductPageContainer>
+                <ProductPageWrapper>
+                    <SortWrapper>
+                        <SortButtonRow>
+                            <SortListTitle>{type.replace(/\b[a-z]/g, (match) => match.toUpperCase())}</SortListTitle>
+                            <SortComponentContainer>
+                                <SortButton onClick={() => setSort(!sort)}>Sort <SortDownArrow /></SortButton>
+                                {sort ?
+                                    < ClickAwayListener onClickAway={handleClickAway}>
+                                        <SortOptionListContainer>
+                                            <DropListItem onClick={lowHi}>Price - Low-High</DropListItem>
+                                            <DropListItem onClick={hiLow}>Price - High-Low</DropListItem>
+                                            <DropListItem onClick={sortByAvgReview}>Customer Rating</DropListItem>
+                                        </SortOptionListContainer>
+                                    </ ClickAwayListener>
+                                    : null}
+                            </SortComponentContainer>
+                        </SortButtonRow>
+                    </SortWrapper>
+                    <PageContentWrapper>
+                        <CategoryFilterColumn>
 
-        <List>
-            <ListItem><ListTitle>Care Type</ListTitle></ListItem>
-            <ListItem><ListInput type= 'checkbox' name = 'care' value = 'easy' onChange={(e) => handleCheckboxChange(e)}/>Easy</ListItem>
-            <ListItem><ListInput type = 'checkbox' name = 'care' value = 'medium'  onChange={(e) => handleCheckboxChange(e)} />Medium</ListItem>
-            <ListItem><ListInput type = 'checkbox' name = 'care' value = 'difficult'  onChange={(e) => handleCheckboxChange(e)}/>Special Care</ListItem>
-        </List>
+                            <List>
+                                <ListItem><ListTitle>Care Type</ListTitle></ListItem>
+                                <ListItem><ListInput type='checkbox' name='care' value='easy' onChange={(e) => handleCheckboxChange(e)} />Easy</ListItem>
+                                <ListItem><ListInput type='checkbox' name='care' value='medium' onChange={(e) => handleCheckboxChange(e)} />Medium</ListItem>
+                                <ListItem><ListInput type='checkbox' name='care' value='difficult' onChange={(e) => handleCheckboxChange(e)} />Special Care</ListItem>
+                            </List>
 
-        <BreakLine />
-        <List>
-            <ListItem><ListTitle>Light</ListTitle></ListItem>
-            <ListItem><ListInput type = 'checkbox' name = 'light' value = 'bright' onChange={(e) => handleCheckboxChange(e)} />Bright</ListItem>
-            <ListItem><ListInput type = 'checkbox' name = 'light' value = 'medium' onChange={(e) => handleCheckboxChange(e)}/>Medium</ListItem>
-            <ListItem><ListInput type = 'checkbox' name = 'light' value = 'low' onChange={(e) => handleCheckboxChange(e)} />Dark</ListItem>
-        </List>
+                            <BreakLine />
+                            <List>
+                                <ListItem><ListTitle>Light</ListTitle></ListItem>
+                                <ListItem><ListInput type='checkbox' name='light' value='bright' onChange={(e) => handleCheckboxChange(e)} />Bright</ListItem>
+                                <ListItem><ListInput type='checkbox' name='light' value='medium' onChange={(e) => handleCheckboxChange(e)} />Medium</ListItem>
+                                <ListItem><ListInput type='checkbox' name='light' value='low' onChange={(e) => handleCheckboxChange(e)} />Dark</ListItem>
+                            </List>
 
-        </CategoryFilterColumn>
+                        </CategoryFilterColumn>
 
-        <ProductGridWrapper style={{ opacity: screenOpacity }}>
-           {array.length > 0 ? array.map((item) => (
-           <ProductCard key ={item.id} 
-                        onClick={() => navigate(`/products/${item.id}`)}
-                        >
-                 <ProductImg key = {item.image} src = {item.image} alt = 'Product Image' />
-                
-                <ProductInfo key = {item.id}>
-                    <ProductName key = {item.name}>{item.name}</ProductName>
-                   
-                    <Reviews key = {item.reviews}>
-                        <ReviewContainer>
-                        <Rating name="read-only" readOnly  size="small"/>
-                        <ReviewText>(100)</ReviewText>
-                    </ReviewContainer>
-                    </Reviews>
-                    <ProductPrice key = {item.price}>{`$${price(item.price)}`}</ProductPrice>
-                </ProductInfo> 
-                </ProductCard> 
-                )) : <NoResult>Sorry, no items found</NoResult>}
+                        <ProductGridWrapper style={{ opacity: screenOpacity }}>
+                            {array.length > 0 ? array.map((item) => (
+                                <ProductCard key={item.id}
+                                    onClick={() => navigate(`/products/${item.id}`)}
+                                >
+                                    <ProductImg key={item.image} src={item.image} alt='Product Image' />
 
-        </ProductGridWrapper> 
-        </PageContentWrapper>
-        </ProductPageWrapper>
-    </ProductPageContainer>
-</Page>
-  )
+                                    <ProductInfo key={item.id}>
+                                        <ProductName key={item.name}>{item.name}</ProductName>
+
+                                        <Reviews key={item.reviews}>
+                                            <ReviewContainer>
+                                                <Rating name="product-review" value={reviewArray(item.id).avgReview} readOnly size="small" />
+                                                <ReviewText>{reviewArray(item.id).reviewByIndex.length}</ReviewText>
+                                            </ReviewContainer>
+                                        </Reviews>
+                                        <ProductPrice key={item.price}>{`$${price(item.price)}`}</ProductPrice>
+                                    </ProductInfo>
+                                </ProductCard>
+                            )) : <NoResult>Sorry, no items found</NoResult>}
+
+                        </ProductGridWrapper>
+                    </PageContentWrapper>
+                </ProductPageWrapper>
+            </ProductPageContainer>
+        </Page>
+    )
 }
 
 export default PlantTypes;
