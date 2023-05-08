@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Card from '../components/ProductCard';
 import { mobile, tablet} from '../media';
 import { useSelector } from 'react-redux';
+import PayButton from './SingleProductPage/Components/PayButton';
 
 const PageContainer = styled.div`
   height: 100%;
@@ -207,6 +208,8 @@ ${tablet({
 `
 
 const FullCart = () => {
+  const cart = useSelector((state) => state.cart.products);
+
   const cardQuantity = useSelector((state) => state.cart.products.length);
 
   const subTotal = useSelector((state) => 
@@ -214,6 +217,7 @@ const FullCart = () => {
     acc + product.price * product.count, 0));
   
     const shipping = subTotal >= 30.00 || cardQuantity === 0 ? 0 : 5.00;
+
 
   return (
     <PageContainer>
@@ -256,7 +260,7 @@ const FullCart = () => {
           <Total>${(subTotal + (subTotal * .03) + (shipping)).toFixed(2)}</Total>
         </TotalItemContainer>
         
-        <TotalButton>Checkout</TotalButton>
+        <PayButton cartItems = {cart}></PayButton>
       </TotalCard>
     </RightColumn>
     </PageWrapper>

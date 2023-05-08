@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getSearchResults, getReviews, searchResults } from '../../helpers';
+import { getReviews, searchResults } from '../../helpers';
 import { mobile, tablet, desktop, laptop } from '../../media';
 
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { Rating } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-
-
 
 const Page = styled.div`
     width: 100%;
@@ -487,7 +485,7 @@ const SearchResults = () => {
                         <ProductGridWrapper style={{ opacity: screenOpacity }}>
                             {array.length > 0 ? array.map((item) => (
                                 <ProductCard key={item.id} onClick={() => navigate(`/products/${item.id}`)}>
-                                    <ProductImg src={item.image} alt='Product Image' />
+                                    <ProductImg src={item.image} alt= {item.name} />
 
                                     <ProductInfo>
                                         <ProductName>{item.name}</ProductName>

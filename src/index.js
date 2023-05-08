@@ -7,7 +7,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
 //Put string here because stripe threw an error even thought it should work without it
-const stripePromise = loadStripe(`${process.env.REACT_STRIPE_PUBLISHABLE_KEY}`)
+const stripePromise = loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_PUBLIC}`);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

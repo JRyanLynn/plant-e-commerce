@@ -11,8 +11,7 @@ import React from 'react';
 import { Route, Routes, Redirect } from 'react-router-dom';
 import { store } from './redux/store';
 import { Provider, useSelector } from 'react-redux';
-import Success from './pages/Success';
-import Checkout from './pages/Checkout';
+import CheckoutSuccess from './components/Checkout/stripe-checkout/CheckoutSuccess';
 import SearchResults from './pages/ProductPages/SearchResults';
 
 function App() {
@@ -28,8 +27,7 @@ function App() {
       <Route path = '/easy' element = {<EasyPlants />} />
       <Route path = '/products/:id' element = {<ProductView />} />
       <Route path = '/cart' element = {<FullCart />} />
-      <Route path = '/checkout' element = {<Checkout />} />
-      <Route path = '/success' element = {<Success />}/>
+      <Route path = '/checkout-success' element = {<CheckoutSuccess />} />
     </Routes>
     <Footer />
     </Provider>

@@ -85,7 +85,7 @@ const BannerButton = styled.button`
     height: 44px;
     width: 100px;
     font-size: 16px;
-    color: #1B1212;
+    color: #FEFDFD;
     padding: 5px;
     align-items: center;
     justify-content: center;
@@ -113,9 +113,6 @@ const CategoryCard = styled.article`
            marginLeft: '-10px'
         })};
     }
-    &:hover {
-        border: 1.25px solid #1B1212;
-    }
     ${mobile({
     height: '100%',
     width: '33.33%',
@@ -125,7 +122,7 @@ const CategoryCard = styled.article`
 
 const Name = styled.h1`
     font-size: 26px;
-    font-weight: 600;
+    font-weight: 500;
     ${mobile({
     fontSize: '12px'
 })};

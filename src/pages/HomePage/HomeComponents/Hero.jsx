@@ -89,7 +89,7 @@ const HeroAdContainer = styled.header`
 `
 
 const HeroArrowButton = styled(ArrowForwardIcon)`
-    color: #1B1212;
+    color: #FEFDFD;
     margin-top: 10px;
     margin-left: 10px;
 `
@@ -134,7 +134,7 @@ const HeroButton = styled.button`
     background: none;
     border: none;
     margin-left: 20px;
-    color: #1B1212;
+    color: #FEFDFD;
     font-weight: 600;
     cursor: pointer;
     &:hover {

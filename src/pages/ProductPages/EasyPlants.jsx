@@ -481,7 +481,7 @@ const EasyPlants = () => {
                         <ProductGridWrapper style={{ opacity: screenOpacity }}>
                             {array.length > 0 ? array.map((item) => (
                                 <ProductCard key={item.id} onClick={() => navigate(`/products/${item.id}`)}>
-                                    <ProductImg key={item.image} src={item.image} alt='Product Image' />
+                                    <ProductImg key={item.image} src={item.image} alt= {item.name} />
 
                                     <ProductInfo key={item.id}>
                                         <ProductName key={item.name}>{item.name}</ProductName>
