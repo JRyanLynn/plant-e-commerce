@@ -219,6 +219,7 @@ const LogIn = () => {
 
     //grabs redux userSlice login state
     const user = useSelector((state) => state.user.currentUser);
+    console.log(user)
 
     //handles signIn button click, navigates and closes modal
     const handleLogin = (e) => {

@@ -24,7 +24,6 @@ export const sendRegister = (username, email, password) => {
     });
 };
 
-
 //Rating api call:
 export const getReviews = async () => {
   try {
