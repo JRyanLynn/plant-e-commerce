@@ -165,7 +165,6 @@ const LoggedInUser = () => {
         <ListItem>
           <Button onClick={handleSaveCart}>Save Cart</Button>
         </ListItem>
-        <ListItem>View Orders</ListItem>
         <ListItem>
         <Button onClick={handleLogout}>Log Out</Button>
         </ListItem>

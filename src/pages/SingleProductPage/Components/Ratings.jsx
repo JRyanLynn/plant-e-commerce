@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
+import { mobile, tablet, laptop, desktop } from '../../../media';
+
 import { Rating } from '@mui/material';
 import RatingForm from './RatingForm';
-import { mobile, tablet, laptop, desktop } from '../../../media';
+import LogIn from '../../../components/Navbar/LogIn/LogIn';
 
 const ReviewSectionContainer = styled.section`
     display: flex;
@@ -244,6 +249,10 @@ const Review = styled.p`
 `
 const Ratings = () => {
     const { id } = useParams();
+    const user = useSelector((state) => state.user.currentUser);
+
+    //Login states
+    const [logIn, setLogIn] = useState(false);
 
     // state for backend
     const [reviews, setReviews] = useState([]);
@@ -305,6 +314,15 @@ const Ratings = () => {
     });
 
     const mostRecentReview = newestReview.length > 0 ? newestReview[0] : false;
+
+    //displays login modal if user isn't logged in and review forum if they are
+    const handleAddReviewClick = () => {
+        if (user) {
+          setToggleReview(!toggleReview);
+        } else {
+          setLogIn(true);
+        }
+      };
 
     return (
         <ReviewSectionContainer>
@@ -377,7 +395,7 @@ const Ratings = () => {
 
                 </StatContainer>
 
-                <AddReviewButton onClick={() => setToggleReview((!toggleReview))}>Add a Review</AddReviewButton>
+                <AddReviewButton onClick={handleAddReviewClick}>Add a Review</AddReviewButton>
             </ReviewHeaderContainer>
             <MobileReviewFormButton onClick={() => setToggleReview((!toggleReview))}>Add a Review</MobileReviewFormButton>
 
@@ -406,6 +424,12 @@ const Ratings = () => {
                             </RatingContainer>
                         );
                     })}
+
+{logIn && !user ?
+                <>
+                    <LogIn />
+                </>
+                : null}
                 </RatingContents>
 
             </IndividualRatingContainer>

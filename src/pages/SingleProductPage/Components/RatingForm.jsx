@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Rating } from '@mui/material';
 import styled from 'styled-components';
 import {  mobile, tablet, laptop, desktop } from '../../../media';
+import { userRequest } from '../../../helpers';
 
 const SubmitReviewForm = styled.form`
   display: flex;
@@ -154,19 +155,13 @@ const RatingForm = () => {
   //generates success text
   const [successMessage, setSuccessMessage] = useState('');
 
-  //review post method
-  const handleSubmit = async (e) => {
+  //Review submit with auth from helpers
+  const reviewSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/reviews', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(review)
-      });
-      if (!response.ok) {
+      const response = await userRequest.post('http://localhost:5000/api/reviews', review);
+      if (response.status !== 200) {
         throw new Error('Network response was not ok');
       }
       console.log('Review added successfully!');
@@ -179,11 +174,9 @@ const RatingForm = () => {
     }
   };
 
-  //mobile
-
   return (
     <>
-   {toggleReview ? <SubmitReviewForm onSubmit={handleSubmit}>
+   {toggleReview ? <SubmitReviewForm onSubmit={reviewSubmit}>
       <ReviewHeader>Please Leave a Review Below</ReviewHeader>
 
       <ContentColumn>

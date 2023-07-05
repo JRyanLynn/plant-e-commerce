@@ -265,7 +265,6 @@ const LogIn = () => {
                 })
               );
             });
-            navigate('/');
             setLogIn(false);
           }
         };
