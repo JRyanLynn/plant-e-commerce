@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Card from './ProductCard';
 import { Link } from "react-router-dom";
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 const CartContainer = styled.div`
   display: flex;
@@ -97,7 +98,7 @@ const Info = styled.p`
   font-size: 14px;
 `
 
-const PricingInfo = styled.table`
+const PricingInfo = styled.div`
   display: flex;
   flex-direction: column;
   width: 99%;
@@ -106,7 +107,7 @@ const PricingInfo = styled.table`
   font-size: 16px;
 `
 
-const PricingDetailRow = styled.tr` 
+const PricingDetailRow = styled.div` 
   display: flex;
   flex-direction: row;
   padding: 5px;
@@ -114,14 +115,14 @@ const PricingDetailRow = styled.tr`
   width: 100%;
 `
 
-const PricingDetail = styled.th`
+const PricingDetail = styled.div`
   display: flex;
   justify-content: flex-start;
   padding-left: 10px;
   font-weight: bold;
 `
 
-const Price = styled.td`
+const Price = styled.div`
   display: flex;
   justify-content: flex-end;
   padding-right: 20px;
@@ -156,6 +157,7 @@ const CheckoutButtons = styled.button`
     font-weight: 600;
     background-color: #517A3E;
     border: 1px solid #CCD3C2;
+    color: #FEFDFD;
   }
 
 `
@@ -165,13 +167,34 @@ const RouterLink = styled(Link)`
   color: black;
 `
 
+const url = "http://localhost:5000/api";
+
 const Cart = () => {
   const cardQuantity = useSelector((state) => state.cart.products.length);
+
+  const cart = useSelector((state) => state.cart.products);
 
   //Pulls prices from redux and multiples them by count
   const subTotal = useSelector((state) =>
     state.cart.products.reduce((acc, product) =>
       acc + product.price * product.count, 0))
+
+      const handleCheckout = () => {
+        axios
+          .post(`${url}/stripe/create-checkout-session`, {
+            cartItems: cart,
+            // put user _id from backend get request here
+          })
+          .then((res) => {
+            if (res.data.url) {
+              window.location.href = res.data.url;
+            }
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
+      };
+
 
   return (
     <CartContainer>
@@ -201,10 +224,8 @@ const Cart = () => {
               Full Cart
             </RouterLink>
           </CheckoutButtons>
-          <CheckoutButtons className='check-out'>
-            <RouterLink style={{color: '#FEFDFD'}} to = '/checkout'>
+          <CheckoutButtons onClick={handleCheckout} className='check-out'>
             Check Out
-            </RouterLink>
             </CheckoutButtons>
         </ButtonBank>
 

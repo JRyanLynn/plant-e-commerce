@@ -1,9 +1,10 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { mobile, tablet, laptop, desktop } from '../media';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCount, removeItem } from '../redux/cartReducer';
+import { fetchCartItems } from '../helpers';
 
 
 const CardContainer = styled.article`

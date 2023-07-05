@@ -14,15 +14,16 @@ import { useSelector } from 'react-redux'
 import Cart from '../Cart'
 import SearchBar from './NavComponents/SearchBar'
 import NavBurgerMenu from './NavComponents/NavBurgerMenu'
-import LogIn from './NavComponents/LogIn'
+import LogIn from './LogIn/LogIn'
+import LoggedInUser from './LogIn/LoggedInUser'
 
 const Nav = styled.nav`
     height: 150px;
     z-index: 1;
     background-color: #FEFDFD;
     ${mobile({
-        height: '85px'
-    })}
+    height: '85px'
+})}
 `;
 
 const TopSection = styled.div`
@@ -57,23 +58,23 @@ const NavSection = styled.div`
         justify-content: flex-start;
         margin-left: 20px;
         ${mobile({
-            flex: '2',
-            fontSize: '10px',
-            margin: '0px 20px 0px 0px',
-            zIndex: '500',
-            width: 'auto'
-        })};
+    flex: '2',
+    fontSize: '10px',
+    margin: '0px 20px 0px 0px',
+    zIndex: '500',
+    width: 'auto'
+})};
     }
 
     &.nav-center {
         text-align: center;
         justify-content: center;
         ${mobile({
-            display: 'none',
-        })};
+    display: 'none',
+})};
             ${tablet({
-            display: 'none'
-        })};
+    display: 'none'
+})};
     }
 
     &.nav-right {
@@ -81,8 +82,8 @@ const NavSection = styled.div`
         justify-content: flex-end;
         flex-direction: row;
         ${mobile({
-            fontSize: '16px',
-        })};
+    fontSize: '16px',
+})};
     }
 `
 const Logo = styled.h1`
@@ -148,21 +149,21 @@ const BottomSection = styled.div`
     color: #1B1212;
     align-items: center;
     justify-content: center;
-    ${mobile({display: 'none'})};
+    ${mobile({ display: 'none' })};
 `
 
 const DividerLine = styled.hr`
     width: 100%;
     color: #CCD3C2;
-    ${mobile({display: 'none'})};
+    ${mobile({ display: 'none' })};
 `
 const RouterLink = styled(Link)`
   text-decoration: none;
   color: black;
   &.mobileCartLink{
-    ${desktop({display: 'none' })};
-    ${laptop({display: 'none' })};
-    ${tablet({display: 'none' })};
+    ${desktop({ display: 'none' })};
+    ${laptop({ display: 'none' })};
+    ${tablet({ display: 'none' })};
   }
 `
 
@@ -187,9 +188,9 @@ const MenuButton = styled.button`
     justify-content: center;
     padding: 0;
     margin-bottom: -4px;
-    ${desktop({display: 'none'})};
-    ${laptop({display: 'none'})};
-    ${tablet({display: 'none'})};
+    ${desktop({ display: 'none' })};
+    ${laptop({ display: 'none' })};
+    ${tablet({ display: 'none' })};
 `
 
 const Navbar = () => {
@@ -201,6 +202,9 @@ const Navbar = () => {
 
     //Login states
     const [logIn, setLogIn] = useState(false);
+
+    //User present 
+    const [loggedIn, setLoggedIn] = useState(false);
 
     //navigate for bottom link to props
     const navigate = useNavigate();
@@ -215,15 +219,23 @@ const Navbar = () => {
         setShowBurger(false);
     };
 
+    //closes element when outside of sort element is clicked
+    const handleLoggedInClickAway = () => {
+        setLoggedIn(false);
+    };
+
     //number of items in redux cart 
     let badgeQuantity = useSelector((state) => state.cart.products.length);
+
+    //User state
+    const user = useSelector((state) => state.user.currentUser);
 
     return (
         <Nav>
             <TopSection>
 
                 <NavSection className='nav-left'>
-                    
+
                     <MenuButton onClick={() => setShowBurger(!showBurger)}>
                         <MenuIcon />
                     </MenuButton>
@@ -238,23 +250,23 @@ const Navbar = () => {
                 <NavSection className='nav-right'>
                     <SectionUl>
                         <MenuItem>
-                    <AccountCircleIcon onClick={() => setLogIn(!logIn)}></AccountCircleIcon>
-                    </MenuItem>
+                            <AccountCircleIcon onClick={() => user ? setLoggedIn(!loggedIn) : setLogIn(!logIn)}></AccountCircleIcon> 
+                        </MenuItem>
 
-            
-                    <MenuItem>
-                            <RouterLink to = '/cart/' className='mobileCartLink'>
-                            <StyledCartBadge badgeContent={badgeQuantity} invisible={badgeQuantity === 0}>
+
+                        <MenuItem>
+                            <RouterLink to='/cart/' className='mobileCartLink'>
+                                <StyledCartBadge badgeContent={badgeQuantity} invisible={badgeQuantity === 0}>
                                     <ShoppingCartOutlinedIcon />
                                 </StyledCartBadge>
                             </RouterLink>
 
                             <FullScreenIconContainer>
-                            <StyledCartBadge badgeContent={badgeQuantity} invisible={badgeQuantity === 0}>
-                                <ShoppingCartOutlinedIcon onClick={() => setCart(!cart)} />
-                            </StyledCartBadge>
+                                <StyledCartBadge badgeContent={badgeQuantity} invisible={badgeQuantity === 0}>
+                                    <ShoppingCartOutlinedIcon onClick={() => setCart(!cart)} />
+                                </StyledCartBadge>
                             </FullScreenIconContainer>
-                    </MenuItem>
+                        </MenuItem>
 
                     </SectionUl>
                 </NavSection>
@@ -263,29 +275,37 @@ const Navbar = () => {
             <DividerLine />
 
             <BottomSection>
-               <SectionUl className='bottom-ul'>
-                <MenuItem><RouterLink to='/'>Home</RouterLink></MenuItem>
-                <MenuItem onClick={() => navigate(`/type/${'flower'}`)}>Flowers</MenuItem>
-                <MenuItem onClick={() => navigate(`/type/${'leafy'}`)}>Leafy Plants</MenuItem>
-                <MenuItem onClick={() => navigate(`/type/${'edible'}`)}>Edible</MenuItem>
-                <MenuItem onClick={() => navigate(`/type/herb`)}>Herbs</MenuItem>
-                <MenuItem><RouterLink to='/easy'>Easy Plants</RouterLink></MenuItem>
+                <SectionUl className='bottom-ul'>
+                    <MenuItem><RouterLink to='/'>Home</RouterLink></MenuItem>
+                    <MenuItem onClick={() => navigate(`/type/${'flower'}`)}>Flowers</MenuItem>
+                    <MenuItem onClick={() => navigate(`/type/${'leafy'}`)}>Leafy Plants</MenuItem>
+                    <MenuItem onClick={() => navigate(`/type/${'edible'}`)}>Edible</MenuItem>
+                    <MenuItem onClick={() => navigate(`/type/herb`)}>Herbs</MenuItem>
+                    <MenuItem><RouterLink to='/easy'>Easy Plants</RouterLink></MenuItem>
                 </SectionUl>
             </BottomSection>
             <DividerLine />
 
-            {logIn ?
-            <> 
-            <LogIn />
+            {loggedIn && user ? (
+                <ClickAwayListener onClickAway={handleLoggedInClickAway}>
+                    <div>
+                    <LoggedInUser />
+                    </div>
+                </ClickAwayListener>
+            ) : null}
+
+            {logIn && !user ?
+                <>
+                    <LogIn />
                 </>
                 : null}
 
-            {showBurger ? 
-            <ClickAwayListener onClickAway={handleBurgerClickAway}>
-                <HamburgerToggle>
-                <NavBurgerMenu />
-                </HamburgerToggle>
-            </ClickAwayListener> : null}
+            {showBurger ?
+                <ClickAwayListener onClickAway={handleBurgerClickAway}>
+                    <HamburgerToggle>
+                        <NavBurgerMenu />
+                    </HamburgerToggle>
+                </ClickAwayListener> : null}
 
             {cart ?
                 <ClickAwayListener onClickAway={handleCartClickAway}>

@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import Card from '../components/ProductCard';
 import { mobile, tablet} from '../media';
 import { useSelector } from 'react-redux';
-import PayButton from './SingleProductPage/Components/PayButton';
+import axios from 'axios';
+import { getUserCartItems } from '../helpers';
 
 const PageContainer = styled.div`
   height: 100%;
@@ -206,9 +207,14 @@ ${tablet({
 })};
 
 `
+const url = "http://localhost:5000/api";
 
 const FullCart = () => {
   const cart = useSelector((state) => state.cart.products);
+  //user can be added later when the webhook is needed
+  const user = useSelector((state) => state.user.currentUser);
+
+  console.log(user)
 
   const cardQuantity = useSelector((state) => state.cart.products.length);
 
@@ -216,57 +222,70 @@ const FullCart = () => {
   state.cart.products.reduce((acc, product) => 
     acc + product.price * product.count, 0));
   
-    const shipping = subTotal >= 30.00 || cardQuantity === 0 ? 0 : 5.00;
+  const shipping = subTotal >= 30.00 || cardQuantity === 0 ? 0 : 5.00;
 
+
+  const handleCheckout = () => {
+    axios
+      .post(`${url}/stripe/create-checkout-session`, {
+        cartItems: cart,
+        //userId: user.user._id,
+      })
+      .then((res) => {
+        if (res.data.url) {
+          window.location.href = res.data.url;
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
 
   return (
     <PageContainer>
-    <CartContainer>
-    <PageWrapper>
-
-    <LeftColumn>
-      <LeftTitleContainer>
-        <TitleText>Cart</TitleText>
-      </LeftTitleContainer>
-
-      <ProductCardContainer>
-        {cardQuantity === 0 ? <CartEmpty>No Items Found</CartEmpty> : <Card />}
-      </ProductCardContainer>
-    </LeftColumn>
-
-    <RightColumn>
-      
-      <TotalCard>
-
-        <TitleText>Total</TitleText>
-        <TotalLine />
-        <TotalItemContainer>
-          <TotalHeader>Subtotal</TotalHeader>
-          <Total>${(subTotal).toFixed(2)}</Total>
-        </TotalItemContainer>
-
-        <TotalItemContainer>
-          <TotalHeader>Tax</TotalHeader>
-          <Total>${(subTotal * .03).toFixed(2)}</Total>
-        </TotalItemContainer>
-
-        <TotalItemContainer>
-          <TotalHeader>Shipping</TotalHeader>
-          <Total>${(shipping).toFixed(2)}</Total>
-        </TotalItemContainer>
-
-        <TotalItemContainer>
-          <TotalHeader>Total</TotalHeader>
-          <Total>${(subTotal + (subTotal * .03) + (shipping)).toFixed(2)}</Total>
-        </TotalItemContainer>
-        
-        <PayButton cartItems = {cart}></PayButton>
-      </TotalCard>
-    </RightColumn>
-    </PageWrapper>
-    </CartContainer>
+      <CartContainer>
+        <PageWrapper>
+          <LeftColumn>
+            <LeftTitleContainer>
+              <TitleText>Cart</TitleText>
+            </LeftTitleContainer>
+            <ProductCardContainer>
+              {cardQuantity === 0 ? (
+                <CartEmpty>No Items Found</CartEmpty>
+              ) : (
+                <Card />
+              )}
+            </ProductCardContainer>
+          </LeftColumn>
+          <RightColumn>
+            <TotalCard>
+              <TitleText>Total</TitleText>
+              <TotalLine />
+              <TotalItemContainer>
+                <TotalHeader>Subtotal</TotalHeader>
+                <Total>${subTotal.toFixed(2)}</Total>
+              </TotalItemContainer>
+              <TotalItemContainer>
+                <TotalHeader>Tax</TotalHeader>
+                <Total>${(subTotal * 0.03).toFixed(2)}</Total>
+              </TotalItemContainer>
+              <TotalItemContainer>
+                <TotalHeader>Shipping</TotalHeader>
+                <Total>${shipping.toFixed(2)}</Total>
+              </TotalItemContainer>
+              <TotalItemContainer>
+                <TotalHeader>Total</TotalHeader>
+                <Total>
+                  ${(subTotal + subTotal * 0.03 + shipping).toFixed(2)}
+                </Total>
+              </TotalItemContainer>
+              <TotalButton onClick={handleCheckout}>Check Out</TotalButton>
+            </TotalCard>
+          </RightColumn>
+        </PageWrapper>
+      </CartContainer>
     </PageContainer>
-  )
-}
+  );
+};
 
-export default FullCart
+export default FullCart;

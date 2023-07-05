@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
 import { mobile, tablet } from '../../../media';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
@@ -6,6 +6,9 @@ import { login } from '../../../redux/apiCall';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { sendRegister } from '../../../helpers';
+import { fetchCartItems } from '../../../helpers';
+import { addToCart } from '../../../redux/cartReducer';
+import { getUserCartItems } from '../../../helpers';
 
 const SignIn = styled.div`
     display: flex;
@@ -135,8 +138,11 @@ const SignInButtonMain = styled.button`
 `
 
 const Error = styled.span`
-    color: red;
+    color: #FF4136;
     margin-top: 20px;
+    &#success{
+        color: #517A3E;
+    }
 `
 
 const ForgotButton = styled.button`
@@ -167,16 +173,10 @@ const ForgotTitleText = styled.h1`
     height: auto;
 `
 
-const RouterLink = styled(Link)`
-  text-decoration: none;
-  cursor: pointer;
-  color: #1B1212;
-`
-
-
 const LogIn = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
     //states for login toggles
     const [signIn, setSignIn] = useState(true);
     const [register, setRegister] = useState(false);
@@ -219,17 +219,58 @@ const LogIn = () => {
 
     //grabs redux userSlice login state
     const user = useSelector((state) => state.user.currentUser);
-    console.log(user)
 
-    //handles signIn button click, navigates and closes modal
-    const handleLogin = (e) => {
+    const [cartItems, setCartItems] = useState([]);
+    const [loginSuccess, setLoginSuccess] = useState(true);
+      
+    useEffect(() => {
+        async function fetchAndSetCartItems() {
+          const items = await fetchCartItems();
+          setCartItems(items);
+        }
+        fetchAndSetCartItems();
+      }, []);
+
+//login 
+      const handleLogin = async (e) => {
         e.preventDefault();
-        login(dispatch, { username, password });
+        await login(dispatch, { username, password });
         if (user) {
+          // Fetch cart items and dispatch to Redux after login
+          try {
+            const items = await fetchCartItems();
+            setCartItems(items);
+            setLoginSuccess(true);
+          } catch (error) {
+            // Handle error fetching cart items
+            console.error('Error fetching cart items:', error);
+          }
+        }
+      };
+    
+      // Dispatch the action before the modal closes
+      useEffect(() => {
+        return () => {
+          if (loginSuccess && cartItems !== null && cartItems.length !== 0 && logIn) {
+            cartItems.products.forEach((item) => {
+              dispatch(
+                addToCart({
+                  id: item.id,
+                  title: item.name,
+                  img: item.image,
+                  price: item.price,
+                  count: item.quantity,
+                  pot: 0,
+                  size: 0,
+                })
+              );
+            });
             navigate('/');
             setLogIn(false);
-        }
-    }
+          }
+        };
+      }, [dispatch, loginSuccess, cartItems, logIn, navigate]);
+
 
     //Create user: sends user data to db, api call in helpers folder
     const submitRegister = (e) => {
@@ -293,7 +334,9 @@ const LogIn = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                             <SignInButtonMain onClick={handleLogin} disabled={isFetching}>Log In</SignInButtonMain>
-                            {error && <Error>Username or password incorrect</Error>}
+                            {error && !user && <Error>Username or password incorrect</Error>}
+                            {user && <Error id="success">Sign in Success</Error>}
+
                             <ForgotButton onClick={handleForgotOpen}>Forgot Password</ForgotButton>
                         </SignInInputForm> : null}
 
