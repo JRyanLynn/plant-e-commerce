@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { addToCart } from '../../../redux/cartReducer';
 import { getProduct, getReviews } from '../../../helpers';
@@ -254,6 +254,7 @@ const CheckOutButton = styled.button`
 const CheckoutInfo = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
+    const cart = useSelector((state) => state.cart.products);
 
     // state for backend
     const [products, setProducts] = useState([]);
@@ -315,6 +316,25 @@ const CheckoutInfo = () => {
 
     // update price with addons
     const totalPrice = (item?.price + size + pot)?.toFixed(2);
+
+    const handleAddToCart = () => {
+        const existingItem = cart.find((item) => item.id === item.id); 
+      
+        if (existingItem) { //checks redux for existing cart values dispatched from backend
+        } else {
+          dispatch(
+            addToCart({
+              id: item.id,
+              title: item.name,
+              img: item.image,
+              price: totalPrice,
+              count: count,
+              pot: pot,
+              size: size
+            })
+          );
+        }
+      };
 
     return (
         <MainContent key={item.id}>
@@ -391,15 +411,7 @@ const CheckoutInfo = () => {
 
                         <QuantityButton onClick={() => setCount(count + 1)}>+</QuantityButton>
                     </QuantityContainer>
-                    <CheckOutButton onClick={() => dispatch(addToCart({
-                        id: item.id,
-                        title: item.name,
-                        img: item.image,
-                        price: totalPrice,
-                        count: count,
-                        pot: pot,
-                        size: size
-                    }))}>Add To Cart</CheckOutButton>
+                    <CheckOutButton onClick={handleAddToCart}>Add To Cart</CheckOutButton>
                 </CheckOutButtonContainer>
             </InfoContainer>
         </MainContent>

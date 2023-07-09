@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { mobile, tablet } from '../../../media';
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from '../../../redux/userSlice';
-import axios from 'axios';
-import { fetchCartItems } from '../../../helpers';
-import { addToCart } from '../../../redux/cartReducer';
+import {userRequest } from '../../../helpers';
 
 const PageContainer = styled.div`
   display: flex;
@@ -122,19 +120,19 @@ const LoggedInUser = () => {
   const handleSaveCart = async () => {
     try {
       const transformedCart = cart.map((item) => ({
-        id: item.id,
-        name: item.title || '',
-        image: item.img || '',
+        id: user.user._id + '-' + item.id, //changed because of duplicate key error from db
+        name: user.user._id + '-' + item.title,
+        image: item.img || '', 
         price: parseFloat(item.price),
         quantity: item.count,
       }));
 
-      const response = await axios.post('http://localhost:5000/api/carts', {
+      const response = await userRequest.post('http://localhost:5000/api/carts', {
         userId: user.user._id,
         products: transformedCart,
       });
 
-      console.log('Cart saved:', response.data);
+      //console.log('Cart saved:', response.data);
       setSaveCartMessage('Cart saved');
       setSaveCartError('');
 

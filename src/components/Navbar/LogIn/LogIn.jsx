@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
 import { mobile, tablet } from '../../../media';
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
-import { login } from '../../../redux/apiCall';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+import { login } from '../../../redux/apiCall';
 import { sendRegister } from '../../../helpers';
 import { fetchCartItems } from '../../../helpers';
 import { addToCart } from '../../../redux/cartReducer';
-import { getUserCartItems } from '../../../helpers';
+
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 
 const SignIn = styled.div`
     display: flex;
@@ -176,6 +177,7 @@ const ForgotTitleText = styled.h1`
 const LogIn = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const cart = useSelector((state) => state.cart.products);
 
     //states for login toggles
     const [signIn, setSignIn] = useState(true);
@@ -197,6 +199,15 @@ const LogIn = () => {
     const [usernameError, setUsernameError] = useState(null);
     const [emailError, setEmailError] = useState(null);
 
+     //grabs redux userSlice login state
+     const user = useSelector((state) => state.user.currentUser);
+
+     //cart items into array for redux dispatch
+     const [cartItems, setCartItems] = useState([]);
+
+     //switches modals to login success
+     const [loginSuccess, setLoginSuccess] = useState(true);
+
     //sing in will be open by default
     const handleSignInOpen = () => {
         setSignIn(true);
@@ -216,12 +227,6 @@ const LogIn = () => {
         setRegister(false);
         setForgot(true);
     }
-
-    //grabs redux userSlice login state
-    const user = useSelector((state) => state.user.currentUser);
-
-    const [cartItems, setCartItems] = useState([]);
-    const [loginSuccess, setLoginSuccess] = useState(true);
       
     useEffect(() => {
         async function fetchAndSetCartItems() {
@@ -231,7 +236,7 @@ const LogIn = () => {
         fetchAndSetCartItems();
       }, []);
 
-//login 
+    //login & fetch cart items from backend
       const handleLogin = async (e) => {
         e.preventDefault();
         await login(dispatch, { username, password });
@@ -248,27 +253,37 @@ const LogIn = () => {
         }
       };
     
-      // Dispatch the action before the modal closes
-      useEffect(() => {
-        return () => {
-          if (loginSuccess && cartItems !== null && cartItems.length !== 0 && logIn) {
-            cartItems.products.forEach((item) => {
-              dispatch(
-                addToCart({
-                  id: item.id,
-                  title: item.name,
-                  img: item.image,
-                  price: item.price,
-                  count: item.quantity,
-                  pot: 0,
-                  size: 0,
-                })
-              );
-            });
-            setLogIn(false);
-          }
-        };
-      }, [dispatch, loginSuccess, cartItems, logIn, navigate]);
+// Dispatch the action before the modal closes
+useEffect(() => {
+  return () => {
+    if (loginSuccess && cartItems !== null && cartItems.length !== 0 && logIn) {
+      const uniqueIds = new Set(); // Set to store unique IDs
+
+      cartItems.products.forEach((item) => {
+        const idValue = parseInt(item.id.split("-")[1]);
+
+        if (!uniqueIds.has(idValue)) {
+          uniqueIds.add(idValue); // Add the ID to the set
+          
+          dispatch(
+            addToCart({
+              id: item.id.split("-")[1],
+              title: item.name.split('-')[1],
+              img: item.image,
+              price: item.price,
+              count: item.quantity,
+              pot: 0,
+              size: 0,
+            })
+          );
+        }
+      });
+
+      setLogIn(false);
+    }
+  };
+}, [dispatch, loginSuccess, cartItems, logIn, navigate]);
+
 
 
     //Create user: sends user data to db, api call in helpers folder

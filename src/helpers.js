@@ -19,8 +19,6 @@ export const userRequest = axios.create({
   headers: { token: `Bearer ${TOKEN}` },
 });
 
-console.log(userRequest)
-
 // Get user's cart items
 const getUserCartItems = async () => {
   try {
