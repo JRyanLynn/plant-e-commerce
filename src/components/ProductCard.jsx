@@ -1,11 +1,11 @@
-import { React, useState, useEffect } from 'react';
+import { React } from 'react';
 import styled from 'styled-components';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { mobile, tablet, laptop, desktop } from '../media';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCount, removeItem } from '../redux/cartReducer';
-import { fetchCartItems } from '../helpers';
 
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { mobile } from '../media';
 
 const CardContainer = styled.article`
   display: flex;

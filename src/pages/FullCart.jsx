@@ -4,7 +4,7 @@ import Card from '../components/ProductCard';
 import { mobile, tablet} from '../media';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import { getUserCartItems } from '../helpers';
+import { url } from '../helpers';
 
 const PageContainer = styled.div`
   height: 100%;
@@ -207,14 +207,9 @@ ${tablet({
 })};
 
 `
-const url = "http://localhost:5000/api";
 
 const FullCart = () => {
   const cart = useSelector((state) => state.cart.products);
-  //user can be added later when the webhook is needed
-  const user = useSelector((state) => state.user.currentUser);
-
-  console.log(user)
 
   const cardQuantity = useSelector((state) => state.cart.products.length);
 

@@ -10,6 +10,7 @@ import { mobile, tablet, laptop, desktop } from '../../../media';
 import { Rating } from '@mui/material';
 import RatingForm from './RatingForm';
 import LogIn from '../../../components/Navbar/LogIn/LogIn';
+import { url } from '../../../helpers';
 
 const ReviewSectionContainer = styled.section`
     display: flex;
@@ -263,7 +264,7 @@ const Ratings = () => {
     useEffect(() => {
         const getReviews = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/reviews');
+                const response = await axios.get(`${url}/reviews`);
                 setReviews(response.data);
             } catch (error) {
                 console.log(error)

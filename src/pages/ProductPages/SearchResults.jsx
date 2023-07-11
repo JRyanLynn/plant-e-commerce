@@ -342,6 +342,9 @@ const SearchResults = () => {
     //review state 
     const [reviews, setReviews] = useState([]);
 
+         //loading state to make screen blank instead of display error message
+         const [isDataLoaded, setIsDataLoaded] = useState(false);
+
     //maintains array state with router, but sorts differently when page reloaded 
     //combines checkbox values based on object array category clusters
     const handleCheckboxChange = (event) => {
@@ -430,6 +433,13 @@ const SearchResults = () => {
 
     let price = (number) => { return number.toFixed(2) };
 
+     // Makes page blank when it loads
+    useEffect(() => {
+        setIsDataLoaded(false); // Set isDataLoaded to false initially
+        setTimeout(() => {
+            setIsDataLoaded(true); // using timeout because data is being passed from the search bar
+        }, 2000);
+    }, []);
 
     return (
         <Page>
@@ -483,24 +493,32 @@ const SearchResults = () => {
                         </CategoryFilterColumn>
 
                         <ProductGridWrapper style={{ opacity: screenOpacity }}>
-                            {array.length > 0 ? array.map((item) => (
-                                <ProductCard key={item.id} onClick={() => navigate(`/products/${item.id}`)}>
-                                    <ProductImg src={item.image} alt= {item.name} />
+                            {!isLoading && (isDataLoaded ? (
+                                array.length > 0 ? (
+                                    array.map((item) => (
+                                        <ProductCard key={item.id} onClick={() => navigate(`/products/${item.id}`)}>
+                                            <ProductImg key={item.image} src={item.image} alt={item.name} />
 
-                                    <ProductInfo>
-                                        <ProductName>{item.name}</ProductName>
-                                        <Reviews>
-                                            <ReviewContainer>
-                                                <Rating name="product-review" value={reviewArray(item.id).avgReview} readOnly size="small" />
-                                                <ReviewText>{reviewArray(item.id).reviewByIndex.length}</ReviewText>
-                                            </ReviewContainer>
-                                        </Reviews>
-                                        <ProductPrice>{`$${price(item.price)}`}</ProductPrice>
-                                    </ProductInfo>
-                                </ProductCard>
-                            )) : <NoResult>Sorry, no products fit your search</NoResult>}
-
+                                            <ProductInfo key={item.id}>
+                                                <ProductName key={item.name}>{item.name}</ProductName>
+                                                <Reviews key={item.reviews}>
+                                                    <ReviewContainer>
+                                                        <Rating name="product-review" value={reviewArray(item.id).avgReview} readOnly size="small" />
+                                                        <ReviewText>{reviewArray(item.id).reviewByIndex.length}</ReviewText>
+                                                    </ReviewContainer>
+                                                </Reviews>
+                                                <ProductPrice key={item.price}>{`$${price(item.price)}`}</ProductPrice>
+                                            </ProductInfo>
+                                        </ProductCard>
+                                    ))
+                                ) : (
+                                    <NoResult>Sorry, no products fit your search</NoResult>
+                                ))
+                                : (
+                                    <></> // Show a loading spinner while the data is being fetched
+                                ))}
                         </ProductGridWrapper>
+
                     </PageContentWrapper>
                 </ProductPageWrapper>
             </ProductPageContainer>

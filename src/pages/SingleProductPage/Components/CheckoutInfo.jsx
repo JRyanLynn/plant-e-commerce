@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { addToCart } from '../../../redux/cartReducer';
 import { getProduct, getReviews } from '../../../helpers';
 
-import { mobile, tablet, laptop, desktop } from '../../../media';
+import { mobile } from '../../../media';
 
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import { Rating } from '@mui/material';
@@ -293,14 +292,16 @@ const CheckoutInfo = () => {
     }, []);
 
     // move item declaration inside useEffect hook
-    const item = products.find((i) => i.id === parseInt(id));
+    const item = useMemo(() => products.find((i) => i.id === parseInt(id)), [products, id]);
 
     // Filters review array by id
-    const reviewArray = reviews.filter((i) => i.id === parseInt(id));
+    const reviewArray = useMemo(() => reviews.filter((i) => i.id === parseInt(id)), [reviews, id]);
 
     //average review from array
-    const avgReview = reviewArray ? Math.floor(reviewArray.reduce((sum, review) => sum + review.rating, 0) / reviewArray.length) : 0;
-    console.log(avgReview)
+    const avgReview = useMemo(() => {
+        const filteredReviews = reviews.filter((i) => i.id === parseInt(id));
+        return filteredReviews.length ? Math.floor(filteredReviews.reduce((sum, review) => sum + review.rating, 0) / filteredReviews.length) : 0;
+      }, [reviews, id]);
 
     // update main image when item changes because backend values wont allow the use of state
     useEffect(() => {
@@ -318,9 +319,9 @@ const CheckoutInfo = () => {
     const totalPrice = (item?.price + size + pot)?.toFixed(2);
 
     const handleAddToCart = () => {
-        const existingItem = cart.find((item) => item.id === item.id); 
+        const existingItem = cart.find((cartItem) => cartItem.id === item.id);
       
-        if (existingItem) { //checks redux for existing cart values dispatched from backend
+        if (existingItem) {
         } else {
           dispatch(
             addToCart({
@@ -394,7 +395,7 @@ const CheckoutInfo = () => {
                 </OptionButtonContainer>
 
                 <OptionButtonContainer>
-                    <ShippingIcon /><ShippingAnnouncement>Free Shipping On All Orders Over $30</ShippingAnnouncement>
+                    <ShippingIcon /><ShippingAnnouncement>Free Shipping On All Orders Over $50</ShippingAnnouncement>
                 </OptionButtonContainer>
 
                 <CheckOutButtonContainer>

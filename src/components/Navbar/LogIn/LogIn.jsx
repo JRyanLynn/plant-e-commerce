@@ -177,7 +177,7 @@ const ForgotTitleText = styled.h1`
 const LogIn = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const cart = useSelector((state) => state.cart.products);
+    //const cart = useSelector((state) => state.cart.products);
 
     //states for login toggles
     const [signIn, setSignIn] = useState(true);

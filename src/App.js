@@ -8,14 +8,13 @@ import Footer from './components/Footer';
 import PlantTypes from './pages/ProductPages/PlantTypes';
 import EasyPlants from './pages/ProductPages/EasyPlants';
 import React from 'react';
-import { Route, Routes, Redirect } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { store } from './redux/store';
-import { Provider, useSelector } from 'react-redux';
+import { Provider } from 'react-redux';
 import CheckoutSuccess from './components/Checkout/stripe-checkout/CheckoutSuccess';
 import SearchResults from './pages/ProductPages/SearchResults';
 
 function App() {
-  //const user = useSelector((state) => state.user.currentUser);
   return (
     <Provider store = {store}>
       <Navbar />

@@ -1,9 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import Card from './ProductCard';
+import axios from 'axios';
+
 import { Link } from "react-router-dom";
 import { useSelector } from 'react-redux';
-import axios from 'axios';
+
+import { url } from '../helpers';
+import Card from './ProductCard';
 
 const CartContainer = styled.div`
   display: flex;
@@ -166,8 +169,6 @@ const RouterLink = styled(Link)`
   text-decoration: none;
   color: black;
 `
-
-const url = "http://localhost:5000/api";
 
 const Cart = () => {
   const cardQuantity = useSelector((state) => state.cart.products.length);

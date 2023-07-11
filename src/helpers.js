@@ -2,10 +2,10 @@ import axios from "axios";
 
 // User API calls
 const BASE_URL = "http://localhost:5000/api/";
+export const url = "http://localhost:5000/api";
 
 // Pulls user from local storage
 const storedUser = localStorage.getItem("currentUser");
-// Turns storedUser into JS
 const user = storedUser ? JSON.parse(storedUser) : null;
 
 const TOKEN = user?.accessToken;
@@ -21,17 +21,24 @@ export const userRequest = axios.create({
 
 // Get user's cart items
 const getUserCartItems = async () => {
-  try {
-    const userId = user.user._id; // Assuming you have storedUser variable available
-    const response = await userRequest.get(`/carts/find/${userId}`);
-    return response.data;
-  } catch (error) {
-    console.log(error);
-    return null;
+  const storedUser = localStorage.getItem("currentUser");
+  const user = storedUser ? JSON.parse(storedUser) : null; //used for a second time within the scope of function to avoid type err
+
+  if (user) {
+    try {
+      const userId = user._id;
+      const response = await userRequest.get(`/carts/find/${userId}`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
   }
+
+  return null;
 };
 
-//get cart items
+// Get cart items
 export const fetchCartItems = async () => {
   const cartItems = await getUserCartItems();
   return cartItems;

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { mobile, tablet } from "../../media";
+import { mobile } from "../../media";
 import { Link } from "react-router-dom";
 import PopularItemList from "../../components/Navbar/PopularItemList";
 import Hero from "./HomeComponents/Hero";

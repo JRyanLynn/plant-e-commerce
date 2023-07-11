@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useNavigate, useParams } from 'react-router-dom';
+
+import { useNavigate } from 'react-router-dom';
 import { mobile, tablet, desktop, laptop } from '../../media';
+
 import { getProduct, getReviews } from '../../helpers';
 
 import ClickAwayListener from '@mui/material/ClickAwayListener';
@@ -328,8 +330,6 @@ const ProductPrice = styled.p`
 const EasyPlants = () => {
     const navigate = useNavigate();
 
-    const { id } = useParams();
-
     //for sort dropdown
     const [sort, setSort] = useState(false);
     const [careTypes, setCareTypes] = useState([]);
@@ -344,6 +344,9 @@ const EasyPlants = () => {
 
     //review state 
     const [reviews, setReviews] = useState([]);
+
+    //loading state to make screen blank instead of display error message
+    const [isDataLoaded, setIsDataLoaded] = useState(false);
 
     //combines checkbox values based on object array category clusters
     const handleCheckboxChange = (event) => {
@@ -433,7 +436,15 @@ const EasyPlants = () => {
 
     let price = (number) => { return number.toFixed(2) };
 
-    //states for router
+    //Makes page blank when it loads
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await getProduct();
+            setProducts(data);
+            setIsDataLoaded(true); // Set isDataLoaded to true once the data is fetched
+        };
+        fetchData();
+    }, []);
 
     return (
         <Page>
@@ -479,24 +490,32 @@ const EasyPlants = () => {
                         </CategoryFilterColumn>
 
                         <ProductGridWrapper style={{ opacity: screenOpacity }}>
-                            {array.length > 0 ? array.map((item) => (
-                                <ProductCard key={item.id} onClick={() => navigate(`/products/${item.id}`)}>
-                                    <ProductImg key={item.image} src={item.image} alt= {item.name} />
+                            {!isLoading && (isDataLoaded ? (
+                                array.length > 0 ? (
+                                    array.map((item) => (
+                                        <ProductCard key={item.id} onClick={() => navigate(`/products/${item.id}`)}>
+                                            <ProductImg key={item.image} src={item.image} alt={item.name} />
 
-                                    <ProductInfo key={item.id}>
-                                        <ProductName key={item.name}>{item.name}</ProductName>
-                                        <Reviews key={item.reviews}>
-                                            <ReviewContainer>
-                                                <Rating name="product-review" value={reviewArray(item.id).avgReview} readOnly size="small" />
-                                                <ReviewText>{reviewArray(item.id).reviewByIndex.length}</ReviewText>
-                                            </ReviewContainer>
-                                        </Reviews>
-                                        <ProductPrice key={item.price}>{`$${price(item.price)}`}</ProductPrice>
-                                    </ProductInfo>
-                                </ProductCard>
-                            )) : <NoResult>Sorry, no products fit your search</NoResult>}
-
+                                            <ProductInfo key={item.id}>
+                                                <ProductName key={item.name}>{item.name}</ProductName>
+                                                <Reviews key={item.reviews}>
+                                                    <ReviewContainer>
+                                                        <Rating name="product-review" value={reviewArray(item.id).avgReview} readOnly size="small" />
+                                                        <ReviewText>{reviewArray(item.id).reviewByIndex.length}</ReviewText>
+                                                    </ReviewContainer>
+                                                </Reviews>
+                                                <ProductPrice key={item.price}>{`$${price(item.price)}`}</ProductPrice>
+                                            </ProductInfo>
+                                        </ProductCard>
+                                    ))
+                                ) : (
+                                    <NoResult>Sorry, no products fit your search</NoResult>
+                                ))
+                                : (
+                                    <></> // Show a loading spinner while the data is being fetched
+                                ))}
                         </ProductGridWrapper>
+
                     </PageContentWrapper>
                 </ProductPageWrapper>
             </ProductPageContainer>

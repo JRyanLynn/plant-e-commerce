@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { getProduct } from '../../helpers';
-import { mobile, tablet, laptop, desktop } from '../../media';
+import { mobile } from '../../media';
 
 const CategoryContainer = styled.div`
     display: flex;

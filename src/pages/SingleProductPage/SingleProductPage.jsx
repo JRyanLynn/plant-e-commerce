@@ -2,15 +2,17 @@ import { React, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import CheckoutInfo from './Components/CheckoutInfo';
-import { mobile, tablet, laptop, desktop } from '../../media';
+import { mobile } from '../../media';
 import axios from 'axios';
 
 import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined';
 import WaterOutlinedIcon from '@mui/icons-material/WaterOutlined';
 import ThermostatOutlinedIcon from '@mui/icons-material/ThermostatOutlined';
 import GrassOutlinedIcon from '@mui/icons-material/GrassOutlined';
+
 import PopularItemList from '../../components/Navbar/PopularItemList';
 import Ratings from './Components/Ratings';
+import { url } from '../../helpers';
 
 const PageContainer = styled.main`
     width: 100%;
@@ -132,7 +134,7 @@ const ProductView = () => {
     useEffect(() => {
         const getProduct = async () => {
           try {
-            const response = await axios.get('http://localhost:5000/api/products');
+            const response = await axios.get(`${url}/products`);
             setProducts(response.data);
           } catch (error) {
             console.log(error);

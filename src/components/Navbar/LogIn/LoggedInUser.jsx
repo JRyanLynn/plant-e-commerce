@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { mobile, tablet } from '../../../media';
+import { mobile } from '../../../media';
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from '../../../redux/userSlice';
 import {userRequest } from '../../../helpers';
@@ -132,23 +132,22 @@ const LoggedInUser = () => {
         products: transformedCart,
       });
 
-      //console.log('Cart saved:', response.data);
+      console.log('Cart saved:', response.data);
       setSaveCartMessage('Cart saved');
       setSaveCartError('');
 
       setTimeout(() => {
         setSaveCartMessage('');
         setSaveCartError('');
-      }, 10000); // Clear message and error after 10 seconds
+      }, 5000); 
     } catch (error) {
-      console.error('Error saving cart:', error);
       setSaveCartMessage('');
       setSaveCartError('Error saving cart');
 
       setTimeout(() => {
         setSaveCartMessage('');
         setSaveCartError('');
-      }, 10000); // Clear message and error after 10 seconds
+      }, 5000); 
     }
   };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link, Navigate } from 'react-router-dom';
-import { mobile, tablet } from '../../../media';
+import { Link } from 'react-router-dom';
+import { mobile } from '../../../media';
 
 const PageContainer = styled.div`
   display: flex;
