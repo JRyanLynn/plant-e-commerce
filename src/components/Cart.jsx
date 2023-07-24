@@ -182,7 +182,7 @@ const Cart = () => {
 
       const handleCheckout = () => {
         axios
-          .post(`${url}/stripe/create-checkout-session`, {
+          .post(`${url}stripe/create-checkout-session`, {
             cartItems: cart,
             // put user _id from backend get request here
           })

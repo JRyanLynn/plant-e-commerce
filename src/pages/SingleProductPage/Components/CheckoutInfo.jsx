@@ -257,6 +257,7 @@ const QuantityButton = styled.button`
     border-radius: 30px;
     border: none;
     background-color: #FEFDFD;
+    color: #1B1212;
     font-size: 20px;
     padding: 5px;
 `
@@ -474,7 +475,7 @@ const CheckoutInfo = () => {
                     <OptionImageButton onClick={() => setPot(5)} src='https://mobileimages.lowes.com/productimages/0456d1ba-7470-443c-9fc2-4eb876970d4d/07656944.jpg?size=pdhism'
                         alt='red plastic pot'
                         style={{ border: pot === 5 ? "1px solid  #1B1212" : "1px solid #CCD3C2" }} />
-                    <OptionImageButton onClick={() => setPot(5.0001)} src='https://www.oldrailwaylinegc.co.uk/shop/gallery/5022938012196-large.jpg' alt='green plastic pot'
+                    <OptionImageButton onClick={() => setPot(5.0001)} src='https://images.thdstatic.com/productImages/600f6fa7-c933-4f0c-b0c3-62fdf101cc9f/svn/green-matte-plant-pots-eca12000bf8-64_1000.jpg' alt='green plastic pot'
                         style={{ border: pot === 5.0001 ? "1px solid  #1B1212" : "1px solid #CCD3C2" }}
                     />
                     <OptionImageButton onClick={() => setPot(5.0002)} src='http://mobileimages.lowes.com/productimages/473492b6-4b6b-42e6-8b1b-53dab697a304/07656947.jpg'

@@ -227,7 +227,7 @@ const FullCart = () => {
 
   const handleCheckout = () => {
     axios
-      .post(`${url}/stripe/create-checkout-session`, {
+      .post(`${url}stripe/create-checkout-session`, {
         cartItems: cart,
         //userId: user.user._id,
       })
