@@ -167,7 +167,7 @@ const RatingForm = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await userRequest.post(`${url}/reviews`, review);
+      const response = await userRequest.post(`${url}reviews`, review);
       if (response.status !== 200) {
         throw new Error('Network response was not ok');
       }

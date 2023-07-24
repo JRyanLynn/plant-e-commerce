@@ -190,12 +190,14 @@ const CartToggle = styled.div`
 const MenuButton = styled.button`
     background-color: transparent;
     border-width: 0;
+    color: #1B1212;
     font-family: inherit;
     font-size: inherit;
     font-style: inherit;
     font-weight: inherit;
     align-items: center;
     justify-content: center;
+
     padding: 0;
     margin-bottom: -4px;
     ${desktop({ display: 'none' })};

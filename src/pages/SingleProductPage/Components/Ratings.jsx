@@ -268,7 +268,7 @@ const Ratings = () => {
     useEffect(() => {
         const getReviews = async () => {
             try {
-                const response = await axios.get(`${url}/reviews`);
+                const response = await axios.get(`${url}reviews`);
                 setReviews(response.data);
             } catch (error) {
                 console.log(error)

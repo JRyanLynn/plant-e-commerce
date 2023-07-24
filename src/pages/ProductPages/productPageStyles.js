@@ -92,6 +92,7 @@ export const SortButton = styled.button`
     font-size: 16px;
     background-color: #dcdcdc;
     border: 1px solid #1B1212;
+    color: #1B1212;
     ${mobile({
     fontSize: '12px',
     margin: '0px',

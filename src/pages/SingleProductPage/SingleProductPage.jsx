@@ -134,7 +134,7 @@ const ProductView = () => {
     useEffect(() => {
         const getProduct = async () => {
           try {
-            const response = await axios.get(`${url}/products`);
+            const response = await axios.get(`${url}products`);
             setProducts(response.data);
           } catch (error) {
             console.log(error);
