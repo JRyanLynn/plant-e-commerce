@@ -31,7 +31,7 @@ export const sendRegister = (username, email, password) => {
 // Rating API call
 export const getReviews = async () => {
   try {
-    const response = await axios.get("http://localhost:5000/api/reviews");
+    const response = await axios.get(`${BASE_URL}reviews`);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -42,7 +42,7 @@ export const getReviews = async () => {
 // Product array
 export const getProduct = async () => {
   try {
-    const response = await axios.get("http://localhost:5000/api/products");
+    const response = await axios.get(`${BASE_URL}products`);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -52,7 +52,7 @@ export const getProduct = async () => {
 // Search results
 export const searchResults = async (id) => {
   try {
-    const res = await axios.get("http://localhost:5000/api/products");
+    const res = await axios.get(`${BASE_URL}products`);
     const ids = id.split(",").map(Number);
     const filteredProducts = res.data.filter((product) => ids.includes(product.id));
     return filteredProducts;
