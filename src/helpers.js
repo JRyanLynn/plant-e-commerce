@@ -1,8 +1,8 @@
 import axios from "axios";
 
 // User API calls
-const BASE_URL = "https://plantdecor-api.onrender.com";
-export const url = "https://plantdecor-api.onrender.com";
+const BASE_URL = "https://plantdecor-api.onrender.com/";
+export const url = "https://plantdecor-api.onrender.com/";
 
 // Pulls user from local storage
 const storedUser = localStorage.getItem("currentUser");
