@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { mobile } from '../../../media';
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from '../../../redux/userSlice';
-import {userRequest } from '../../../helpers';
 
 const PageContainer = styled.div`
   display: flex;
@@ -44,6 +43,11 @@ const BannerContainer = styled.header`
   background: #dcdcdc;
   `
 
+const Heading = styled.h2`
+  font-size: 14px;
+  font-weight: 500;
+`
+
 const UserName = styled.h1`
     font-size: 20px;
     margin-left: 10px;
@@ -78,77 +82,14 @@ const Button = styled.button`
   font-weight: 500;
   cursor: pointer;
 `
-  const MessageBanner = styled.div`
-    display: flex;
-    width: 100%;
-    height: 30px;
-    align-items: center;
-    justify-content: center;
-    &#cart-save-success{
-      background-color: #517A3E;
-    };
-    &#cart-save-error {
-      background-color: #FF4136;
-    };
-  `
 
-  const Error = styled.span`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: auto;
-    color: #FEFDFD;
-    font-weight: 600;
-    font-size: 14px;
-    text-align: center;
-`
 const LoggedInUser = () => {
   const dispatch = useDispatch();
 
-  const cart = useSelector((state) => state.cart.products);
   const user = useSelector((state) => state.user.currentUser);
-
-  const [saveCartMessage, setSaveCartMessage] = useState('');
-  const [saveCartError, setSaveCartError] = useState('');
 
   const handleLogout = () => {
     dispatch(logout());
-  };
-
-  //cart saved
-  const handleSaveCart = async () => {
-    try {
-      const transformedCart = cart.map((item) => ({
-        id: user.user._id + '-' + item.id, //changed because of duplicate key error from db
-        name: user.user._id + '-' + item.title,
-        image: item.img || '', 
-        price: parseFloat(item.price),
-        quantity: item.count,
-      }));
-
-      const response = await userRequest.post('http://localhost:5000/api/carts', {
-        userId: user.user._id,
-        products: transformedCart,
-      });
-
-      console.log('Cart saved:', response.data);
-      setSaveCartMessage('Cart saved');
-      setSaveCartError('');
-
-      setTimeout(() => {
-        setSaveCartMessage('');
-        setSaveCartError('');
-      }, 5000); 
-    } catch (error) {
-      setSaveCartMessage('');
-      setSaveCartError('Error saving cart');
-
-      setTimeout(() => {
-        setSaveCartMessage('');
-        setSaveCartError('');
-      }, 5000); 
-    }
   };
 
   return (
@@ -156,14 +97,12 @@ const LoggedInUser = () => {
       <BannerContainer>
         <UserName>{`Hello ${user.user.username}`}</UserName>
       </BannerContainer>
-      {saveCartMessage && <MessageBanner id='cart-save-success'><Error id='success'>{saveCartMessage}</Error></MessageBanner>}
-      {saveCartError && <MessageBanner id='cart-save-error'><Error>{saveCartError}</Error></MessageBanner>}
       <List>
         <ListItem>
-          <Button onClick={handleSaveCart}>Save Cart</Button>
+          <Heading>Please write reviews on product pages</Heading>
         </ListItem>
         <ListItem>
-        <Button onClick={handleLogout}>Log Out</Button>
+          <Button onClick={handleLogout}>Log Out</Button>
         </ListItem>
       </List>
     </PageContainer>

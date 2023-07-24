@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Card from '../components/ProductCard';
-import { mobile, tablet} from '../media';
+import { mobile, tablet, laptop} from '../media';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { url } from '../helpers';
@@ -49,6 +49,11 @@ ${tablet({
   marginTop: '10px'
 })};
 
+${laptop({
+  width: '100%',
+  marginTop: '10px'
+})};
+
 `
 const LeftColumn = styled.section`
   display: flex;
@@ -62,7 +67,7 @@ const LeftColumn = styled.section`
 })};
 
 ${tablet ({ 
-  width: '60%',
+  width: '100%',
   marginRight: '5px'
 })};
 
@@ -152,7 +157,7 @@ const TotalCard = styled.section`
     marginLeft: '10px'
 })};
 ${tablet ({ 
-  width: '100%'
+  width: '90%'
 })};
 `
 const TotalItemContainer = styled.div`
@@ -202,7 +207,7 @@ const TotalButton = styled.button`
 })};
 
 ${tablet({ 
-  width: '70%',
+  width: '85%',
 
 })};
 
@@ -217,7 +222,7 @@ const FullCart = () => {
   state.cart.products.reduce((acc, product) => 
     acc + product.price * product.count, 0));
   
-  const shipping = subTotal >= 30.00 || cardQuantity === 0 ? 0 : 5.00;
+  const shipping = subTotal >= 50.00 || cardQuantity === 0 ? 0 : 15.00;
 
 
   const handleCheckout = () => {
@@ -260,10 +265,7 @@ const FullCart = () => {
                 <TotalHeader>Subtotal</TotalHeader>
                 <Total>${subTotal.toFixed(2)}</Total>
               </TotalItemContainer>
-              <TotalItemContainer>
-                <TotalHeader>Tax</TotalHeader>
-                <Total>${(subTotal * 0.03).toFixed(2)}</Total>
-              </TotalItemContainer>
+            
               <TotalItemContainer>
                 <TotalHeader>Shipping</TotalHeader>
                 <Total>${shipping.toFixed(2)}</Total>
@@ -271,7 +273,7 @@ const FullCart = () => {
               <TotalItemContainer>
                 <TotalHeader>Total</TotalHeader>
                 <Total>
-                  ${(subTotal + subTotal * 0.03 + shipping).toFixed(2)}
+                  ${(subTotal + shipping).toFixed(2)}
                 </Total>
               </TotalItemContainer>
               <TotalButton onClick={handleCheckout}>Check Out</TotalButton>

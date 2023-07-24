@@ -64,6 +64,10 @@ const NavSection = styled.div`
     zIndex: '500',
     width: 'auto'
 })};
+${laptop({
+    margin: '0px 10px',
+    fontSize: '20px',
+})};
     }
 
     &.nav-center {
@@ -84,6 +88,9 @@ const NavSection = styled.div`
         ${mobile({
     fontSize: '16px',
 })};
+${laptop({
+    marginLeft: '-40px'
+})};
     }
 `
 const Logo = styled.h1`
@@ -93,6 +100,9 @@ const Logo = styled.h1`
     ${mobile({
     marginLeft: '10px',
     fontSize: '20px'
+})};
+${laptop({
+    fontSize: '20px',
 })};
     `;
 

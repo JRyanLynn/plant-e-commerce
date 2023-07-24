@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { Rating } from '@mui/material';
 
-import {  mobile, tablet } from '../../../media';
+import {  mobile, tablet, laptop } from '../../../media';
 import { userRequest } from '../../../helpers';
 import { url } from '../../../helpers';
 
@@ -26,6 +26,10 @@ const SubmitReviewForm = styled.form`
     ${mobile({
       width: '100%'
 })};
+
+${laptop({
+  width: '100%',
+})}
 `
 
 const ContentColumn = styled.div`
@@ -135,7 +139,7 @@ const Success = styled.p`
 
 const RatingForm = () => {
   const { id } = useParams();
-  console.log(id)
+
   //state to open/close review
   const [toggleReview, setToggleReview] = useState(true);
   //post state to add review to backend
@@ -167,7 +171,6 @@ const RatingForm = () => {
       if (response.status !== 200) {
         throw new Error('Network response was not ok');
       }
-      console.log('Review added successfully!');
       setSuccessMessage('Thanks! Your review was successfully submitted.');
       setLoading(false);
     } catch (error) {

@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { addToCart } from '../../../redux/cartReducer';
 import { getProduct, getReviews } from '../../../helpers';
 
-import { mobile } from '../../../media';
+import { mobile, tablet,  laptop } from '../../../media';
 
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import { Rating } from '@mui/material';
@@ -21,6 +21,10 @@ const MainContent = styled.section`
     width: '100%',
     flexDirection: 'column',
 })};
+
+${laptop({
+    width: '100%',
+})};
 `
 
 const ImageContainer = styled.div`
@@ -35,6 +39,10 @@ const ImageContainer = styled.div`
     width: '90%',
     marginTop: '0px',
 })};
+
+${laptop({
+    width: '100%',
+})};
 `
 
 const SideImageContainer = styled.div`
@@ -48,6 +56,10 @@ const SideImageContainer = styled.div`
     height: '100px',
     width: '40%',
     marginLeft: '-10px'
+})};
+
+${laptop({
+    width: '35%',
 })};
 `
 
@@ -66,6 +78,11 @@ const Image = styled.img`
     width: 100%;
     height: 100%;
     border: 1px solid #CCD3C2;
+    &.main-image {
+        ${laptop({
+            width: '85%',
+        })};
+    }
 `
 
 const InfoContainer = styled.div`
@@ -82,12 +99,28 @@ const InfoContainer = styled.div`
     ${mobile({
     width: '90%'
 })};
+
+${laptop({
+    width: '60%'
+ })}
+
+ ${tablet({
+    width: '40%'
+ })}
 `
 const ProductName = styled.h1`
     font-size: 30px;
     margin-left: 10px; 
     ${mobile({
     fontSize: '24px'
+})};
+
+${laptop({
+    fontSize: '26px',
+})};
+
+${tablet({
+    fontSize: '26px',
 })};
 `
 const ProductPriceContainer = styled.div`
@@ -129,6 +162,14 @@ const OptionButtonContainer = styled.div`
     justify-content: center;
     margin-top: 5px;
     margin-bottom: 10px;
+
+    ${laptop({
+        width: '90%',
+    })};
+
+    ${tablet({
+        width: '90%',
+    })};
 `
 const SectionLabel = styled.label`
     font-size: 16px;
@@ -159,6 +200,7 @@ const OptionImageButton = styled.img`
     &:hover{
         border: 0.5px solid #1B1212;
     }
+
 `
 
 const ShippingIcon = styled(LocalShippingOutlinedIcon)`
@@ -175,6 +217,16 @@ const ShippingAnnouncement = styled.h4`
     fontSize: '12px',
     marginTop: '20px'
 })}
+
+${laptop({
+   fontSize: '12px',
+   marginTop: '60px'
+})};
+
+${tablet({
+    fontSize: '16px',
+    marginTop: '70px'
+ })};
 `
 
 const QuantityContainer = styled.div`
@@ -186,6 +238,16 @@ const QuantityContainer = styled.div`
     margin-left: 10px;
     ${mobile({
     marginLeft: '0px'
+})}
+
+${laptop({
+    marginLeft: '0px',
+    width: '40%',
+})}
+
+${tablet({
+    marginLeft: '0px',
+    width: '40%',
 })}
 `
 
@@ -218,6 +280,14 @@ const QuantityInput = styled.input`
     fontSize: '16px',
     width: '30px'
 })}
+
+${laptop({
+    width: '20px'
+ })}
+
+ ${tablet({
+    width: '20px'
+ })}
 `
 const CheckOutButtonContainer = styled.div`
     display: flex;
@@ -232,6 +302,14 @@ const CheckOutButtonContainer = styled.div`
     marginLeft: '5px',
     marginBottom: '5px'
 })}
+
+${laptop({
+    width: '95%'
+ })}
+
+ ${tablet({
+    width: '95%'
+ })}
 `
 
 const CheckOutButton = styled.button`
@@ -248,6 +326,16 @@ const CheckOutButton = styled.button`
     ${mobile({
     fontSize: '14px'
 })}
+
+${laptop({
+    width: '70%',
+    margin: '0px 10px 0px 10px'
+ })}
+
+ ${tablet({
+    width: '70%',
+    margin: '0px 10px 0px 10px'
+ })}
 `
 
 const CheckoutInfo = () => {
@@ -349,7 +437,7 @@ const CheckoutInfo = () => {
                         <Image src={item.imageTwo} onClick={() => setMainImage(item.imageTwo)} />
                     </SideImageSizer>}
                 </SideImageContainer>
-                <Image src={mainImage} />
+                <Image className='main-image' src={mainImage} />
             </ImageContainer>
 
             <InfoContainer>

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { mobile, tablet } from '../../../media';
+import { mobile, tablet, laptop } from '../../../media';
 import { Link } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
@@ -85,13 +85,16 @@ const HeroAdContainer = styled.header`
         ${tablet({
             marginTop: '10px'
          })};
-    }
+    };
 `
 
 const HeroArrowButton = styled(ArrowForwardIcon)`
     color: #FEFDFD;
     margin-top: 10px;
     margin-left: 10px;
+    ${laptop({
+        margin: '5px 0px 0px 5px'
+    })};
 `
 
 const HeroTitleRow = styled.div`
@@ -123,7 +126,11 @@ const HeroTitle = styled.h2`
     ${tablet({
     fontSize: '20px',
 })};
+${laptop({
+    fontSize: '22px',
+})};
 `
+
 
 const HeroButton = styled.button`
     display: flex;
@@ -152,6 +159,12 @@ const HeroButton = styled.button`
     fontSize: '24px',
     padding: '5px',
     marginLeft: '10px'
+})};
+
+${laptop({
+    height: 'auto',
+    width: 'auto',
+    fontSize: '26px',
 })};
 `
 const RouterLink = styled(Link)`

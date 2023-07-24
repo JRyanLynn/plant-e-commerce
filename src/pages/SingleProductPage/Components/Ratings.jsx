@@ -124,8 +124,8 @@ const MobileStatContainerRow = styled.div`
     ${desktop({
     display: 'none'
 })};
-`
 
+`
 
 const StatContainerLabel = styled.h2`
     font-size: 24px;
@@ -162,6 +162,10 @@ const AddReviewButton = styled.button`
     ${mobile({
     display: 'none'
 })};
+
+${laptop({
+    display: 'none'
+})}
 `
 
 const MobileReviewFormButton = styled.button`
@@ -319,11 +323,11 @@ const Ratings = () => {
     //displays login modal if user isn't logged in and review forum if they are
     const handleAddReviewClick = () => {
         if (user) {
-          setToggleReview(!toggleReview);
+            setToggleReview(!toggleReview);
         } else {
-          setLogIn(true);
+            setLogIn(true);
         }
-      };
+    };
 
     return (
         <ReviewSectionContainer>
@@ -426,11 +430,11 @@ const Ratings = () => {
                         );
                     })}
 
-{logIn && !user ?
-                <>
-                    <LogIn />
-                </>
-                : null}
+                    {logIn && !user ?
+                        <>
+                            <LogIn />
+                        </>
+                        : null}
                 </RatingContents>
 
             </IndividualRatingContainer>
