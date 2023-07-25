@@ -167,7 +167,7 @@ const EasyPlants = () => {
                 <ProductPageWrapper>
                     <SortWrapper>
                         <SortButtonRow>
-                            <SortListTitle>Easy Plants</SortListTitle>
+                            <SortListTitle>Easy</SortListTitle>
                             <SortComponentContainer>
                                 <SortButton onClick={() => setSort(!sort)}>Sort <SortDownArrow /></SortButton>
                                 {sort ?
