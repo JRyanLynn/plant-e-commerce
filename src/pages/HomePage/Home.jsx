@@ -192,7 +192,7 @@ const Home = () => {
                 </CategoryWrapper>
                 <Banner className="pop-items">
                     <BannerTitle>Popular Items</BannerTitle>
-                    <BannerButton>Shop All</BannerButton>
+                    <RouterLink to='/all'><BannerButton>Shop All</BannerButton></RouterLink>
                 </Banner>
                 <CategoryWrapper>
                 <PopularItemList />

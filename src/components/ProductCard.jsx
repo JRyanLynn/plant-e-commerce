@@ -131,6 +131,7 @@ const BottomButton = styled.button`
   align-items: center; 
   justify-content: space-between; 
   background-color: #FEFDFD;
+  color: #1B1212;
   border: none;
   ${mobile({
   fontSize: '16px',

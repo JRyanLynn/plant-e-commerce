@@ -3,6 +3,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
+import { url } from '../../../helpers';
 
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -88,7 +89,7 @@ const SearchBar = () => {
     useEffect(() => {
         const getProduct = async () => {
           try {
-            const response = await axios.get('http://localhost:5000/api/products');
+            const response = await axios.get(`${url}products`);
             setProducts(response.data);
           } catch (error) {
             console.log(error);

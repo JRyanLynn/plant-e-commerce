@@ -82,6 +82,10 @@ const Image = styled.img`
         ${laptop({
             width: '85%',
         })};
+
+        ${mobile({
+            width: '85%',
+        })};
     }
 `
 
@@ -183,6 +187,7 @@ const OptionButton = styled.button`
     align-items: center;
     justify-content: center;
     border: 0.5px solid #1B1212;
+    color: #1B1212;
     cursor: pointer;
     background-color: #CCD3C2;
     &:hover {
